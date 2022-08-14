@@ -1,24 +1,26 @@
 <template>
   <div>
-    <SideNavigation></SideNavigation>
+    <TopNavigation></TopNavigation>
+    <router-view class="mt-14"></router-view>
   </div>
 </template>
 
 <script>
-import SideNavigation from "@/components/navigation/SideNavigation";
+import TopNavigation from "@/components/navigation/TopNavigation";
 export default {
   name: "App",
-  components: { SideNavigation },
+  components: { TopNavigation },
 };
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #18ffff;
+  min-height: 100vh;
+  background-image: linear-gradient(to bottom right,#38A2D7,#561139);
 }
 </style>
