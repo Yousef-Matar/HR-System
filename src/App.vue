@@ -1,13 +1,15 @@
 <template>
-<div>App</div>
+  <div>
+    <SideNavigation></SideNavigation>
+  </div>
 </template>
 
 <script>
-
+import SideNavigation from "@/components/navigation/SideNavigation";
 export default {
-  name: 'App',
-
-}
+  name: "App",
+  components: { SideNavigation },
+};
 </script>
 
 <style>
