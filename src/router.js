@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 // Pages
 import HomePage from "@/pages/home/HomePage";
 import LoginPage from "@/pages/login/LoginPage";
+import RegisterPage from "@/pages/register/RegisterPage";
 import AccessDenied from "@/pages/error/403Error";
 import PageNotFound from "@/pages/error/404Error";
 const routes = [
@@ -13,6 +14,10 @@ const routes = [
   {
     path: "/Login",
     component: LoginPage,
+  },
+  {
+    path: "/Register",
+    component: RegisterPage,
   },
   {
     path: "/403",

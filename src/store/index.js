@@ -43,13 +43,10 @@ const store = createStore({
       localStorage.setItem("Monthly Hours", JSON.stringify(state.monthlyHours));
     },
     updateActiveUserCheckOut(state, payload) {
-      var newUsers = state.allEmployees.filter(
-        (user) => user === state.activeUser
+      state.allEmployees = state.allEmployees.map((user) =>
+        user.username === payload.username ? payload : user
       );
-      state.activeUser = payload;
-      newUsers.push(state.activeUser);
-      localStorage.setItem("Employees", JSON.stringify(newUsers));
-      localStorage.setItem("Active User", JSON.stringify(state.activeUser));
+      localStorage.setItem("Employees", JSON.stringify(state.allEmployees));
       state.allEmployees = JSON.parse(localStorage.getItem("Employees"));
     },
   },

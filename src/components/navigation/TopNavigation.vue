@@ -29,7 +29,7 @@ export default {
     },
     logout() {
       AttendanceManager.userCheckOut(this.getActiveUser());
-      //UsersManager.logout();
+      UsersManager.logout();
     },
   },
 };

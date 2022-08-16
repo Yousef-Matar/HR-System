@@ -15,5 +15,8 @@ var UsersManager = {
   login(currentUser) {
     store.commit("setActiveUser", currentUser);
   },
+  addUser(user) {
+    store.commit("setAllEmployees", this.getAllUsers().concat([user]));
+  },
 };
 export default UsersManager;

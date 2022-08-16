@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="submit" autocomplete="off">
     <div>
-      <h1 class="text-2xl">Login</h1>
+      <h1 class="text-2xl">Sign Up</h1>
       <div class="text-red-500 text-left mt-2 text-lg" v-if="error.show">
         {{ error.message }}
       </div>
@@ -26,14 +26,24 @@
       />
       <label for="password">Password</label>
     </div>
+    <div class="inputGroup">
+      <input
+        v-model="confirmPassword"
+        id="confirmPassword"
+        placeholder=" "
+        type="password"
+        required="required"
+      />
+      <label for="confirmPassword">Confirm Password</label>
+    </div>
 
-    <v-button :type="'submit'" :text="'Log In'"></v-button>
+    <v-button :type="'submit'" :text="'Sign Up'"></v-button>
     <v-button
       :type="'button'"
-      :text="'Register'"
+      :text="'Already have an account ?'"
       :method="
         () => {
-          $router.push('/Register');
+          $router.push('/Login');
         }
       "
     ></v-button>
@@ -53,20 +63,34 @@ export default {
       form: {
         username: "",
         password: "",
+        role: "employee",
+        hireDate: new Date().toLocaleDateString(),
+        attendance: [],
       },
+      confirmPassword: "",
     };
   },
   methods: {
     submit() {
-      var currentUser = UsersManager.getUser(this.form.username);
-      if (currentUser) {
+      if (UsersManager.getUser(this.form.username)) {
+        this.error.show = true;
+        this.error.message = "Username is already in use.";
+      } else if (this.form.password !== this.confirmPassword) {
+        this.error.show = true;
+        this.error.message = "Passwords do not match.";
+      } else {
+        var currentUser = this.form;
         currentUser = AttendanceManager.userCheckIn(currentUser);
-        UsersManager.login(currentUser)
+        UsersManager.login(currentUser);
+        UsersManager.addUser(currentUser);
         this.error.show = false;
         this.$router.push("/");
-      } else {
-        this.error.show = true;
       }
+    },
+    resetForm() {
+      this.form.username = "";
+      this.form.password = "";
+      this.error.show = false;
     },
   },
 };
