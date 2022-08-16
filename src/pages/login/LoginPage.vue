@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import AttendanceManager from "@/util/AttendanceManager";
+import UsersManager from "@/util/UsersManager";
 export default {
   data() {
     return {
@@ -55,39 +57,11 @@ export default {
     };
   },
   methods: {
-    findUser() {
-      return this.$store.getters.findUser(
-        this.form.username,
-        this.form.password
-      );
-    },
-    findCurrentDay() {
-      return this.$store.getters.findTodayAttendance(this.form.username);
-    },
-    dayCheckin() {
-      return this.$store.getters.findCurrentAttendanceCheckin(
-        this.form.username
-      );
-    },
-    checkIn() {
-      if (!this.findCurrentDay()) {
-        this.findUser().attendance.push({
-          currentDay: new Date().toLocaleDateString(),
-          checkInTime: new Date().toLocaleTimeString(),
-          checkOutTime: new Date().toLocaleTimeString(),
-        });
-      } else if (this.dayCheckin()) {
-        this.dayCheckin().checkInTime = new Date().toLocaleTimeString();
-      }
-    },
     submit() {
-      if (this.findUser()) {
-        this.checkIn();
-        this.$store.commit("setActiveUser", this.findUser());
-        this.$store.commit(
-          "setAllEmployees",
-          this.$store.getters.getAllEmployees
-        );
+      var currentUser = UsersManager.getUser(this.form.username);
+      if (currentUser) {
+        currentUser = AttendanceManager.userCheckIn(currentUser);
+        this.$store.commit("setActiveUser", currentUser);
         this.error.show = false;
         this.$router.push("/");
       } else {

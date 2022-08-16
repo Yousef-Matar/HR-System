@@ -33,6 +33,8 @@ const store = createStore({
       state.allEmployees = JSON.parse(localStorage.getItem("Employees"));
     },
     setActiveUser(state, payload) {
+      localStorage.setItem("Employees", JSON.stringify(state.allEmployees));
+      state.allEmployees = JSON.parse(localStorage.getItem("Employees"));
       state.activeUser = payload;
       localStorage.setItem("Active User", JSON.stringify(state.activeUser));
     },
@@ -40,35 +42,21 @@ const store = createStore({
       state.monthlyHours = payload;
       localStorage.setItem("Monthly Hours", JSON.stringify(state.monthlyHours));
     },
+    updateActiveUserCheckOut(state, payload) {
+      var newUsers = state.allEmployees.filter(
+        (user) => user === state.activeUser
+      );
+      state.activeUser = payload;
+      newUsers.push(state.activeUser);
+      localStorage.setItem("Employees", JSON.stringify(newUsers));
+      localStorage.setItem("Active User", JSON.stringify(state.activeUser));
+      state.allEmployees = JSON.parse(localStorage.getItem("Employees"));
+    },
   },
   getters: {
-    getActiveUser(state) {
-      return state.activeUser;
-    },
-    getAllEmployees(state) {
-      return state.allEmployees;
-    },
-    findUser: (state) => (username, password) => {
-      return state.allEmployees.find(
-        (user) => user.username === username && user.password === password
-      );
-    },
-    findTodayAttendance: (state) => (username) => {
-      return state.allEmployees
-        .find((user) => user.username === username)
-        .attendance.find(
-          (day) => day.currentDay === new Date().toLocaleDateString()
-        );
-    },
-    findCurrentAttendanceCheckin: (state) => (username) => {
-      return state.allEmployees
-        .find((user) => user.username === username)
-        .attendance.find(
-          (day) =>
-            day.currentDay === new Date().toLocaleDateString() &&
-            day.checkInTime === null
-        );
-    },
+    getMonthlyHours: (state) => () => state.monthlyHours,
+    getAllEmployees: (state) => () => state.allEmployees,
+    getActiveUser: (state) => () => state.activeUser,
   },
 });
 export default store;
