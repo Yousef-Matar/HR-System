@@ -3,7 +3,9 @@
     <div>
       <h1 class="text-2xl">Sign Up</h1>
       <div class="text-red-500 text-left mt-2 text-lg" v-if="error.show">
-        {{ error.message }}
+        <font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{
+          error.message
+        }}
       </div>
     </div>
     <div class="inputGroup">
@@ -16,25 +18,49 @@
       />
       <label for="username">Username</label>
     </div>
-    <div class="inputGroup">
-      <input
-        v-model="form.password"
-        id="password"
-        placeholder=" "
-        type="password"
-        required="required"
-      />
-      <label for="password">Password</label>
+    <div class="flex gap-8">
+      <div class="inputGroup">
+        <input
+          v-model="form.firstName"
+          id="firstName"
+          placeholder=" "
+          type="text"
+          required="required"
+        />
+        <label for="firstName">First Name</label>
+      </div>
+      <div class="inputGroup">
+        <input
+          v-model="form.lastName"
+          id="lastName"
+          placeholder=" "
+          type="text"
+          required="required"
+        />
+        <label for="lastName">Last Name</label>
+      </div>
     </div>
-    <div class="inputGroup">
-      <input
-        v-model="confirmPassword"
-        id="confirmPassword"
-        placeholder=" "
-        type="password"
-        required="required"
-      />
-      <label for="confirmPassword">Confirm Password</label>
+    <div class="flex gap-8">
+      <div class="inputGroup">
+        <input
+          v-model="form.password"
+          id="password"
+          placeholder=" "
+          type="password"
+          required="required"
+        />
+        <label for="password">Password</label>
+      </div>
+      <div class="inputGroup">
+        <input
+          v-model="confirmPassword"
+          id="confirmPassword"
+          placeholder=" "
+          type="password"
+          required="required"
+        />
+        <label for="confirmPassword">Confirm Password</label>
+      </div>
     </div>
 
     <v-button :type="'submit'" :text="'Sign Up'"></v-button>
@@ -63,6 +89,8 @@ export default {
       form: {
         username: "",
         password: "",
+        firstName: "",
+        lastName: "",
         role: "employee",
         hireDate: new Date().toLocaleDateString(),
         attendance: [],

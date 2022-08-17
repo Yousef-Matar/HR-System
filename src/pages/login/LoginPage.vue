@@ -3,7 +3,9 @@
     <div>
       <h1 class="text-2xl">Login</h1>
       <div class="text-red-500 text-left mt-2 text-lg" v-if="error.show">
-        {{ error.message }}
+        <font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{
+          error.message
+        }}
       </div>
     </div>
     <div class="inputGroup">
@@ -61,7 +63,7 @@ export default {
       var currentUser = UsersManager.getUser(this.form.username);
       if (currentUser) {
         currentUser = AttendanceManager.userCheckIn(currentUser);
-        UsersManager.login(currentUser)
+        UsersManager.login(currentUser);
         this.error.show = false;
         this.$router.push("/");
       } else {
