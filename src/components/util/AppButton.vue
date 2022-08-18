@@ -1,7 +1,6 @@
 <template>
 	<button
 		:type="type"
-		class="text-base rounded-3xl p-3 shadow-md border"
 		:class="getButtonClass"
 		:disabled="disabled"
 		@click="method"
@@ -32,6 +31,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		hasBorder: {
+			type: Boolean,
+			default: true,
+		},
 		method: {
 			type: Function,
 			default: null,
@@ -39,16 +42,21 @@ export default {
 	},
 	computed: {
 		getButtonClass() {
+			var buttonClass = 'text-base rounded-3xl p-2 shadow hover:shadow-[#adffff]'
+			if (this.hasBorder) {
+				buttonClass += ' border'
+			}
 			if (this.disabled) {
-				return 'cursor-not-allowed opacity-70 text-gray-300 border-[#767676ba]'
+				buttonClass += ' cursor-not-allowed opacity-70 text-gray-300 border-[#767676ba]'
 			} else {
-				switch (this.variant.toLowerCase()) {
-					case 'danger':
-						return 'text-red-500 border-red-600'
-					default:
-						return 'text-primary border-primary'
+				if (this.variant.toLowerCase() == 'danger') {
+					buttonClass += ' text-red-500 border-red-600'
+				}
+				if (this.variant.toLowerCase() == 'primary') {
+					buttonClass += ' text-primary border-primary'
 				}
 			}
+			return buttonClass
 		},
 	},
 }

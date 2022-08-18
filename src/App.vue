@@ -2,7 +2,9 @@
 	<div>
 		<TopNavigation />
 		<SideNavigation />
-		<router-view class="mt-14" />
+		<div class="mt-14" :class="checkActiveUser() ? 'ml-[250px]' : ''">
+			<router-view />
+		</div>
 	</div>
 </template>
 
@@ -50,6 +52,13 @@ export default {
 		},
 		warningMessage() {
 			alert('Due to inactivity you will be logged out soon')
+		},
+		checkActiveUser() {
+			if (UsersManager.getActiveUser()) {
+				return true
+			} else {
+				return false
+			}
 		},
 		logout() {
 			AttendanceManager.userCheckOut(UsersManager.getActiveUser())

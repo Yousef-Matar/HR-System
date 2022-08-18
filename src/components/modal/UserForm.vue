@@ -1,5 +1,5 @@
 <template>
-	<span>
+	<span class="flex items-center">
 		<v-button
 			v-if="mode === 'create'"
 			:method="() => (isModalOpen = true)"
@@ -12,7 +12,7 @@
 		/>
 		<span
 			v-else-if="mode === 'profile'"
-			class="p-2 rounded-3xl shadow-md cursor-pointer"
+			class="p-2 rounded-3xl shadow hover:shadow-[#adffff] cursor-pointer"
 			@click="isModalOpen = true"
 		>
 			<font-awesome-icon icon="fa fa-user" /> &nbsp;
