@@ -42,7 +42,7 @@ export default {
 	},
 	computed: {
 		getButtonClass() {
-			var buttonClass = 'text-base rounded-3xl p-2 shadow hover:shadow-[#adffff]'
+			var buttonClass = 'text-base rounded-3xl p-2 shadow'
 			if (this.hasBorder) {
 				buttonClass += ' border'
 			}
@@ -50,10 +50,10 @@ export default {
 				buttonClass += ' cursor-not-allowed opacity-70 text-gray-300 border-[#767676ba]'
 			} else {
 				if (this.variant.toLowerCase() == 'danger') {
-					buttonClass += ' text-red-500 border-red-600'
+					buttonClass += ' text-red-500 border-red-600 hover:shadow-red-500'
 				}
 				if (this.variant.toLowerCase() == 'primary') {
-					buttonClass += ' text-primary border-primary'
+					buttonClass += ' text-primary border-primary hover:shadow-[#adffff]'
 				}
 			}
 			return buttonClass
