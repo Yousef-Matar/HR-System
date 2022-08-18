@@ -2,12 +2,12 @@
 module.exports = {
 	env: {
 		browser: true,
-		es2021: true
+		es2021: true,
 	},
 	extends: ['eslint:recommended', 'plugin:vue/recommended'],
 	parserOptions: {
 		ecmaVersion: 12,
-		sourceType: 'module'
+		sourceType: 'module',
 	},
 	plugins: ['vue'],
 	rules: {
@@ -17,9 +17,9 @@ module.exports = {
 			'error',
 			{
 				singleline: {
-					max: 2
-				}
-			}
+					max: 2,
+				},
+			},
 		],
 		'vue/html-indent': [
 			'error',
@@ -29,9 +29,9 @@ module.exports = {
 				baseIndent: 1,
 				closeBracket: 0,
 				alignAttributesVertically: true,
-				ignores: []
-			}
+				ignores: [],
+			},
 		],
-		'vue/no-v-html': 0
-	}
+		'vue/no-v-html': 0,
+	},
 }

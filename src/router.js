@@ -1,12 +1,15 @@
 /* eslint-disable no-undef */
-import store from '@/store/index'
-import { createRouter, createWebHistory } from 'vue-router'
 // Pages
 import AccessDenied from '@/pages/error/403Error'
 import PageNotFound from '@/pages/error/404Error'
 import HomePage from '@/pages/home/HomePage'
 import LoginPage from '@/pages/login/LoginPage'
 import RegisterPage from '@/pages/register/RegisterPage'
+// Store
+import store from '@/store/index'
+// Router
+import { createRouter, createWebHistory } from 'vue-router'
+
 const routes = [
 	{
 		path: '/',

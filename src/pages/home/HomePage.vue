@@ -10,8 +10,9 @@
 </template>
 
 <script>
-import UsersManager from '@/util/UsersManager'
 import UserSummary from '@/components/dashboard/UserSummary'
+
+import UsersManager from '@/util/UsersManager'
 
 export default {
 	components: { UserSummary },

@@ -1,4 +1,5 @@
 import store from '@/store/index'
+
 var UsersManager = {
 	getAllUsers() {
 		return store.getters.getAllEmployees()

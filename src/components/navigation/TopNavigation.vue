@@ -19,9 +19,11 @@
 </template>
 
 <script>
-import UsersManager from '@/util/UsersManager'
-import AttendanceManager from '@/util/AttendanceManager'
 import UserForm from '@/components/modal/UserForm'
+
+import AttendanceManager from '@/util/AttendanceManager'
+import UsersManager from '@/util/UsersManager'
+
 export default {
 	components: { UserForm },
 	methods: {

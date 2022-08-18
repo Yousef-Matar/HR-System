@@ -1,17 +1,21 @@
 <template>
 	<div>
 		<TopNavigation />
+		<SideNavigation />
 		<router-view class="mt-14" />
 	</div>
 </template>
 
 <script>
+import SideNavigation from '@/components/navigation/SideNavigation'
 import TopNavigation from '@/components/navigation/TopNavigation'
+
 import AttendanceManager from '@/util/AttendanceManager'
 import UsersManager from '@/util/UsersManager'
+
 export default {
 	name: 'App',
-	components: { TopNavigation },
+	components: { TopNavigation, SideNavigation },
 
 	data() {
 		return {

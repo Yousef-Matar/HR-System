@@ -132,6 +132,7 @@
 </template>
 <script>
 import ReusableModal from '@/components/util/ReusableModal'
+
 import UsersManager from '@/util/UsersManager'
 
 export default {

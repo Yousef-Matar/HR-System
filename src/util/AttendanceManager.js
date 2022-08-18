@@ -1,4 +1,5 @@
 import store from '@/store/index'
+
 var AttendanceManager = {
 	userCheckIn(user) {
 		if (!user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString())) {

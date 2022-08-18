@@ -41,6 +41,7 @@
 <script>
 import AttendanceManager from '@/util/AttendanceManager'
 import UsersManager from '@/util/UsersManager'
+
 export default {
 	data() {
 		return {

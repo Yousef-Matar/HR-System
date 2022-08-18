@@ -1,5 +1,7 @@
 import store from '@/store/index'
+
 import TimeConverter from '@/util/TimeConverter'
+
 var HoursManager = {
 	getMonthlyHours() {
 		return store.getters.getMonthlyHours()

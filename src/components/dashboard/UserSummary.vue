@@ -26,8 +26,9 @@
 
 <script>
 import AttendanceManager from '@/util/AttendanceManager'
-import UsersManager from '@/util/UsersManager'
 import HoursManager from '@/util/HoursManager'
+import UsersManager from '@/util/UsersManager'
+
 export default {
 	data() {
 		return {
