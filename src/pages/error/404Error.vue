@@ -1,5 +1,5 @@
 <template>
-	<div class="center bg-background p-10 w-max rounded-3xl text-red-500">
+	<div class="mx-auto bg-background p-10 w-max rounded-3xl text-red-500">
 		<h1 class="text-6xl">
 			<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;Error 404
 		</h1>
@@ -13,11 +13,4 @@
 export default {}
 </script>
 
-<style scoped>
-.center {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-}
-</style>
+<style></style>

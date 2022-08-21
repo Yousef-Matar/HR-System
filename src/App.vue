@@ -1,23 +1,21 @@
 <template>
 	<div>
-		<TopNavigation />
-		<SideNavigation />
-		<div class="mt-14" :class="checkActiveUser() ? 'ml-[250px]' : ''">
+		<MainNavigation />
+		<div class="mt-32" :class="checkActiveUser() ? 'ml-[250px]' : ''">
 			<router-view />
 		</div>
 	</div>
 </template>
 
 <script>
-import SideNavigation from '@/components/navigation/SideNavigation'
-import TopNavigation from '@/components/navigation/TopNavigation'
+import MainNavigation from '@/components/navigation/MainNavigation'
 
 import AttendanceManager from '@/util/AttendanceManager'
 import UsersManager from '@/util/UsersManager'
 
 export default {
 	name: 'App',
-	components: { TopNavigation, SideNavigation },
+	components: { MainNavigation },
 
 	data() {
 		return {
@@ -69,13 +67,15 @@ export default {
 </script>
 
 <style>
-#app {
+html {
+	min-height: 100vh;
+	background-image: linear-gradient(to bottom right, #38a2d7, #561139);
+}
+body {
 	font-family: 'Roboto', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #18ffff;
-	min-height: 100vh;
-	background-image: linear-gradient(to bottom right, #38a2d7, #561139);
 }
 </style>

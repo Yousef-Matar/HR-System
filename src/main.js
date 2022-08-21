@@ -10,21 +10,54 @@ import store from '@/store/index'
 // import the fontawesome core
 import { library } from '@fortawesome/fontawesome-svg-core'
 // import specific icons
-import { faCaretDown, faCaretUp, faCheck, faClose, faExclamationTriangle, faSortDown, faSortUp, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faCaretDown, faCaretUp, faCheck, faClock, faClose, faExclamationTriangle, faHome, faSignIn, faSignOut, faSortDown, faSortUp, faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons'
 // import font awesome icon component
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { createApp } from 'vue'
 
 // Global Atoms
+import NavigationAccordion from '@/components/navigation/util/NavigationAccordion'
 import AppButton from '@/components/util/AppButton'
 
 // add icons to the library
-library.add(faCheck, faCaretDown, faCaretUp, faExclamationTriangle, faUser, faSortUp, faSortDown, faClose)
+library.add(
+	// Attendance
+	faCalendarAlt,
+	// Hours
+	faClock,
+	// All Employees
+	faUsers,
+	// Home
+	faHome,
+	// Add Employee & Register
+	faUserPlus,
+	// Sign In
+	faSignIn,
+	// Sign Out
+	faSignOut,
+	// Dunno
+	faCheck,
+	// Dunno
+	faCaretDown,
+	// Dunno
+	faCaretUp,
+	// Error
+	faExclamationTriangle,
+	// Profile
+	faUser,
+	// Dunno
+	faSortUp,
+	// Dunno
+	faSortDown,
+	// Dunno
+	faClose
+)
 const app = createApp(App)
 app.use(router)
 app.use(store)
 // Global Components
 app.component('FontAwesomeIcon', FontAwesomeIcon)
+app.component('NAccordion', NavigationAccordion)
 app.component('VButton', AppButton)
 
 app.mount('#app')

@@ -5,6 +5,9 @@
 		:disabled="disabled"
 		@click="method"
 	>
+		<template v-if="icon">
+			<font-awesome-icon :icon="icon" /> &nbsp;
+		</template>
 		{{ text }}
 	</button>
 </template>
@@ -37,6 +40,10 @@ export default {
 		},
 		method: {
 			type: Function,
+			default: null,
+		},
+		icon: {
+			type: String,
 			default: null,
 		},
 	},

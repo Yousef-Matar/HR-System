@@ -10,14 +10,13 @@
 			:method="() => (isModalOpen = true)"
 			:text="'Update User'"
 		/>
-		<span
+		<v-button
 			v-else-if="mode === 'profile'"
-			class="p-2 rounded-3xl shadow hover:shadow-[#adffff] cursor-pointer"
-			@click="isModalOpen = true"
-		>
-			<font-awesome-icon icon="fa fa-user" /> &nbsp;
-			{{ getActiveUser().username.toUpperCase() }}
-		</span>
+			:method="() => (isModalOpen = true)"
+			:text="activeUser.username.toUpperCase()"
+			:icon="'fa fa-user'"
+			:has-border="false"
+		/>
 		<teleport to="body">
 			<ReusableModal v-if="isModalOpen" @closeModal="resetForm()">
 				<template v-if="mode === 'create'" #ModalHeader> Add New User </template>
@@ -156,14 +155,15 @@ export default {
 				show: false,
 				message: 'Username is already in use.',
 			},
-			form: {},
-			roles: {},
+			form: null,
+			roles: null,
+			activeUser: null,
 		}
 	},
-	mounted() {
+	beforeMount() {
+		this.activeUser = this.getActiveUser()
 		this.resetForm()
 		this.setRoles()
-		console.log(this.form)
 	},
 	methods: {
 		resetForm() {
@@ -178,13 +178,13 @@ export default {
 			} else if (this.mode === 'update') {
 				this.form = Object.assign({}, this.user)
 			} else if (this.mode === 'profile') {
-				this.form = Object.assign({}, this.getActiveUser())
+				this.form = Object.assign({}, this.activeUser)
 			}
 			this.error.show = false
 			this.isModalOpen = false
 		},
 		submit() {
-			if (UsersManager.getUser(this.form.username).username != this.getActiveUser().username && (this.mode === 'create' || this.mode === 'profile')) {
+			if (UsersManager.getUser(this.form.username).username != this.activeUser.username && (this.mode === 'create' || this.mode === 'profile')) {
 				this.error.show = true
 				this.error.message = 'Username is already in use.'
 			} else if (this.mode === 'create') {
@@ -204,7 +204,7 @@ export default {
 
 		setRoles() {
 			this.roles =
-				this.getActiveUser().role === 'admin'
+				this.activeUser.role === 'admin'
 					? [
 							{
 								title: 'Employee',
