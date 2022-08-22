@@ -2,18 +2,18 @@
 	<span class="flex items-center">
 		<v-button
 			v-if="mode === 'create'"
-			:method="() => (isModalOpen = true)"
+			:method="openModal"
 			:text="'Add User'"
 		/>
 		<v-button
 			v-else-if="mode === 'update'"
-			:method="() => (isModalOpen = true)"
+			:method="openModal"
 			:text="'Update User'"
 		/>
 		<v-button
 			v-else-if="mode === 'profile'"
-			:method="() => (isModalOpen = true)"
-			:text="activeUser.username.toUpperCase()"
+			:method="openModal"
+			:text="user.username.toUpperCase()"
 			:icon="'fa fa-user'"
 			:has-border="false"
 		/>
@@ -40,51 +40,40 @@
 						</div>
 
 						<div class="flex gap-8">
-							<div class="inputGroup">
-								<input
-									id="username"
-									v-model="form.username"
-									placeholder=" "
-									type="text"
-									required
-								>
-								<label for="username">Username</label>
-							</div>
-							<div class="inputGroup">
-								<input
-									id="password"
-									v-model="form.password"
-									placeholder=" "
-									:type="mode === 'update' ? 'password' : 'text'"
-									:disabled="mode === 'update' ? true : false"
-									required
-								>
-								<label for="password">Password</label>
-							</div>
+							<v-input
+								:input-i-d="'username'"
+								:type="'text'"
+								:input-label="'Username'"
+								:input-value="form.username"
+								@usernameChange="(inputContent) => (form.username = inputContent)"
+							/>
+
+							<v-input
+								:input-i-d="'password'"
+								:type="mode === 'update' ? 'password' : 'text'"
+								:input-label="'Password'"
+								:input-value="form.password"
+								:disabled="mode === 'update' ? true : false"
+								@passwordChange="(inputContent) => (form.password = inputContent)"
+							/>
 						</div>
 						<div class="flex gap-8">
-							<div class="inputGroup">
-								<input
-									id="firstName"
-									v-model="form.firstName"
-									placeholder=" "
-									type="text"
-									required
-									:disabled="mode === 'update' ? true : false"
-								>
-								<label for="firstName">First Name</label>
-							</div>
-							<div class="inputGroup">
-								<input
-									id="lastName"
-									v-model="form.lastName"
-									placeholder=" "
-									type="text"
-									required
-									:disabled="mode === 'update' ? true : false"
-								>
-								<label for="lastName">Last Name</label>
-							</div>
+							<v-input
+								:input-i-d="'firstName'"
+								:type="'text'"
+								:input-label="'First Name'"
+								:input-value="form.firstName"
+								:disabled="mode === 'update' ? true : false"
+								@firstNameChange="(inputContent) => (form.firstName = inputContent)"
+							/>
+							<v-input
+								:input-i-d="'lastName'"
+								:type="'text'"
+								:input-label="'Last Name'"
+								:input-value="form.lastName"
+								:disabled="mode === 'update' ? true : false"
+								@lastNameChange="(inputContent) => (form.lastName = inputContent)"
+							/>
 						</div>
 
 						<div class="flex gap-8">
@@ -107,6 +96,7 @@
 								<label>Account Role</label>
 							</div>
 						</div>
+
 						<v-button
 							v-if="mode === 'create'"
 							:type="'submit'"
@@ -155,45 +145,55 @@ export default {
 				show: false,
 				message: 'Username is already in use.',
 			},
-			form: null,
 			roles: null,
-			activeUser: null,
+			form: null,
+			test: null,
 		}
 	},
-	beforeMount() {
-		this.activeUser = this.getActiveUser()
-		this.resetForm()
+	mounted() {
 		this.setRoles()
 	},
 	methods: {
+		openModal() {
+			this.resetForm()
+			this.isModalOpen = true
+		},
 		resetForm() {
 			if (this.mode === 'create') {
-				this.form.username = ''
-				this.form.password = ''
-				this.form.role = ''
-				this.form.firstName = ''
-				this.form.lastName = ''
-				this.form.hireDate = new Date().toLocaleDateString()
-				this.form.attendance = []
+				this.form = {
+					username: '',
+					password: '',
+					role: '',
+					firstName: '',
+					lastName: '',
+					hireDate: new Date().toLocaleDateString(),
+					attendance: [],
+				}
 			} else if (this.mode === 'update') {
 				this.form = Object.assign({}, this.user)
 			} else if (this.mode === 'profile') {
-				this.form = Object.assign({}, this.activeUser)
+				this.form = Object.assign({}, this.user)
 			}
+
 			this.error.show = false
 			this.isModalOpen = false
 		},
 		submit() {
-			if (UsersManager.getUser(this.form.username).username != this.activeUser.username && (this.mode === 'create' || this.mode === 'profile')) {
-				this.error.show = true
-				this.error.message = 'Username is already in use.'
+			if (UsersManager.getUser(this.form.username)) {
+				if (UsersManager.getUser(this.form.username).username != this.user.username && (this.mode === 'create' || this.mode === 'profile')) {
+					this.error.show = true
+					this.error.message = 'Username is already in use.'
+				}
 			} else if (this.mode === 'create') {
 				UsersManager.addUser(this.form)
+				this.resetForm()
 			} else if (this.mode === 'update') {
 				UsersManager.replaceUser(this.user, this.form)
+				this.resetForm()
 			} else if (this.mode === 'profile') {
-				//UsersManager.replaceUser(this.user, this.form);
 				UsersManager.setActiveUser(this.form)
+				UsersManager.replaceUser(this.user, this.form)
+				this.resetForm()
 			}
 		},
 		deleteUser() {
@@ -204,7 +204,7 @@ export default {
 
 		setRoles() {
 			this.roles =
-				this.activeUser.role === 'admin'
+				this.user.role === 'admin'
 					? [
 							{
 								title: 'Employee',
@@ -231,9 +231,6 @@ export default {
 							},
 							// eslint-disable-next-line no-mixed-spaces-and-tabs
 					  ]
-		},
-		getActiveUser() {
-			return UsersManager.getActiveUser()
 		},
 	},
 }

@@ -8,26 +8,21 @@
 				<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
 			</div>
 		</div>
-		<div class="inputGroup">
-			<input
-				id="username"
-				v-model="form.username"
-				placeholder=" "
-				type="text"
-				required
-			>
-			<label for="username">Username</label>
-		</div>
-		<div class="inputGroup">
-			<input
-				id="password"
-				v-model="form.password"
-				placeholder=" "
-				type="password"
-				required
-			>
-			<label for="password">Password</label>
-		</div>
+
+		<v-input
+			:input-i-d="'username'"
+			:type="'text'"
+			:input-label="'Username'"
+			:input-value="form.username"
+			@usernameChange="(inputContent) => (form.username = inputContent)"
+		/>
+		<v-input
+			:input-i-d="'password'"
+			:type="'password'"
+			:input-label="'Password'"
+			:input-value="form.password"
+			@passwordChange="(inputContent) => (form.password = inputContent)"
+		/>
 
 		<v-button :type="'submit'" :text="'Log In'" />
 		<v-button
@@ -61,6 +56,7 @@ export default {
 			if (currentUser) {
 				currentUser = AttendanceManager.userCheckIn(currentUser)
 				UsersManager.setActiveUser(currentUser)
+				UsersManager.setAllUsers()
 				this.error.show = false
 				this.$router.push('/')
 			} else {

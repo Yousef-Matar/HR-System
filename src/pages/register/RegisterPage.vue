@@ -8,59 +8,46 @@
 				<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
 			</div>
 		</div>
-		<div class="inputGroup">
-			<input
-				id="username"
-				v-model="form.username"
-				placeholder=" "
-				type="text"
-				required
-			>
-			<label for="username">Username</label>
+
+		<v-input
+			:input-i-d="'username'"
+			:type="'text'"
+			:input-label="'Username'"
+			:input-value="form.username"
+			@usernameChange="(inputContent) => (form.username = inputContent)"
+		/>
+
+		<div class="flex gap-8">
+			<v-input
+				:input-i-d="'firstName'"
+				:type="'text'"
+				:input-label="'First Name'"
+				:input-value="form.firstName"
+				@firstNameChange="(inputContent) => (form.firstName = inputContent)"
+			/>
+			<v-input
+				:input-i-d="'lastName'"
+				:type="'text'"
+				:input-label="'Last Name'"
+				:input-value="form.lastName"
+				@lastNameChange="(inputContent) => (form.lastName = inputContent)"
+			/>
 		</div>
 		<div class="flex gap-8">
-			<div class="inputGroup">
-				<input
-					id="firstName"
-					v-model="form.firstName"
-					placeholder=" "
-					type="text"
-					required
-				>
-				<label for="firstName">First Name</label>
-			</div>
-			<div class="inputGroup">
-				<input
-					id="lastName"
-					v-model="form.lastName"
-					placeholder=" "
-					type="text"
-					required
-				>
-				<label for="lastName">Last Name</label>
-			</div>
-		</div>
-		<div class="flex gap-8">
-			<div class="inputGroup">
-				<input
-					id="password"
-					v-model="form.password"
-					placeholder=" "
-					type="password"
-					required
-				>
-				<label for="password">Password</label>
-			</div>
-			<div class="inputGroup">
-				<input
-					id="confirmPassword"
-					v-model="confirmPassword"
-					placeholder=" "
-					type="password"
-					required
-				>
-				<label for="confirmPassword">Confirm Password</label>
-			</div>
+			<v-input
+				:input-i-d="'password'"
+				:type="'password'"
+				:input-label="'Password'"
+				:input-value="form.password"
+				@passwordChange="(inputContent) => (form.password = inputContent)"
+			/>
+			<v-input
+				:input-i-d="'confirmPassword'"
+				:type="'password'"
+				:input-label="'Confirm Password'"
+				:input-value="confirmPassword"
+				@confirmPasswordChange="(inputContent) => (confirmPassword = inputContent)"
+			/>
 		</div>
 
 		<v-button :type="'submit'" :text="'Sign Up'" />

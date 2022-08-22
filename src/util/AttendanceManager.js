@@ -38,7 +38,7 @@ var AttendanceManager = {
 		} else {
 			user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString()).time[user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString()).time.length - 1].checkOutTime = new Date().toLocaleTimeString()
 		}
-		store.commit('updateActiveUserCheckOut', user)
+		store.commit('replaceUser', {username:user.username,updatedUser:user})
 		return user
 	},
 }

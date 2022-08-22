@@ -2,16 +2,19 @@ import store from '@/store/index'
 
 var UsersManager = {
 	getAllUsers() {
-		return store.getters.getAllEmployees()
+		return store.state.allEmployees
 	},
 	getActiveUser() {
-		return store.getters.getActiveUser()
+		return store.state.activeUser
 	},
 	getUser(userUsername) {
 		return this.getAllUsers().find((user) => user.username === userUsername)
 	},
 	logout() {
 		store.commit('setActiveUser', null)
+	},
+	setAllUsers() {
+		store.commit('setAllEmployees', this.getAllUsers())
 	},
 	setActiveUser(currentUser) {
 		store.commit('setActiveUser', currentUser)
@@ -20,12 +23,7 @@ var UsersManager = {
 		store.commit('setAllEmployees', this.getAllUsers().concat([user]))
 	},
 	replaceUser(oldUser, updatedUser) {
-		store.commit(
-			'setAllEmployees',
-			this.getAllUsers().map((user) => {
-				user.username === oldUser.username ? updatedUser : user
-			})
-		)
+		store.commit('replaceUser', {username:oldUser.username,updatedUser:updatedUser})
 	},
 	deleteUser(selectedUser) {
 		store.commit(

@@ -5,6 +5,7 @@ import PageNotFound from '@/pages/error/404Error'
 import HomePage from '@/pages/home/HomePage'
 import LoginPage from '@/pages/login/LoginPage'
 import RegisterPage from '@/pages/register/RegisterPage'
+import WorkingHoursPage from '@/pages/workingHours/WorkingHoursPage'
 // Store
 import store from '@/store/index'
 // Router
@@ -24,9 +25,13 @@ const routes = [
 		component: RegisterPage,
 	},
 	{
+		path: '/Hours',
+		component: WorkingHoursPage,
+		meta: { middleware: 'extraAuthentication' },
+	},
+	{
 		path: '/403',
 		component: AccessDenied,
-		// meta: { middleware: "authentication" },
 	},
 	{
 		path: '/404',

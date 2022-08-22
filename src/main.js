@@ -18,6 +18,7 @@ import { createApp } from 'vue'
 // Global Atoms
 import NavigationAccordion from '@/components/navigation/util/NavigationAccordion'
 import AppButton from '@/components/util/AppButton'
+import AppInput from '@/components/util/AppInput'
 
 // add icons to the library
 library.add(
@@ -59,5 +60,6 @@ app.use(store)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.component('NAccordion', NavigationAccordion)
 app.component('VButton', AppButton)
+app.component('VInput', AppInput)
 
 app.mount('#app')

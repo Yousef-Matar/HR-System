@@ -4,10 +4,13 @@
 		<div class="mt-32" :class="checkActiveUser() ? 'ml-[250px]' : ''">
 			<router-view />
 		</div>
+		<WarningModal :show-modal="showWarning" @closeModal="showWarning = false" />
 	</div>
 </template>
 
 <script>
+import WarningModal from './components/modal/WarningModal.vue'
+
 import MainNavigation from '@/components/navigation/MainNavigation'
 
 import AttendanceManager from '@/util/AttendanceManager'
@@ -15,16 +18,18 @@ import UsersManager from '@/util/UsersManager'
 
 export default {
 	name: 'App',
-	components: { MainNavigation },
+	components: { MainNavigation, WarningModal },
 
 	data() {
 		return {
 			events: ['click', 'mousemove', 'mousedown', 'scroll', 'keypress', 'load'],
 			warningTimer: null,
 			logoutTimer: null,
+			showWarning: false,
 		}
 	},
 	mounted() {
+		this.$store.commit('init')
 		this.events.forEach((event) => {
 			window.addEventListener(event, this.resetTimer)
 		})
@@ -49,7 +54,7 @@ export default {
 			}
 		},
 		warningMessage() {
-			alert('Due to inactivity you will be logged out soon')
+			this.showWarning = true
 		},
 		checkActiveUser() {
 			if (UsersManager.getActiveUser()) {

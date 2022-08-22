@@ -4,7 +4,10 @@ import TimeConverter from '@/util/TimeConverter'
 
 var HoursManager = {
 	getMonthlyHours() {
-		return store.getters.getMonthlyHours()
+		return store.state.monthlyHours
+	},
+	setMonthlyHours(hours) {
+		store.commit('setMonthlyHours', hours)
 	},
 	calculateRemaingHours(user) {
 		var monthlyHours = this.getMonthlyHours()
