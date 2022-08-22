@@ -60,7 +60,9 @@ select option {
 .inputGroup input:focus,
 .inputGroup input:hover,
 .inputGroup select:focus,
-.inputGroup select:hover {
+.inputGroup select:hover,
+.inputGroup input[type='number']:focus ~ div svg,
+.inputGroup input[type='number']:hover ~ div svg {
 	border-color: #18ffff;
 }
 .inputGroup label {
@@ -90,4 +92,40 @@ select option {
 	opacity: 0.7;
 	color: #d1d5db;
 	border-color: #767676ba;
+}
+
+.inputGroup input[type='number'] {
+	text-align: center;
+}
+.inputGroup input[type='number']::-webkit-inner-spin-button,
+.inputGroup input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.inputGroup input[type='number'] ~ label {
+	left: 50% !important;
+	transform: translateX(-50%) !important;
+}
+.qty-btn {
+	border-radius: 1.5rem;
+	position: relative;
+	padding: 0.5rem;
+	width: 30px;
+	height: 30px;
+	color: #e1e5ee;
+	cursor: pointer;
+	border-color: #e1e5ee;
+	user-select: none;
+}
+.qty-btn.btn-l {
+	border-right: 2px solid;
+}
+.qty-btn.btn-r {
+	border-left: 2px solid;
+	right: 0px;
+}
+.qty-btn:hover {
+	border-color: #18ffff;
+	color: #18ffff;
 }

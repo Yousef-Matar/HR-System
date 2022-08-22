@@ -8,17 +8,13 @@
 				Current Monthly Hours : {{ getMonthlyHours }}
 			</h1>
 		</div>
-		<v-input />
-		<div class="inputGroup">
-			<input
-				id="hours"
-				v-model="monthlyHours"
-				type="number"
-				min="0"
-				placeholder=" "
-			>
-			<label for="hours">Monthly Hours</label>
-		</div>
+		<v-input
+			:input-i-d="'hours'"
+			:type="'number'"
+			:input-label="'Monthly Hours'"
+			:input-value="monthlyHours"
+			@hoursChange="(inputContent) => (monthlyHours = inputContent)"
+		/>
 		<v-button :type="'submit'" :text="'Update'" />
 	</form>
 </template>

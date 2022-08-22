@@ -7,8 +7,24 @@
 			placeholder=" "
 			:required="required"
 			:disabled="disabled"
+			:min="min"
+			:max="max"
+			:step="step"
+			:autocomplete="autocomplete"
 			@input="(event) => $emit(inputID + 'Change', inputContent)"
 		>
+		<div v-if="type == 'number'" class="flex justify-between items-center h-full">
+			<font-awesome-icon
+				class="qty-btn btn-l shadow-inner hover:shadow-[#adffff]"
+				icon="fa fa-minus"
+				@click="decrement"
+			/>
+			<font-awesome-icon
+				class="qty-btn btn-r shadow-inner hover:shadow-[#adffff]"
+				icon="fa fa-plus"
+				@click="increment"
+			/>
+		</div>
 		<label :for="inputID">{{ inputLabel }}</label>
 	</div>
 </template>
@@ -21,7 +37,7 @@ export default {
 			required: true,
 		},
 		inputValue: {
-			type: String || Number || Object,
+			type: [String, Number],
 			default: null,
 		},
 		type: {
@@ -42,11 +58,39 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		min: {
+			type: Number,
+			default: 0,
+		},
+		max: {
+			type: Number,
+			default: 744,
+		},
+		step: {
+			type: Number,
+			default: 1,
+		},
+		autocomplete: {
+			type: String,
+			default: 'off',
+		},
 	},
 	data() {
 		return {
 			inputContent: this.inputValue,
 		}
+	},
+	methods: {
+		increment() {
+			this.inputContent += this.step
+			if (this.inputContent > this.max) this.inputContent = this.max
+			this.$emit(this.inputID + 'Change', this.inputContent)
+		},
+		decrement() {
+			this.inputContent -= this.step
+			if (this.inputContent < this.min) this.inputContent = this.min
+			this.$emit(this.inputID + 'Change', this.inputContent)
+		},
 	},
 }
 </script>
