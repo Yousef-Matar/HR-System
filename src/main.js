@@ -20,6 +20,7 @@ import NavigationAccordion from '@/components/navigation/util/NavigationAccordio
 import AppButton from '@/components/util/AppButton'
 import AppInput from '@/components/util/AppInput'
 import AppSelect from '@/components/util/AppSelect'
+import ReusableModal from '@/components/util/ReusableModal'
 
 // add icons to the library
 library.add(
@@ -63,5 +64,6 @@ app.component('NAccordion', NavigationAccordion)
 app.component('VButton', AppButton)
 app.component('VInput', AppInput)
 app.component('VSelect', AppSelect)
+app.component('VModal', ReusableModal)
 
 app.mount('#app')

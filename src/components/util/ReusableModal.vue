@@ -1,9 +1,13 @@
 <template>
 	<div>
-		<div class="h-screen w-screen bg-black fixed top-0 left-0 opacity-40 z-20" @click="closeModal()" />
-		<div class="modal z-30">
+		<div
+			class="h-screen w-screen bg-black fixed top-0 left-0 opacity-40"
+			:class="variant == 'primary' ? 'z-20' : 'z-40'"
+			@click="closeModal()"
+		/>
+		<div class="modal" :class="variant == 'primary' ? 'z-30' : 'z-50'">
 			<div class="flex">
-				<div class="bg-background shadow z-30 text-primary border border-primary rounded-3xl p-5">
+				<div class="bg-background shadow border rounded-3xl p-5" :class="variant == 'primary' ? 'border-primary text-primary z-30' : 'text-red-500 border-red-600 z-50'">
 					<h1 class="text-2xl">
 						<slot name="ModalHeader" />
 					</h1>
@@ -18,6 +22,13 @@
 
 <script>
 export default {
+	props: {
+		variant: {
+			type: String,
+			default: 'primary',
+			validator: (value) => ['text', 'danger'].includes(value),
+		},
+	},
 	methods: {
 		closeModal() {
 			this.$emit('closeModal')

@@ -64,6 +64,7 @@ export default {
 			}
 		},
 		logout() {
+			this.showWarning = false
 			AttendanceManager.userCheckOut(UsersManager.getActiveUser())
 			UsersManager.logout()
 		},

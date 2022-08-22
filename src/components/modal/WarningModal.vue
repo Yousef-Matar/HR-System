@@ -1,23 +1,26 @@
 <template>
 	<div>
 		<teleport to="body">
-			<ReusableModal v-if="showModal" @closeModal="$emit('closeModal')">
+			<v-modal
+				v-if="showModal"
+				:variant="'danger'"
+				@closeModal="$emit('closeModal')"
+			>
 				<template #ModalHeader>
-					Header
+					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp; Warning
 				</template>
 
 				<template #ModalBody>
-					Body
+					<h1 class="text-xl">
+						Due to inactivity, you will be logged out soon.
+					</h1>
 				</template>
-			</ReusableModal>
+			</v-modal>
 		</teleport>
 	</div>
 </template>
 <script>
-import ReusableModal from '@/components/util/ReusableModal'
-
 export default {
-	components: { ReusableModal },
 	props: {
 		showModal: {
 			type: Boolean,

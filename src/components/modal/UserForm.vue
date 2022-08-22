@@ -18,7 +18,7 @@
 			:has-border="false"
 		/>
 		<teleport to="body">
-			<ReusableModal v-if="isModalOpen" @closeModal="resetForm()">
+			<v-modal v-if="isModalOpen" @closeModal="resetForm()">
 				<template v-if="mode === 'create'" #ModalHeader> Add New User </template>
 				<template v-else-if="mode === 'profile'" #ModalHeader> Account Details </template>
 				<template v-else-if="mode === 'update'" #ModalHeader>
@@ -105,17 +105,14 @@
 						/>
 					</form>
 				</template>
-			</ReusableModal>
+			</v-modal>
 		</teleport>
 	</span>
 </template>
 <script>
-import ReusableModal from '@/components/util/ReusableModal'
-
 import UsersManager from '@/util/UsersManager'
 
 export default {
-	components: { ReusableModal },
 	props: {
 		mode: {
 			type: String,
