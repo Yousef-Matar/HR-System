@@ -77,24 +77,14 @@
 						</div>
 
 						<div class="flex gap-8">
-							<div class="inputGroup">
-								<select
-									id="role"
-									v-model="form.role"
-									:disabled="mode !== 'profile' ? false : true"
-									required
-								>
-									<option value="" hidden="hidden">Select a role</option>
-									<option
-										v-for="role in roles"
-										:key="role.value"
-										:value="role.value"
-									>
-										{{ role.title }}
-									</option>
-								</select>
-								<label>Account Role</label>
-							</div>
+							<v-select
+								:select-i-d="'role'"
+								:disabled="mode !== 'profile' ? false : true"
+								:select-value="form.role"
+								:items="roles"
+								:select-label="'Account Role'"
+								@roleChange="(selectContent) => (form.role = selectContent)"
+							/>
 						</div>
 
 						<v-button
@@ -207,27 +197,42 @@ export default {
 				this.user.role === 'admin'
 					? [
 							{
+								title: 'Select a role',
+								value: '',
+								hidden: true,
+							},
+							{
 								title: 'Employee',
 								value: 'employee',
+								hidden: false,
 							},
 							{
 								title: 'Human Resources',
 								value: 'human resources',
+								hidden: false,
 							},
 							{
 								title: 'Admin',
 								value: 'admin',
+								hidden: false,
 							},
 							// eslint-disable-next-line no-mixed-spaces-and-tabs
 					  ]
 					: [
 							{
+								title: 'Select a role',
+								value: '',
+								hidden: true,
+							},
+							{
 								title: 'Employee',
 								value: 'employee',
+								hidden: false,
 							},
 							{
 								title: 'Human Resources',
 								value: 'human resources',
+								hidden: false,
 							},
 							// eslint-disable-next-line no-mixed-spaces-and-tabs
 					  ]
