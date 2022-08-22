@@ -42,8 +42,15 @@ details > summary {
 summary::-webkit-details-marker {
 	display: none;
 }
+
 details summary::after {
-	content: '\25BC';
-	display: inline-block;
+	content: '\27A4';
+	transform: rotate(90deg);
+	transition: color ease 2s, transform ease 1s;
+}
+details[open] > summary:after {
+	transform: rotate(270deg);
+	color: #ef4444 !important;
+	transition: color ease 2s, transform ease 1s;
 }
 </style>

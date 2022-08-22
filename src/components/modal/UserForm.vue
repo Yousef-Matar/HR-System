@@ -18,7 +18,11 @@
 			:has-border="false"
 		/>
 		<teleport to="body">
-			<v-modal v-if="isModalOpen" @closeModal="resetForm()">
+			<v-modal
+				v-if="isModalOpen"
+				:variant="'primary'"
+				@closeModal="resetForm()"
+			>
 				<template v-if="mode === 'create'" #ModalHeader> Add New User </template>
 				<template v-else-if="mode === 'profile'" #ModalHeader> Account Details </template>
 				<template v-else-if="mode === 'update'" #ModalHeader>

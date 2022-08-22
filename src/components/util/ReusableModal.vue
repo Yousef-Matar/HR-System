@@ -26,7 +26,7 @@ export default {
 		variant: {
 			type: String,
 			default: 'primary',
-			validator: (value) => ['text', 'danger'].includes(value),
+			validator: (value) => ['primary', 'danger'].includes(value),
 		},
 	},
 	methods: {
