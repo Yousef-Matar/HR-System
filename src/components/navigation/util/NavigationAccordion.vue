@@ -3,6 +3,7 @@
 		<summary class="text-base rounded-3xl p-2 shadow cursor-pointer text-primary border-primary hover:shadow-[#adffff] flex justify-between">
 			{{ link.title }}
 		</summary>
+
 		<v-button
 			v-for="child in link.children"
 			:key="child.title"
@@ -47,6 +48,18 @@ details summary::after {
 	content: '\27A4';
 	transform: rotate(90deg);
 	transition: color ease 2s, transform ease 1s;
+}
+details[open] summary ~ * {
+	animation: fade 1.5s ease-in-out;
+}
+
+@keyframes fade {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 details[open] > summary:after {
 	transform: rotate(270deg);

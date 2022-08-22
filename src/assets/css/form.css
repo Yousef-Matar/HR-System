@@ -116,7 +116,6 @@ select option {
 	color: #e1e5ee;
 	cursor: pointer;
 	border-color: #e1e5ee;
-	user-select: none;
 }
 .qty-btn.btn-l {
 	border-right: 2px solid;

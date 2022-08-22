@@ -84,4 +84,9 @@ body {
 	text-align: center;
 	color: #18ffff;
 }
+details,
+button,
+label {
+	user-select: none;
+}
 </style>
