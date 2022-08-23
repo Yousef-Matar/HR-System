@@ -38,7 +38,7 @@ export default {
 			this.sideNavigationLinks = []
 		} else if (this.user.role == 'admin') {
 			this.sideNavigationLinks = [
-				{ title: 'My Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
+				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username, }, }, icon: 'fa fa-calendar-alt' },
 				{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
 				{
 					title: 'Employees',

@@ -1,5 +1,10 @@
 /* eslint-disable no-undef */
 // Pages
+import EmployeesCRUD from '@/pages/employees/EmployeesCRUD'
+import AttendancePage from '@/pages/employees/shared/attendance/AttendancePage'
+import MyVacations from '@/pages/employees/shared/vacations/shared/MyVacations'
+import RequestVacation from '@/pages/employees/shared/vacations/shared/RequestVacation'
+import VacationsCRUD from '@/pages/employees/shared/vacations/VacationsCRUD'
 import AccessDenied from '@/pages/error/403Error'
 import PageNotFound from '@/pages/error/404Error'
 import HomePage from '@/pages/home/HomePage'
@@ -30,6 +35,38 @@ const routes = [
 		meta: { middleware: 'extraAuthentication' },
 	},
 	{
+		path: '/Employees',
+		component: EmployeesCRUD,
+		meta: { middleware: 'extraAuthentication' },
+	},
+	{
+		path: '/Attendance',
+		component: AttendancePage,
+		meta: { middleware: 'extraAuthentication' },
+	},
+	{
+		path: '/Attendance/:username',
+		name: 'Attendance',
+		component: AttendancePage,
+		meta: { middleware: 'attendanceAuthentication' },
+		props: true,
+	},
+	{
+		path: '/Vacations',
+		component: RequestVacation,
+		meta: { middleware: 'authentication' },
+	},
+	{
+		path: '/VacationRequests',
+		component: MyVacations,
+		meta: { middleware: 'authentication' },
+	},
+	{
+		path: '/VacationApproval',
+		component: VacationsCRUD,
+		meta: { middleware: 'extraAuthentication' },
+	},
+	{
 		path: '/403',
 		component: AccessDenied,
 	},
@@ -50,7 +87,7 @@ router.beforeEach((to, _, next) => {
 	if (to.meta.middleware) {
 		const middleware = require(`./middleware/${to.meta.middleware}`)
 		if (middleware) {
-			middleware.default(next, store)
+			middleware.default(next, store,to)
 		} else {
 			next()
 		}
