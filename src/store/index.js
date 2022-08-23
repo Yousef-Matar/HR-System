@@ -5,6 +5,17 @@ const store = createStore({
 		return {
 			monthlyHours: localStorage.getItem('Monthly Hours') === null ? 40 : JSON.parse(localStorage.getItem('Monthly Hours')),
 			activeUser: localStorage.getItem('Active User') === null ? null : JSON.parse(localStorage.getItem('Active User')),
+			allHours:
+				localStorage.getItem('All Hours') === null
+					? [
+							{
+								year: new Date().getFullYear(),
+								month: new Date().getMonth(),
+								hours: 40,
+							},
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+					  ]
+					: JSON.parse(localStorage.getItem('All Hours')),
 			allEmployees:
 				localStorage.getItem('Employees') === null
 					? [
@@ -14,7 +25,8 @@ const store = createStore({
 								firstName: 'Admin First Name',
 								lastName: 'Admin Last Name',
 								role: 'admin',
-								hireDate: new Date().toLocaleDateString(),
+								hireDate: '8/22/2020',
+								//hireDate: new Date().toLocaleDateString(),
 								attendance: [],
 							},
 							// eslint-disable-next-line no-mixed-spaces-and-tabs
@@ -28,6 +40,17 @@ const store = createStore({
 			localStorage.setItem('Active User', JSON.stringify(state.activeUser))
 			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
 			localStorage.setItem('Monthly Hours', JSON.stringify(state.monthlyHours))
+
+			if (state.allHours.find((element) => element.month == new Date().getMonth() && element.year == new Date().getFullYear())) {
+				localStorage.setItem('All Hours', JSON.stringify(state.allHours))
+			} else {
+				state.allHours.push({
+					year: new Date().getFullYear(),
+					month: new Date().getMonth(),
+					hours: state.monthlyHours,
+				})
+				localStorage.setItem('All Hours', JSON.stringify(state.allHours))
+			}
 		},
 		setAllEmployees(state, payload) {
 			state.allEmployees = payload
@@ -40,6 +63,10 @@ const store = createStore({
 		setMonthlyHours(state, payload) {
 			state.monthlyHours = payload
 			localStorage.setItem('Monthly Hours', JSON.stringify(state.monthlyHours))
+		},
+		setAllHours(state, payload) {
+			state.allHours = payload
+			localStorage.setItem('All Hours', JSON.stringify(state.allHours))
 		},
 		replaceUser(state, payload) {
 			state.allEmployees = state.allEmployees.map((user) => (user.username === payload.username ? payload.updatedUser : user))

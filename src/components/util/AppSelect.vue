@@ -28,7 +28,7 @@ export default {
 			required: true,
 		},
 		selectValue: {
-			type: String || Number || Object,
+			type: [String, Number, Object],
 			default: '',
 		},
 		selectLabel: {

@@ -67,6 +67,7 @@ export default {
 			this.showWarning = false
 			AttendanceManager.userCheckOut(UsersManager.getActiveUser())
 			UsersManager.logout()
+			this.$router.push('/')
 		},
 	},
 }

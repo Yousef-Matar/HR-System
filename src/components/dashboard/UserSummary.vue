@@ -57,7 +57,7 @@ export default {
 			this.remainingHours = this.getRemainingHours()
 		},
 		getRemainingHours() {
-			return HoursManager.calculateRemaingHours(UsersManager.getActiveUser())
+			return (HoursManager.getMonthlyHours() - HoursManager.calculateCurrentMonthWorkedHours(UsersManager.getActiveUser())).toFixed(2)
 		},
 	},
 }
