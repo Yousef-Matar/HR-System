@@ -73,20 +73,69 @@ var AttendanceManager = {
 		})
 		return selectMonths
 	},
-	getUserMonths(user,yearFilter) {
+	getUserMonths(user, yearFilter) {
 		var hireMonth = user.hireDate.slice(0, user.hireDate.indexOf('/'))
+		var hireYear = user.hireDate.slice(user.hireDate.lastIndexOf('/') + 1)
 		hireMonth = parseInt(hireMonth)
-		if (user.hireDate.slice(user.hireDate.lastIndexOf('/') + 1) == new Date().getFullYear()) {
-			return this.getAllMonths().slice(hireMonth - 1, new Date().getMonth() + 1)
-		} else if (yearFilter == new Date().getFullYear()) {
-			return this.getAllMonths().slice(0, new Date().getMonth() + 1)
-		} else {
+		hireYear = parseInt(hireYear)
+		if (hireYear > new Date().getFullYear()) {
 			return this.getAllMonths()
+		} else {
+			if (hireYear == new Date().getFullYear()) {
+				return this.getAllMonths().slice(hireMonth - 1, new Date().getMonth() + 1)
+			}
+			if (yearFilter == new Date().getFullYear()) {
+				return this.getAllMonths().slice(0, new Date().getMonth() + 1)
+			} else {
+				if (yearFilter != hireYear) {
+					return this.getAllMonths()
+				} else {
+					return this.getAllMonths().slice(hireMonth - 1)
+				}
+			}
 		}
 	},
 	getDaysInMonth(yearFilter, monthFilter) {
 		return [...Array(new Date(yearFilter, monthFilter + 1, 0).getDate()).keys()].map((key) => (key += 1))
 	},
-	tableData(){}
+	showAttendance(userHireDate, yearFilter, monthFilter, day) {
+		var reason = ''
+		var hireYear = userHireDate.slice(userHireDate.lastIndexOf('/') + 1)
+		var hireMonth = userHireDate.slice(0, userHireDate.indexOf('/'))
+		var hireDay = parseInt(userHireDate.slice(userHireDate.indexOf('/') + 1, userHireDate.lastIndexOf('/')))
+		var currentYear = new Date().getFullYear()
+		var currentMonth = new Date().getMonth()
+		var currentDay = new Date().getDate()
+		if (yearFilter == hireYear && monthFilter + 1 == hireMonth) {
+			if (yearFilter == currentYear && monthFilter == currentMonth) {
+				if (day >= hireDay && currentDay >= day) {
+					reason = 'HireDay'
+					return reason
+				}
+			} else {
+				if (day >= hireDay) {
+					reason = 'HireMonth&Year'
+					return reason
+				}
+			}
+		} else {
+			if (currentYear > yearFilter) {
+				reason = 'PastYears'
+				return reason
+			} else {
+				if (currentMonth > monthFilter) {
+					reason = 'PastMonths'
+					return reason
+				} else {
+					if (currentDay >= day) {
+						reason = 'PastDays'
+						return reason
+					}
+				}
+			}
+		}
+		reason = 'Future/PreHire'
+		return reason
+	},
 }
 export default AttendanceManager

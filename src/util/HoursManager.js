@@ -74,5 +74,29 @@ var HoursManager = {
 
 		return (totalMinutes / 60).toFixed(2)
 	},
+
+	getDayTotalHours(user, year, month, day) {
+		var selectedDate = month + 1 + '/' + day + '/' + year
+		var selectedAttendance = user.attendance.find((attendanceDay) => attendanceDay.currentDay == selectedDate)
+		if (selectedAttendance != null) {
+			var totalWorkingMinutes = 0
+			//var totalBreakMinutes = 0
+			selectedAttendance.time.forEach((check) => {
+				if (check.checkInTime && check.checkOutTime) {
+					totalWorkingMinutes += TimeConverter.difference_24_hours(check.checkInTime, check.checkOutTime)
+				}
+			})
+			//var index = 0
+			//while (index < selectedAttendance.time.length && selectedAttendance.time[index + 1]) {
+			//	totalBreakMinutes += TimeConverter.difference_24_hours(selectedAttendance.time[index].checkOutTime, selectedAttendance.time[index + 1].checkInTime)
+			//	index += 1
+			//}
+
+			return 'Covered Hours: ' + (totalWorkingMinutes / 60).toFixed(2) 
+			//+ '/n' + 'Break Hours: ' + (totalBreakMinutes / 60).toFixed(2)
+		} else {
+			return 'Missed this Day'
+		}
+	},
 }
 export default HoursManager

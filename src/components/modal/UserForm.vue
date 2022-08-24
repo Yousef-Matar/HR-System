@@ -195,7 +195,7 @@ export default {
 
 		setRoles() {
 			this.roles =
-				this.user.role === 'admin'
+				this.user.role === 'admin' || this.user.role === 'SuperAdmin'
 					? [
 							{
 								title: 'Select a role',

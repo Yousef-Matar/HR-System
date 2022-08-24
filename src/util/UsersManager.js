@@ -10,6 +10,9 @@ var UsersManager = {
 	getUser(userUsername) {
 		return this.getAllUsers().find((user) => user.username === userUsername)
 	},
+	getSuperAdmin() {
+		return this.getAllUsers().find((user) => user.role === 'SuperAdmin')
+	},
 	logout() {
 		store.commit('setActiveUser', null)
 	},

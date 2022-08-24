@@ -20,11 +20,11 @@ const store = createStore({
 				localStorage.getItem('Employees') === null
 					? [
 							{
-								username: 'admin',
-								password: 'admin',
-								firstName: 'Admin First Name',
-								lastName: 'Admin Last Name',
-								role: 'admin',
+								username: 'SuperAdmin',
+								password: 'SuperAdmin',
+								firstName: 'SuperAdmin First Name',
+								lastName: 'SuperAdmin Last Name',
+								role: 'SuperAdmin',
 								hireDate: '8/22/2020',
 								//hireDate: new Date().toLocaleDateString(),
 								attendance: [],

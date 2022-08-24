@@ -36,9 +36,9 @@ export default {
 	mounted() {
 		if (this.user == null) {
 			this.sideNavigationLinks = []
-		} else if (this.user.role == 'admin') {
+		} else if (this.user.role == 'admin' || this.user.role === 'SuperAdmin') {
 			this.sideNavigationLinks = [
-				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username, }, }, icon: 'fa fa-calendar-alt' },
+				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username } }, icon: 'fa fa-calendar-alt' },
 				{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
 				{
 					title: 'Employees',
@@ -78,7 +78,7 @@ export default {
 			]
 		} else if (this.user.role == 'employee') {
 			this.sideNavigationLinks = [
-				{ title: 'My Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
+				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username } }, icon: 'fa fa-calendar-alt' },
 				{
 					title: 'Vacations',
 					children: [
