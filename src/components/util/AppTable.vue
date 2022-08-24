@@ -10,12 +10,13 @@
 					<div
 						v-if="header.sortable == true"
 						:key="'headerSort' + tableFields[index]"
-						class="flex justify-between gap-5 whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center"
+						class="flex justify-between gap-5 whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center cursor-pointer"
+						@click="sort(header[tableFields[index]].toUpperCase())"
 					>
 						{{ header[tableFields[index]] }}
 						<div class="flex flex-col">
-							<font-awesome-icon icon="fa-solid fa-sort-up" />
-							<font-awesome-icon icon="fa-solid fa-sort-down" />
+							<font-awesome-icon icon="fa-solid fa-sort-up" :class="header[tableFields[index]].toUpperCase() === sortingAttribute && sortingType === 'ascendingly' ? 'text-primary' : ''" />
+							<font-awesome-icon icon="fa-solid fa-sort-down" :class="header[tableFields[index]].toUpperCase() === sortingAttribute && sortingType === 'descendingly' ? 'text-primary' : ''" />
 						</div>
 					</div>
 					<div
@@ -30,7 +31,7 @@
 		</thead>
 		<tbody>
 			<tr
-				v-for="row in tableData"
+				v-for="row in sortedTableData"
 				:key="'tableRow' + row"
 				class="bg-gray-800"
 			>
@@ -73,6 +74,51 @@ export default {
 		tableFields: {
 			type: Array,
 			required: true,
+		},
+		pageSize: {
+			type: Number,
+			default: 10,
+		},
+	},
+	data() {
+		return {
+			sortingAttribute: this.tableFields[0].toUpperCase(),
+			sortingType: 'ascendingly',
+			currentPage: 1,
+			sortedTableData: this.tableData,
+		}
+	},
+	methods: {
+		prevPage() {
+			if (this.currentPage > 1) {
+				this.currentPage--
+			}
+		},
+		nextPage() {
+			if (this.currentPage * this.pageSize < this.sortedTableData.length) {
+				this.currentPage++
+			}
+		},
+		sort(tableHeader) {
+			if (tableHeader === this.sortingAttribute) {
+				this.sortingType = this.sortingType === 'ascendingly' ? 'descendingly' : 'ascendingly'
+			}
+			this.sortingAttribute = tableHeader
+		},
+		sortTable() {
+			this.sortedTableData = this.sortedTableData
+				.sort((a, b) => {
+					let modifier = 1
+					if (this.sortingType === 'descendingly') modifier = -1
+					if (a[this.sortingAttribute] < b[this.sortingAttribute]) return -1 * modifier
+					if (a[this.sortingAttribute] > b[this.sortingAttribute]) return 1 * modifier
+					return 0
+				})
+				.filter((row, index) => {
+					let start = (this.currentPage - 1) * this.pageSize
+					let end = this.currentPage * this.pageSize
+					if (index >= start && index < end) return true
+				})
 		},
 	},
 }
