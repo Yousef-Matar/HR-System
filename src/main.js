@@ -2,6 +2,7 @@
 import App from '@/App.vue'
 // Styles
 import '@/assets/css/form.css'
+import '@/assets/css/scrollbar.css'
 import '@/assets/css/tailwind.css'
 // Router
 import router from '@/router'

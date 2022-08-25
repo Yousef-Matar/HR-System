@@ -25,13 +25,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="overflow-x-auto">
-			<v-table
-				:headers="tableHeaders"
-				:table-data="tableData"
-				:table-fields="tableFields"
-			/>
-		</div>
+		<v-table
+			:headers="tableHeaders"
+			:table-data="tableData"
+			:table-fields="tableFields"
+		/>
 	</div>
 </template>
 
