@@ -11,7 +11,7 @@ import store from '@/store/index'
 // import the fontawesome core
 import { library } from '@fortawesome/fontawesome-svg-core'
 // import specific icons
-import { faCalendarAlt, faCaretDown, faCaretUp, faCheck, faClock, faClose, faExclamationTriangle, faFileArrowDown, faHome, faMinus, faPlus, faSignIn, faSignOut, faSortDown, faSortUp, faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faClock, faExclamationTriangle, faFileArrowDown, faHome, faMinus, faPlus, faSignIn, faSignOut, faSortDown, faSortUp, faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons'
 // import font awesome icon component
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { createApp } from 'vue'
@@ -48,19 +48,10 @@ library.add(
 	// Table Sorting
 	faSortUp,
 	faSortDown,
-	// Dunno
-	faCheck,
-	// Dunno
-	faCaretDown,
-	// Dunno
-	faCaretUp,
 	// Error
 	faExclamationTriangle,
 	// Profile
-	faUser,
-
-	// Dunno
-	faClose
+	faUser
 )
 const app = createApp(App)
 app.use(router)
