@@ -26,7 +26,7 @@ var UsersManager = {
 		store.commit('setAllEmployees', this.getAllUsers().concat([user]))
 	},
 	replaceUser(oldUser, updatedUser) {
-		store.commit('replaceUser', {username:oldUser.username,updatedUser:updatedUser})
+		store.commit('replaceUser', { username: oldUser.username, updatedUser: updatedUser })
 	},
 	deleteUser(selectedUser) {
 		store.commit(

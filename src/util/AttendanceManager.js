@@ -41,8 +41,8 @@ var AttendanceManager = {
 		store.commit('replaceUser', { username: user.username, updatedUser: user })
 		return user
 	},
-	getUserYears(user) {
-		var hireYear = user.hireDate.slice(user.hireDate.lastIndexOf('/') + 1)
+	getUserYears(userHireDate) {
+		var hireYear = userHireDate.slice(userHireDate.lastIndexOf('/') + 1)
 		hireYear = parseInt(hireYear)
 		var years = [
 			{
@@ -73,9 +73,9 @@ var AttendanceManager = {
 		})
 		return selectMonths
 	},
-	getUserMonths(user, yearFilter) {
-		var hireMonth = user.hireDate.slice(0, user.hireDate.indexOf('/'))
-		var hireYear = user.hireDate.slice(user.hireDate.lastIndexOf('/') + 1)
+	getUserMonths(userHireDate, yearFilter) {
+		var hireMonth = userHireDate.slice(0, userHireDate.indexOf('/'))
+		var hireYear = userHireDate.slice(userHireDate.lastIndexOf('/') + 1)
 		hireMonth = parseInt(hireMonth)
 		hireYear = parseInt(hireYear)
 		if (hireYear > new Date().getFullYear()) {

@@ -58,10 +58,10 @@ export default {
 	},
 	computed: {
 		getYearsFilter() {
-			return AttendanceManager.getUserYears(this.activeUser)
+			return AttendanceManager.getUserYears(this.activeUser.hireDate)
 		},
 		getMonthFilter() {
-			return AttendanceManager.getUserMonths(this.activeUser, this.table.yearFilter)
+			return AttendanceManager.getUserMonths(this.activeUser.hireDate, this.table.yearFilter)
 		},
 		getDaysInMonth() {
 			return AttendanceManager.getDaysInMonth(this.table.yearFilter, this.table.monthFilter)
@@ -93,14 +93,14 @@ export default {
 				var dataTemplate = {}
 				dataTemplate.Username = user.username
 				dataTemplate.Role = user.role
-				dataTemplate['Monthly Covered Hours'] = HoursManager.getMonthWorkedHours(user, this.table.yearFilter, this.table.monthFilter) + '/' + HoursManager.getMonthHours(this.table.yearFilter, this.table.monthFilter).hours
+				dataTemplate['Monthly Covered Hours'] = HoursManager.getMonthWorkedHours(user.attendance, this.table.yearFilter, this.table.monthFilter) + '/' + HoursManager.getMonthHours(this.table.yearFilter, this.table.monthFilter).hours
 				this.getDaysInMonth.forEach((day) => {
 					switch (AttendanceManager.showAttendance(user.hireDate, this.table.yearFilter, this.table.monthFilter, day)) {
 						case 'Future/PreHire':
 							dataTemplate[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = ''
 							break
 						case 'Past':
-							dataTemplate[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = HoursManager.getDayTotalHours(user, this.table.yearFilter, this.table.monthFilter, day)
+							dataTemplate[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = HoursManager.getDayTotalHours(user.attendance, this.table.yearFilter, this.table.monthFilter, day)
 							break
 						default:
 							dataTemplate[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = 'Not Found'

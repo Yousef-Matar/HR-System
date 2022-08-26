@@ -46,8 +46,8 @@ var HoursManager = {
 			store.commit('setAllHours', allHours)
 		}
 	},
-	calculateCurrentMonthWorkedHours(user) {
-		var currentMonthAttendance = user.attendance.filter((attendance) => attendance.currentDay.slice(attendance.currentDay.lastIndexOf('/') + 1) == new Date().getFullYear() && attendance.currentDay.slice(0, attendance.currentDay.indexOf('/')) == new Date().getMonth() + 1)
+	calculateCurrentMonthWorkedHours(userAttendance) {
+		var currentMonthAttendance = userAttendance.filter((attendance) => attendance.currentDay.slice(attendance.currentDay.lastIndexOf('/') + 1) == new Date().getFullYear() && attendance.currentDay.slice(0, attendance.currentDay.indexOf('/')) == new Date().getMonth() + 1)
 
 		var totalMinutes = 0
 		currentMonthAttendance.forEach((day) => {
@@ -60,8 +60,8 @@ var HoursManager = {
 
 		return (totalMinutes / 60).toFixed(2)
 	},
-	getMonthWorkedHours(user, year, month) {
-		var currentMonthAttendance = user.attendance.filter((attendance) => attendance.currentDay.slice(attendance.currentDay.lastIndexOf('/') + 1) == year && attendance.currentDay.slice(0, attendance.currentDay.indexOf('/')) == month + 1)
+	getMonthWorkedHours(userAttendance, year, month) {
+		var currentMonthAttendance = userAttendance.filter((attendance) => attendance.currentDay.slice(attendance.currentDay.lastIndexOf('/') + 1) == year && attendance.currentDay.slice(0, attendance.currentDay.indexOf('/')) == month + 1)
 
 		var totalMinutes = 0
 		currentMonthAttendance.forEach((day) => {
@@ -75,9 +75,9 @@ var HoursManager = {
 		return (totalMinutes / 60).toFixed(2)
 	},
 
-	getDayTotalHours(user, year, month, day) {
+	getDayTotalHours(userAttendance, year, month, day) {
 		var selectedDate = month + 1 + '/' + day + '/' + year
-		var selectedAttendance = user.attendance.find((attendanceDay) => attendanceDay.currentDay == selectedDate)
+		var selectedAttendance = userAttendance.find((attendanceDay) => attendanceDay.currentDay == selectedDate)
 		if (selectedAttendance != null) {
 			var totalWorkingMinutes = 0
 			//var totalBreakMinutes = 0

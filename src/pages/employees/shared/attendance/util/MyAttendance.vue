@@ -56,10 +56,10 @@ export default {
 	},
 	computed: {
 		getYearsFilter() {
-			return AttendanceManager.getUserYears(this.user)
+			return AttendanceManager.getUserYears(this.user.hireDate)
 		},
 		getMonthFilter() {
-			return AttendanceManager.getUserMonths(this.user, this.table.yearFilter)
+			return AttendanceManager.getUserMonths(this.user.hireDate, this.table.yearFilter)
 		},
 		getDaysInMonth() {
 			return AttendanceManager.getDaysInMonth(this.table.yearFilter, this.table.monthFilter)
@@ -87,7 +87,7 @@ export default {
 				{
 					Username: this.user.username,
 					Role: this.user.role,
-					'Monthly Covered Hours': `${HoursManager.getMonthWorkedHours(this.user, this.table.yearFilter, this.table.monthFilter)}` + '/' + `${HoursManager.getMonthHours(this.table.yearFilter, this.table.monthFilter).hours}`,
+					'Monthly Covered Hours': `${HoursManager.getMonthWorkedHours(this.user.attendance, this.table.yearFilter, this.table.monthFilter)}` + '/' + `${HoursManager.getMonthHours(this.table.yearFilter, this.table.monthFilter).hours}`,
 				},
 			]
 			data.forEach((data) => {
@@ -97,7 +97,7 @@ export default {
 							data[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = ''
 							break
 						case 'Past':
-							data[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = HoursManager.getDayTotalHours(this.user, this.table.yearFilter, this.table.monthFilter, day)
+							data[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = HoursManager.getDayTotalHours(this.user.attendance, this.table.yearFilter, this.table.monthFilter, day)
 							break
 						default:
 							data[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = 'Not Found'
