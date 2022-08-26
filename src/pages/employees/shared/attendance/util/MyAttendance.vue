@@ -66,20 +66,20 @@ export default {
 		},
 		tableHeaders() {
 			var headers = [
-				{ Username: 'Username', sortable: false },
-				{ Role: 'Role', sortable: false },
-				{ 'Covered Hours': 'Covered Hours', sortable: false },
+				{ value: 'Username', sortable: true },
+				{ value: 'Role', sortable: true },
+				{ value: 'Monthly Covered Hours', sortable: true },
 			]
 			this.getDaysInMonth.forEach((day) => {
 				headers.push({
-					[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)]: String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter),
+					value: String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter),
 					sortable: false,
 				})
 			})
 			return headers
 		},
 		tableFields() {
-			var fields = Object.keys(this.tableData[0])
+			var fields = this.tableHeaders.map((header) => header.value)
 			return fields
 		},
 		tableData() {
@@ -87,7 +87,7 @@ export default {
 				{
 					Username: this.user.username,
 					Role: this.user.role,
-					'Covered Hours': `${HoursManager.getMonthWorkedHours(this.user, this.table.yearFilter, this.table.monthFilter)}` + '/' + `${HoursManager.getMonthHours(this.table.yearFilter, this.table.monthFilter).hours}`,
+					'Monthly Covered Hours': `${HoursManager.getMonthWorkedHours(this.user, this.table.yearFilter, this.table.monthFilter)}` + '/' + `${HoursManager.getMonthHours(this.table.yearFilter, this.table.monthFilter).hours}`,
 				},
 			]
 			data.forEach((data) => {
@@ -96,7 +96,7 @@ export default {
 						case 'Future/PreHire':
 							data[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = ''
 							break
-						case 'PastDays' || 'PastMonths' || 'PastYears' || 'HireMonth&Year' || 'HireDay':
+						case 'Past':
 							data[String(day) + '/' + String(this.table.monthFilter + 1) + '/' + String(this.table.yearFilter)] = HoursManager.getDayTotalHours(this.user, this.table.yearFilter, this.table.monthFilter, day)
 							break
 						default:

@@ -1,9 +1,6 @@
 <template>
-	<MyAttendance v-if="getActiveUser" :user="getActiveUser" />
-	<div v-else>
-		<AllAttendance />
-		<div>{{ username }}</div>
-	</div>
+	<MyAttendance v-if="username" :user="getAttendanceData" />
+	<AllAttendance v-else :users="getAttendanceData" />
 </template>
 
 <script>
@@ -21,10 +18,18 @@ export default {
 		},
 	},
 	computed: {
-		getActiveUser() {
+		getAttendanceData() {
 			if (this.username) {
 				return UsersManager.getUser(this.username)
 			} else {
+				var activeUser = UsersManager.getActiveUser()
+				if (activeUser.role == 'SuperAdmin') {
+					return UsersManager.getAllUsers().filter((user) => user.role != 'SuperAdmin' && user.username != activeUser.username)
+				} else if (activeUser.role == 'admin') {
+					return UsersManager.getAllUsers().filter((user) => user.role != 'SuperAdmin' && user.username != activeUser.username)
+				} else if (activeUser.role == 'human resources') {
+					return UsersManager.getAllUsers().filter((user) => user.role != 'SuperAdmin' && user.role != 'admin' && user.username != activeUser.username)
+				}
 				return null
 			}
 		},

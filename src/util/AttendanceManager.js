@@ -109,26 +109,26 @@ var AttendanceManager = {
 		if (yearFilter == hireYear && monthFilter + 1 == hireMonth) {
 			if (yearFilter == currentYear && monthFilter == currentMonth) {
 				if (day >= hireDay && currentDay >= day) {
-					reason = 'HireDay'
+					reason = 'Past'
 					return reason
 				}
 			} else {
 				if (day >= hireDay) {
-					reason = 'HireMonth&Year'
+					reason = 'Past'
 					return reason
 				}
 			}
 		} else {
 			if (currentYear > yearFilter) {
-				reason = 'PastYears'
+				reason = 'Past'
 				return reason
 			} else {
 				if (currentMonth > monthFilter) {
-					reason = 'PastMonths'
+					reason = 'Past'
 					return reason
 				} else {
 					if (currentDay >= day) {
-						reason = 'PastDays'
+						reason = 'Past'
 						return reason
 					}
 				}

@@ -11,14 +11,14 @@
 						>
 							<div
 								v-if="header.sortable == true"
-								:key="'headerSort' + tableFields[index]"
+								:key="'headerSort' + header.value"
 								class="flex justify-between gap-5 whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center cursor-pointer"
-								@click="sort(header[tableFields[index]].toUpperCase())"
+								@click="sort(header.value)"
 							>
-								{{ header[tableFields[index]] }}
+								{{ header.value }}
 								<div class="flex flex-col">
-									<font-awesome-icon icon="fa-solid fa-sort-up" :class="header[tableFields[index]].toUpperCase() === sortingAttribute && sortingType === 'ascendingly' ? 'text-primary' : ''" />
-									<font-awesome-icon icon="fa-solid fa-sort-down" :class="header[tableFields[index]].toUpperCase() === sortingAttribute && sortingType === 'descendingly' ? 'text-primary' : ''" />
+									<font-awesome-icon icon="fa-solid fa-sort-up" :class="header.value === sortingAttribute && sortingType === 'ascendingly' ? 'text-primary' : ''" />
+									<font-awesome-icon icon="fa-solid fa-sort-down" :class="header.value === sortingAttribute && sortingType === 'descendingly' ? 'text-primary' : ''" />
 								</div>
 							</div>
 							<div
@@ -26,14 +26,14 @@
 								:key="'headerUnSorted' + tableFields[index]"
 								class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
 							>
-								{{ header[tableFields[index]] }}
+								{{ header.value }}
 							</div>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr
-						v-for="row in sortedTableData"
+						v-for="row in sortTable()"
 						:key="'tableRow' + row"
 						class="bg-gray-800"
 					>
@@ -98,11 +98,16 @@ export default {
 	},
 	data() {
 		return {
-			sortingAttribute: this.tableFields[0].toUpperCase(),
+			sortingAttribute: this.tableFields[0],
 			sortingType: 'ascendingly',
 			currentPage: 1,
 			sortedTableData: this.tableData,
 		}
+	},
+	watch: {
+		tableData(newData) {
+			this.sortedTableData = newData
+		},
 	},
 	methods: {
 		prevPage() {
@@ -122,7 +127,7 @@ export default {
 			this.sortingAttribute = tableHeader
 		},
 		sortTable() {
-			this.sortedTableData = this.sortedTableData
+			return this.sortedTableData
 				.sort((a, b) => {
 					let modifier = 1
 					if (this.sortingType === 'descendingly') modifier = -1

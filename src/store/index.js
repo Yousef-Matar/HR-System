@@ -29,7 +29,45 @@ const store = createStore({
 								//hireDate: new Date().toLocaleDateString(),
 								attendance: [],
 							},
-							// eslint-disable-next-line no-mixed-spaces-and-tabs
+							//Dummy Data
+						
+							{
+								username: 'user',
+								password: 'user',
+								firstName: 'user First Name',
+								lastName: 'user Last Name',
+								role: 'employee',
+								hireDate: '9/22/2020',
+								attendance: [],
+							},
+							{
+								username: 'user2',
+								password: 'user',
+								firstName: 'user First Name',
+								lastName: 'user Last Name',
+								role: 'user',
+								hireDate: '9/22/2021',
+								attendance: [],
+							},
+							{
+								username: 'user3',
+								password: 'user',
+								firstName: 'user First Name',
+								lastName: 'user Last Name',
+								role: 'employee',
+								hireDate: '10/22/2019',
+								attendance: [],
+							},
+							{
+								username: 'user4',
+								password: 'user',
+								firstName: 'user First Name',
+								lastName: 'user Last Name',
+								role: 'user',
+								hireDate: '9/24/2020',
+								attendance: [],
+							},
+								// eslint-disable-next-line no-mixed-spaces-and-tabs
 					  ]
 					: JSON.parse(localStorage.getItem('Employees')),
 		}
