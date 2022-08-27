@@ -7,7 +7,7 @@
 		/>
 		<div class="modal" :class="variant == 'primary' ? 'z-30' : 'z-50'">
 			<div class="bg-background shadow border rounded-3xl p-8 gap-8 flex flex-col" :class="variant == 'primary' ? 'border-primary text-primary z-30' : 'text-red-500 border-red-600 z-50'">
-				<h1 class="text-2xl">
+				<h1 class="text-2xl text-left">
 					<slot name="ModalHeader" />
 				</h1>
 				<main>

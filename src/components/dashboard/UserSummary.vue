@@ -1,7 +1,7 @@
 <template>
-	<div class="mx-auto p-8 rounded-3xl bg-background w-max">
+	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
 		<div class="flex flex-col gap-8 items-start">
-			<div class="text-2xl items-start flex">
+			<div class="text-2xl text-left">
 				<div v-if="remainingHours >= 0">
 					Remaining Monthly Hours: {{ remainingHours }}
 				</div>
@@ -9,10 +9,10 @@
 					Overtime: {{ Math.abs(remainingHours) }}
 				</div>
 			</div>
-			<h1 class="text-primarylight text-2xl">
+			<h1 class="text-primarylight text-2xl text-left">
 				{{ currentTime }}
 			</h1>
-			<h1 class="text-primarylight text-xl">
+			<h1 class="text-primarylight text-xl text-left">
 				{{ currentDate }}
 			</h1>
 			<v-button

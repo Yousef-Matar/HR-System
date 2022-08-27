@@ -76,7 +76,8 @@ export default {
 <style>
 html {
 	min-height: 100vh;
-	background-image: linear-gradient(to bottom right, #38a2d7, #561139);
+	background: linear-gradient(to bottom right, #38a2d7, #561139);
+	
 }
 body {
 	font-family: 'Roboto', sans-serif;
@@ -84,6 +85,9 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #18ffff;
+}
+button {
+	max-width: 20rem;
 }
 details,
 button,

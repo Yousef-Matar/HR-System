@@ -1,6 +1,6 @@
 <template>
 	<UserSummary v-if="getActiveUser()" />
-	<div v-else class="mx-auto p-8 rounded-3xl bg-background flex flex-col gap-8 w-max">
+	<div v-else class="mx-auto p-8 rounded-3xl bg-background flex flex-col gap-8 w-fit">
 		<h1 class="text-6xl">
 			Welcome to HR-System
 		</h1>

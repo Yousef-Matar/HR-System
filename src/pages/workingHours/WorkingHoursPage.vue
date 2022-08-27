@@ -1,7 +1,7 @@
 <template>
-	<div class="mx-auto p-8 rounded-3xl bg-background w-max">
+	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
 		<form @submit.prevent="updateHours">
-			<div>
+			<div class="text-left">
 				<h1 class="text-2xl">
 					Update Monthly Hours
 				</h1>

@@ -1,11 +1,11 @@
 <template>
-	<div class="mx-auto p-8 rounded-3xl bg-background w-max">
+	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
 		<form autocomplete="off" @submit.prevent="submit">
-			<div>
+			<div class="text-left">
 				<h1 class="text-2xl">
 					Login
 				</h1>
-				<div v-if="error.show" class="text-red-500 text-left mt-2 text-lg">
+				<div v-if="error.show" class="text-red-500 mt-2 text-lg">
 					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
 				</div>
 			</div>

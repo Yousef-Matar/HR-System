@@ -43,7 +43,7 @@
 							{{ error.message }}
 						</div>
 
-						<div class="flex gap-8">
+						<div class="flex gap-8 flex-wrap">
 							<v-input
 								:input-i-d="'username'"
 								:type="'text'"
@@ -61,7 +61,7 @@
 								@passwordChange="(inputContent) => (form.password = inputContent)"
 							/>
 						</div>
-						<div class="flex gap-8">
+						<div class="flex gap-8 flex-wrap">
 							<v-input
 								:input-i-d="'firstName'"
 								:type="'text'"
@@ -80,7 +80,7 @@
 							/>
 						</div>
 
-						<div class="flex gap-8">
+						<div class="flex gap-8 flex-wrap">
 							<v-select
 								:select-i-d="'role'"
 								:disabled="mode !== 'profile' ? false : true"
@@ -90,7 +90,6 @@
 								@roleChange="(selectContent) => (form.role = selectContent)"
 							/>
 						</div>
-
 						<v-button
 							v-if="mode === 'create'"
 							:type="'submit'"
