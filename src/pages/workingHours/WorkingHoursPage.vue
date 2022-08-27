@@ -1,22 +1,24 @@
 <template>
-	<form @submit.prevent="updateHours">
-		<div>
-			<h1 class="text-2xl">
-				Update Monthly Hours
-			</h1>
-			<h1 class="text-xl">
-				Current Monthly Hours : {{ getMonthlyHours }}
-			</h1>
-		</div>
-		<v-input
-			:input-i-d="'hours'"
-			:type="'number'"
-			:input-label="'Monthly Hours'"
-			:input-value="monthlyHours"
-			@hoursChange="(inputContent) => (monthlyHours = inputContent)"
-		/>
-		<v-button :type="'submit'" :text="'Update'" />
-	</form>
+	<div class="mx-auto p-8 rounded-3xl bg-background w-max">
+		<form @submit.prevent="updateHours">
+			<div>
+				<h1 class="text-2xl">
+					Update Monthly Hours
+				</h1>
+				<h1 class="text-xl">
+					Current Monthly Hours : {{ getMonthlyHours }}
+				</h1>
+			</div>
+			<v-input
+				:input-i-d="'hours'"
+				:type="'number'"
+				:input-label="'Monthly Hours'"
+				:input-value="monthlyHours"
+				@hoursChange="(inputContent) => (monthlyHours = inputContent)"
+			/>
+			<v-button :type="'submit'" :text="'Update'" />
+		</form>
+	</div>
 </template>
 
 <script>

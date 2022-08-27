@@ -50,31 +50,16 @@ export default {
 				{
 					title: 'Vacations',
 					children: [
-						{ title: 'Request Vacation', to: '/Vacations', icon: 'fa fa-users' },
-						{ title: 'Vacation Requests', to: '/VacationRequests', icon: 'fa fa-users' },
-						{ title: 'Approve Vacations', to: '/VacationApproval', icon: 'fa fa-users' },
+						{ title: 'Request Vacation', to: '/Vacations' },
+						{ title: 'Vacation Requests', to: '/VacationRequests' },
+						{ title: 'Approve Vacations', to: '/VacationApproval' },
 					],
 				},
 			]
 		} else if (this.user.role == 'human resources') {
 			this.sideNavigationLinks = [
 				{ title: 'My Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
-				{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
-				{
-					title: 'Employees',
-					children: [
-						{ title: 'View All', to: '/Employees', icon: 'fa fa-users' },
-						{ title: 'Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
-					],
-				},
-				{
-					title: 'Vacations',
-					children: [
-						{ title: 'Request Vacation', to: '/Vacations', icon: 'fa fa-users' },
-						{ title: 'Vacation Requests', to: '/VacationRequests', icon: 'fa fa-users' },
-						{ title: 'Approve Vacations', to: '/VacationApproval', icon: 'fa fa-users' },
-					],
-				},
+				// Same As Admin
 			]
 		} else if (this.user.role == 'employee') {
 			this.sideNavigationLinks = [

@@ -6,15 +6,13 @@
 			@click="closeModal()"
 		/>
 		<div class="modal" :class="variant == 'primary' ? 'z-30' : 'z-50'">
-			<div class="flex">
-				<div class="bg-background shadow border rounded-3xl p-5" :class="variant == 'primary' ? 'border-primary text-primary z-30' : 'text-red-500 border-red-600 z-50'">
-					<h1 class="text-2xl">
-						<slot name="ModalHeader" />
-					</h1>
-					<main class="m-3">
-						<slot name="ModalBody" />
-					</main>
-				</div>
+			<div class="bg-background shadow border rounded-3xl p-8 gap-8 flex flex-col" :class="variant == 'primary' ? 'border-primary text-primary z-30' : 'text-red-500 border-red-600 z-50'">
+				<h1 class="text-2xl">
+					<slot name="ModalHeader" />
+				</h1>
+				<main>
+					<slot name="ModalBody" />
+				</main>
 			</div>
 		</div>
 	</div>

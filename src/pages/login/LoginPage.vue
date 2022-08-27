@@ -1,36 +1,38 @@
 <template>
-	<form autocomplete="off" @submit.prevent="submit">
-		<div>
-			<h1 class="text-2xl">
-				Login
-			</h1>
-			<div v-if="error.show" class="text-red-500 text-left mt-2 text-lg">
-				<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
+	<div class="mx-auto p-8 rounded-3xl bg-background w-max">
+		<form autocomplete="off" @submit.prevent="submit">
+			<div>
+				<h1 class="text-2xl">
+					Login
+				</h1>
+				<div v-if="error.show" class="text-red-500 text-left mt-2 text-lg">
+					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
+				</div>
 			</div>
-		</div>
 
-		<v-input
-			:input-i-d="'username'"
-			:type="'text'"
-			:input-label="'Username'"
-			:input-value="form.username"
-			@usernameChange="(inputContent) => (form.username = inputContent)"
-		/>
-		<v-input
-			:input-i-d="'password'"
-			:type="'password'"
-			:input-label="'Password'"
-			:input-value="form.password"
-			@passwordChange="(inputContent) => (form.password = inputContent)"
-		/>
+			<v-input
+				:input-i-d="'username'"
+				:type="'text'"
+				:input-label="'Username'"
+				:input-value="form.username"
+				@usernameChange="(inputContent) => (form.username = inputContent)"
+			/>
+			<v-input
+				:input-i-d="'password'"
+				:type="'password'"
+				:input-label="'Password'"
+				:input-value="form.password"
+				@passwordChange="(inputContent) => (form.password = inputContent)"
+			/>
 
-		<v-button :type="'submit'" :text="'Log In'" />
-		<v-button
-			:type="'button'"
-			:text="'Register'"
-			:method=" () => { $router.push('/Register') } "
-		/>
-	</form>
+			<v-button :type="'submit'" :text="'Log In'" />
+			<v-button
+				:type="'button'"
+				:text="'Register'"
+				:method=" () => { $router.push('/Register') } "
+			/>
+		</form>
+	</div>
 </template>
 
 <script>

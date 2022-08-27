@@ -1,6 +1,6 @@
 <template>
-	<div class="bg-background p-10 w-max rounded-3xl mx-auto">
-		<div class="flex flex-col gap-7 items-start">
+	<div class="mx-auto p-8 rounded-3xl bg-background w-max">
+		<div class="flex flex-col gap-8 items-start">
 			<div class="text-2xl items-start flex">
 				<div v-if="remainingHours >= 0">
 					Remaining Monthly Hours: {{ remainingHours }}

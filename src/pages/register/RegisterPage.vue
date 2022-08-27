@@ -1,62 +1,64 @@
 <template>
-	<form autocomplete="off" @submit.prevent="submit">
-		<div>
-			<h1 class="text-2xl">
-				Sign Up
-			</h1>
-			<div v-if="error.show" class="text-red-500 text-left mt-2 text-lg">
-				<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
+	<div class="mx-auto p-8 rounded-3xl bg-background w-max">
+		<form autocomplete="off" @submit.prevent="submit">
+			<div>
+				<h1 class="text-2xl">
+					Sign Up
+				</h1>
+				<div v-if="error.show" class="text-red-500 text-left mt-2 text-lg">
+					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
+				</div>
 			</div>
-		</div>
 
-		<v-input
-			:input-i-d="'username'"
-			:type="'text'"
-			:input-label="'Username'"
-			:input-value="form.username"
-			@usernameChange="(inputContent) => (form.username = inputContent)"
-		/>
-
-		<div class="flex gap-8">
 			<v-input
-				:input-i-d="'firstName'"
+				:input-i-d="'username'"
 				:type="'text'"
-				:input-label="'First Name'"
-				:input-value="form.firstName"
-				@firstNameChange="(inputContent) => (form.firstName = inputContent)"
+				:input-label="'Username'"
+				:input-value="form.username"
+				@usernameChange="(inputContent) => (form.username = inputContent)"
 			/>
-			<v-input
-				:input-i-d="'lastName'"
-				:type="'text'"
-				:input-label="'Last Name'"
-				:input-value="form.lastName"
-				@lastNameChange="(inputContent) => (form.lastName = inputContent)"
-			/>
-		</div>
-		<div class="flex gap-8">
-			<v-input
-				:input-i-d="'password'"
-				:type="'password'"
-				:input-label="'Password'"
-				:input-value="form.password"
-				@passwordChange="(inputContent) => (form.password = inputContent)"
-			/>
-			<v-input
-				:input-i-d="'confirmPassword'"
-				:type="'password'"
-				:input-label="'Confirm Password'"
-				:input-value="confirmPassword"
-				@confirmPasswordChange="(inputContent) => (confirmPassword = inputContent)"
-			/>
-		</div>
 
-		<v-button :type="'submit'" :text="'Sign Up'" />
-		<v-button
-			:type="'button'"
-			:text="'Already have an account ?'"
-			:method=" () => { $router.push('/Login') } "
-		/>
-	</form>
+			<div class="flex gap-8">
+				<v-input
+					:input-i-d="'firstName'"
+					:type="'text'"
+					:input-label="'First Name'"
+					:input-value="form.firstName"
+					@firstNameChange="(inputContent) => (form.firstName = inputContent)"
+				/>
+				<v-input
+					:input-i-d="'lastName'"
+					:type="'text'"
+					:input-label="'Last Name'"
+					:input-value="form.lastName"
+					@lastNameChange="(inputContent) => (form.lastName = inputContent)"
+				/>
+			</div>
+			<div class="flex gap-8">
+				<v-input
+					:input-i-d="'password'"
+					:type="'password'"
+					:input-label="'Password'"
+					:input-value="form.password"
+					@passwordChange="(inputContent) => (form.password = inputContent)"
+				/>
+				<v-input
+					:input-i-d="'confirmPassword'"
+					:type="'password'"
+					:input-label="'Confirm Password'"
+					:input-value="confirmPassword"
+					@confirmPasswordChange="(inputContent) => (confirmPassword = inputContent)"
+				/>
+			</div>
+
+			<v-button :type="'submit'" :text="'Sign Up'" />
+			<v-button
+				:type="'button'"
+				:text="'Already have an account ?'"
+				:method=" () => { $router.push('/Login') } "
+			/>
+		</form>
+	</div>
 </template>
 
 <script>
