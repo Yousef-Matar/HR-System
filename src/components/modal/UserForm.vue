@@ -175,6 +175,19 @@ export default {
 				if (UsersManager.getUser(this.form.username).username != this.user.username && (this.mode === 'create' || this.mode === 'profile')) {
 					this.error.show = true
 					this.error.message = 'Username is already in use.'
+				} else {
+					if (this.mode === 'create') {
+						UsersManager.addUser(this.form)
+						this.resetForm()
+					} else if (this.mode === 'update') {
+						console.log('test')
+						UsersManager.replaceUser(this.user.username, this.form)
+						this.resetForm()
+					} else if (this.mode === 'profile') {
+						UsersManager.setActiveUser(this.form)
+						UsersManager.replaceUser(this.user.username, this.form)
+						this.resetForm()
+					}
 				}
 			} else if (this.mode === 'create') {
 				UsersManager.addUser(this.form)
