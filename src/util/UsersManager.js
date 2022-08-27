@@ -13,6 +13,15 @@ var UsersManager = {
 	getSuperAdmin() {
 		return this.getAllUsers().find((user) => user.role === 'SuperAdmin')
 	},
+	getUsersBasedOnPermissions(userRole) {
+		if (userRole == 'SuperAdmin') {
+			return this.getAllUsers()
+		} else if (userRole == 'admin') {
+			return this.getAllUsers().filter((user) => user.role !== 'SuperAdmin')
+		} else if (userRole == 'human resources') {
+			return this.getAllUsers().filter((user) => user.role !== 'SuperAdmin' && user.role !== 'admin')
+		}
+	},
 	logout() {
 		store.commit('setActiveUser', null)
 	},
@@ -25,13 +34,13 @@ var UsersManager = {
 	addUser(user) {
 		store.commit('setAllEmployees', this.getAllUsers().concat([user]))
 	},
-	replaceUser(oldUser, updatedUser) {
-		store.commit('replaceUser', { username: oldUser.username, updatedUser: updatedUser })
+	replaceUser(oldUserUsername, updatedUser) {
+		store.commit('replaceUser', { username: oldUserUsername, updatedUser: updatedUser })
 	},
-	deleteUser(selectedUser) {
+	deleteUser(username) {
 		store.commit(
 			'setAllEmployees',
-			this.getAllUsers().filter((user) => user.username !== selectedUser.username)
+			this.getAllUsers().filter((user) => user.username !== username)
 		)
 	},
 }

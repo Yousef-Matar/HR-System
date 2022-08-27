@@ -30,7 +30,7 @@ const store = createStore({
 								attendance: [],
 							},
 							//Dummy Data
-						
+
 							{
 								username: 'user',
 								password: 'user',
@@ -45,7 +45,7 @@ const store = createStore({
 								password: 'user',
 								firstName: 'user First Name',
 								lastName: 'user Last Name',
-								role: 'user',
+								role: 'employee',
 								hireDate: '9/22/2021',
 								attendance: [],
 							},
@@ -63,11 +63,11 @@ const store = createStore({
 								password: 'user',
 								firstName: 'user First Name',
 								lastName: 'user Last Name',
-								role: 'user',
+								role: 'employee',
 								hireDate: '9/24/2020',
 								attendance: [],
 							},
-								// eslint-disable-next-line no-mixed-spaces-and-tabs
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
 					  ]
 					: JSON.parse(localStorage.getItem('Employees')),
 		}

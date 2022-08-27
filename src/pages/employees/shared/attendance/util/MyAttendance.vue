@@ -2,11 +2,6 @@
 	<div class="p-8 rounded-3xl bg-background mx-8 flex flex-col gap-8">
 		<div class="flex flex-col gap-5 items-start">
 			<div class="flex flex-wrap gap-5 justify-between w-full items-end">
-				<v-button
-					:method="downloadFile"
-					:text="'Export to Excel'"
-					:icon="'fa fa-file-arrow-down'"
-				/>
 				<div class="flex flex-wrap gap-5 items-end">
 					<v-select
 						:select-i-d="'month'"
@@ -23,6 +18,11 @@
 						@yearChange="(selectContent) => (table.yearFilter = selectContent)"
 					/>
 				</div>
+				<v-button
+					:method="downloadFile"
+					:text="'Export to Excel'"
+					:icon="'fa fa-file-arrow-down'"
+				/>
 			</div>
 		</div>
 		<v-table

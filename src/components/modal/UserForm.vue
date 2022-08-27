@@ -122,7 +122,6 @@ export default {
 			type: String,
 			default: 'create',
 			required: true,
-			validator: (value) => ['create', 'edit', 'profile'].includes(value),
 		},
 		user: {
 			type: Object,
@@ -131,6 +130,7 @@ export default {
 	},
 	data() {
 		return {
+			activeUser: UsersManager.getActiveUser(),
 			isModalOpen: false,
 			error: {
 				show: false,
@@ -168,6 +168,7 @@ export default {
 
 			this.error.show = false
 			this.isModalOpen = false
+			this.$emit('tableRefresh')
 		},
 		submit() {
 			if (UsersManager.getUser(this.form.username)) {
@@ -179,64 +180,95 @@ export default {
 				UsersManager.addUser(this.form)
 				this.resetForm()
 			} else if (this.mode === 'update') {
-				UsersManager.replaceUser(this.user, this.form)
+				console.log('test')
+				UsersManager.replaceUser(this.user.username, this.form)
 				this.resetForm()
 			} else if (this.mode === 'profile') {
 				UsersManager.setActiveUser(this.form)
-				UsersManager.replaceUser(this.user, this.form)
+				UsersManager.replaceUser(this.user.username, this.form)
 				this.resetForm()
 			}
 		},
 		deleteUser() {
-			UsersManager.deleteUser(this.user)
+			UsersManager.deleteUser(this.user.username)
 			this.error.show = false
 			this.isModalOpen = false
 		},
 
 		setRoles() {
-			this.roles =
-				this.user.role === 'admin' || this.user.role === 'SuperAdmin'
-					? [
-							{
-								title: 'Select a role',
-								value: '',
-								hidden: true,
-							},
-							{
-								title: 'Employee',
-								value: 'employee',
-								hidden: false,
-							},
-							{
-								title: 'Human Resources',
-								value: 'human resources',
-								hidden: false,
-							},
-							{
-								title: 'Admin',
-								value: 'admin',
-								hidden: false,
-							},
-							// eslint-disable-next-line no-mixed-spaces-and-tabs
-					  ]
-					: [
-							{
-								title: 'Select a role',
-								value: '',
-								hidden: true,
-							},
-							{
-								title: 'Employee',
-								value: 'employee',
-								hidden: false,
-							},
-							{
-								title: 'Human Resources',
-								value: 'human resources',
-								hidden: false,
-							},
-							// eslint-disable-next-line no-mixed-spaces-and-tabs
-					  ]
+			if (this.activeUser.role === 'admin') {
+				this.roles = [
+					{
+						title: 'Select a role',
+						value: '',
+						hidden: true,
+					},
+					{
+						title: 'Employee',
+						value: 'employee',
+						hidden: false,
+					},
+					{
+						title: 'Human Resources',
+						value: 'human resources',
+						hidden: false,
+					},
+					{
+						title: 'Admin',
+						value: 'admin',
+						hidden: false,
+					},
+					// eslint-disable-next-line no-mixed-spaces-and-tabs
+				]
+			} else if (this.activeUser.role === 'SuperAdmin') {
+				this.roles = [
+					{
+						title: 'Select a role',
+						value: '',
+						hidden: true,
+					},
+					{
+						title: 'SuperAdmin',
+						value: 'SuperAdmin',
+						hidden: true,
+					},
+					{
+						title: 'Employee',
+						value: 'employee',
+						hidden: false,
+					},
+					{
+						title: 'Human Resources',
+						value: 'human resources',
+						hidden: false,
+					},
+					{
+						title: 'Admin',
+						value: 'admin',
+						hidden: false,
+					},
+					// eslint-disable-next-line no-mixed-spaces-and-tabs
+				]
+			} else {
+				this.roles = [
+					{
+						title: 'Select a role',
+						value: '',
+						hidden: true,
+					},
+					{
+						title: 'Employee',
+						value: 'employee',
+						hidden: false,
+					},
+					{
+						title: 'Human Resources',
+						value: 'human resources',
+						hidden: false,
+					},
+					// eslint-disable-next-line no-mixed-spaces-and-tabs
+				]
+			}
 		},
 	},
 }

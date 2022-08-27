@@ -1,13 +1,134 @@
 <template>
-	<div>Employees Table</div>
+	<div class="p-8 rounded-3xl bg-background mx-8 flex flex-col gap-8">
+		<div class="flex flex-col gap-5 items-start">
+			<div class="flex flex-wrap gap-5 justify-between w-full items-end">
+				<div class="flex flex-wrap gap-5 items-end">
+					<v-input
+						:input-i-d="'searchBar'"
+						:type="'text'"
+						:input-label="'Search'"
+						:input-value="table.searchFilter"
+						@searchBarChange="(inputContent) => (table.searchFilter = inputContent)"
+					/>
+					<v-select
+						:select-i-d="'role'"
+						:select-label="'Role Filter'"
+						:select-value="table.roleFilter"
+						:items="getRoleFilter"
+						@roleChange="(selectContent) => (table.roleFilter = selectContent)"
+					/>
+				</div>
+				<v-button
+					:method="downloadFile"
+					:text="'Export to Excel'"
+					:icon="'fa fa-file-arrow-down'"
+				/>
+			</div>
+		</div>
+		<v-table
+			:headers="tableHeaders"
+			:table-data="tableData"
+			:table-fields="tableFields"
+			:header-components="true"
+			:table-components="true"
+			@refreshData="refreshData"
+		/>
+	</div>
 </template>
 
 <script>
-export default {
+import exportFromJSON from 'export-from-json'
 
+import HoursManager from '@/util/HoursManager'
+import UsersManager from '@/util/UsersManager'
+
+export default {
+	data() {
+		return {
+			activeUser: UsersManager.getActiveUser(),
+			table: {
+				searchFilter: '',
+				roleFilter: '',
+				initialData: UsersManager.getUsersBasedOnPermissions(UsersManager.getActiveUser().role),
+			},
+		}
+	},
+	computed: {
+		getRoleFilter() {
+			var users = this.table.initialData.filter((user) => user.username != this.activeUser.username)
+			var uniqueRoles = [...new Set(users.map(({ role }) => role))]
+			var roles = [
+				{
+					title: 'Filter by role',
+					value: '',
+					hidden: true,
+				},
+				{
+					title: 'all',
+					value: 'all',
+					hidden: false,
+				},
+			]
+			uniqueRoles.forEach((role) => {
+				roles.push({
+					title: role,
+					value: role,
+					hidden: false,
+				})
+			})
+			return roles
+		},
+		tableHeaders() {
+			var headers = [
+				{ value: 'Username', sortable: true },
+				{ value: 'Role', sortable: true },
+				{ value: 'Month Hours', sortable: true },
+			]
+			return headers
+		},
+		tableFields() {
+			var fields = this.tableHeaders.map((header) => header.value)
+
+			return fields
+		},
+		tableData() {
+			var data = []
+			var users = this.filteredData
+			users.forEach((user) => {
+				var dataTemplate = {}
+				dataTemplate.user = user
+				dataTemplate.Username = user.username
+				dataTemplate.Role = user.role
+				dataTemplate['Month Hours'] = HoursManager.calculateCurrentMonthWorkedHours(user.attendance) + '/' + HoursManager.getMonthlyHours()
+
+				data.push(dataTemplate)
+			})
+			return data
+		},
+		filteredData() {
+			var users = this.table.initialData.filter((user) => user.username != this.activeUser.username)
+			users = users.filter((user) => {
+				const usernames = user.username.toLowerCase()
+				const accountRoles = user.role.toLowerCase()
+				const searchTerm = this.table.searchFilter.toLowerCase()
+				if (this.table.roleFilter == 'all' || this.table.roleFilter == '') return usernames.includes(searchTerm) || accountRoles.includes(searchTerm)
+				else if (this.table.roleFilter !== 'all') return usernames.includes(searchTerm) && accountRoles.includes(this.table.roleFilter)
+			})
+			return users
+		},
+	},
+	methods: {
+		downloadFile() {
+			var data = this.tableData
+			var fileName = 'All-Users'
+			const exportType = exportFromJSON.types.csv
+			if (data) exportFromJSON({ data, fileName, exportType })
+		},
+		refreshData() {
+			this.table.initialData = UsersManager.getUsersBasedOnPermissions(UsersManager.getActiveUser().role)
+		},
+	},
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

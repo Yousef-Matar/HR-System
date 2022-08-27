@@ -1,5 +1,4 @@
-.formContainer {
-	display: flex;
+.formContainer {	display: flex;
 	justify-content: center;
 	flex-flow: column;
 	align-items: center;
@@ -35,10 +34,6 @@ form {
 	padding: 1.25rem;
 	background: none;
 }
-select option {
-	color: white;
-	background-color: #060b23;
-}
 .inputGroup select {
 	height: auto;
 	position: absolute;
@@ -56,6 +51,12 @@ select option {
 	padding-left: 1.25rem;
 	padding-right: 1.25rem;
 	background: none;
+	text-transform: capitalize;
+}
+.inputGroup select option {
+	color: white;
+	background-color: #060b23;
+	text-transform: capitalize;
 }
 .inputGroup input:focus,
 .inputGroup input:hover,
