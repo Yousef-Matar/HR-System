@@ -25,6 +25,7 @@ const store = createStore({
 								firstName: 'SuperAdmin First Name',
 								lastName: 'SuperAdmin Last Name',
 								role: 'SuperAdmin',
+								yearlyVacation:21,
 								hireDate: new Date().toLocaleDateString(),
 								attendance: [],
 							},

@@ -157,6 +157,7 @@ export default {
 					role: '',
 					firstName: '',
 					lastName: '',
+					yearlyVacation: 21,
 					hireDate: new Date().toLocaleDateString(),
 					attendance: [],
 				}

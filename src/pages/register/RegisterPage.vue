@@ -77,6 +77,7 @@ export default {
 				password: '',
 				firstName: '',
 				lastName: '',
+				yearlyVacation: 21,
 				role: 'employee',
 				hireDate: new Date().toLocaleDateString(),
 				attendance: [],
