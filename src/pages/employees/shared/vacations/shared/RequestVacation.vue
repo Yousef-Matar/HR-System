@@ -5,22 +5,27 @@
 				Remaining Yearly Vacation Days: {{ userRemainingVacations }}
 			</div>
 			<form @submit.prevent="submit">
+				<div v-if="error.show" class="text-red-500 text-lg">
+					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
+				</div>
 				<div class="flex gap-8 flex-wrap">
 					<v-date
 						:input-i-d="'startDate'"
 						:input-value="startDate"
 						:input-label="'Start Date'"
-						:min="new Date()"
-						:disabled="false"
+						:min="minDate"
+						:max="maxDate"
+						:disabled="userRemainingVacations > 0 ? false : true"
 						@startDateChange="(inputContent) => (startDate = inputContent)"
 					/>
 					<v-date
 						:input-i-d="'endDate'"
 						:input-value="endDate"
 						:min="startDate"
+						:max="maxDate"
 						:input-label="'End Date'"
-						:disabled="false"
-						@startDateChange="(inputContent) => (endDate = inputContent)"
+						:disabled="userRemainingVacations > 0 ? false : true"
+						@endDateChange="(inputContent) => (endDate = inputContent)"
 					/>
 				</div>
 				<v-button
@@ -34,20 +39,45 @@
 </template>
 
 <script>
+//import UsersManager from '@/util/UsersManager'
 import VacationManager from '@/util/VacationManager'
 
 export default {
 	data() {
 		return {
 			userRemainingVacations: VacationManager.getUserVacationDays(),
-			startDate: new Date(),
-			endDate: new Date(),
+			startDate: null,
+			endDate: null,
+			maxDate: null,
+			minDate: null,
+			test: new Date(),
+			error: {
+				show: false,
+				message: 'You exceeded your yearly limit of vacation days.',
+			},
 		}
+	},
+	beforeMount() {
+		const today = new Date()
+		this.minDate = new Date(today)
+		this.startDate = new Date(today)
+		this.maxDate = new Date(today.getFullYear() + 1, 0, 1)
+		this.endDate = new Date(this.startDate)
 	},
 	methods: {
 		submit() {
-			var vacationRequest = VacationManager.calculateVacationDays(this.endDate, this.startDate)
-			console.log(vacationRequest)
+			var vacationDays = VacationManager.calculateVacationDays(this.startDate, this.endDate)
+			if (vacationDays > this.userRemainingVacations) {
+				this.error.show = true
+			} 
+			//else {
+			//	var vacationRequest = {
+			//		RequestedBy: UsersManager.getActiveUser(),
+			//		from: this.startDate.toLocaleDateString(),
+			//		till: this.endDate.toLocaleDateString(),
+			//		duration: vacationDays,
+			//	}
+			//}
 		},
 	},
 }

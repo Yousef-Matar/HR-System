@@ -10,7 +10,7 @@
 			<v-button
 				v-else
 				:key="'button' + link.title"
-				class="w-full text-left"
+				class="w-full text-left self-center"
 				:text="link.title"
 				:icon="link.icon"
 				:has-border="false"

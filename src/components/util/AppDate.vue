@@ -4,8 +4,11 @@
 			<input
 				v-model="inputDate"
 				type="date"
-				class="opacity-0"
+				class="hide"
+				required="true"
+				:disabled="disabled"
 				:min="min.toISOString().substring(0, 10)"
+				:max="max.toISOString().substring(0, 10)"
 				@change="(event) => $emit(inputID + 'Change', outputDate)"
 			>
 			<input
@@ -13,8 +16,6 @@
 				v-model="inputContent"
 				type="text"
 				placeholder=" "
-				required="true"
-				:disabled="disabled"
 				autocomplete="off"
 			>
 
@@ -47,6 +48,10 @@ export default {
 			type: Date,
 			default: new Date(),
 		},
+		max: {
+			type: Date,
+			default: new Date(),
+		},
 	},
 	data() {
 		return {
@@ -64,6 +69,9 @@ export default {
 }
 </script>
 <style scoped>
+.hide {
+	opacity: 0 !important;
+}
 .inputGroup input[type='date'] {
 	z-index: 1;
 }
@@ -80,5 +88,11 @@ export default {
 .inputGroup input[type='date']:hover ~ input,
 .inputGroup input[type='date']:focus ~ input {
 	border-color: #18ffff;
+}
+.inputGroup input[type='date']:disabled ~ input {
+	cursor: not-allowed;
+	opacity: 0.7;
+	color: #d1d5db;
+	border-color: #767676ba;
 }
 </style>

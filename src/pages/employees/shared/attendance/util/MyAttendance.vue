@@ -66,9 +66,9 @@ export default {
 		},
 		tableHeaders() {
 			var headers = [
-				{ value: 'Username', sortable: true },
-				{ value: 'Role', sortable: true },
-				{ value: 'Monthly Covered Hours', sortable: true },
+				{ value: 'Username', sortable: false },
+				{ value: 'Role', sortable: false },
+				{ value: 'Monthly Covered Hours', sortable: false },
 			]
 			this.getDaysInMonth.forEach((day) => {
 				headers.push({

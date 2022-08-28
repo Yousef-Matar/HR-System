@@ -7,7 +7,7 @@
 		<v-button
 			v-for="child in link.children"
 			:key="child.title"
-			class="levelOneButton"
+			class="levelOneButton w-full self-center"
 			:text="child.title"
 			:icon="child.icon"
 			:has-border="hasBorder"

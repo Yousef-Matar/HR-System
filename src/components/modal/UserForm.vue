@@ -4,11 +4,13 @@
 			v-if="mode === 'create'"
 			:method="openModal"
 			:text="'Add User'"
+			class="w-full self-center"
 		/>
 		<v-button
 			v-else-if="mode === 'update'"
 			:method="openModal"
 			:text="'Update User'"
+			class="w-full self-center"
 		/>
 		<v-button
 			v-else-if="mode === 'profile'"
@@ -16,6 +18,7 @@
 			:text="user.username.toUpperCase()"
 			:icon="'fa fa-user'"
 			:has-border="false"
+			class="w-full self-center"
 		/>
 		<teleport to="body">
 			<v-modal
@@ -29,6 +32,7 @@
 					<div class="flex justify-between items-center">
 						<span>Update User</span>
 						<v-button
+							class="w-full self-center"
 							:type="'button'"
 							:text="'Delete User'"
 							:variant="'danger'"
@@ -94,17 +98,20 @@
 							v-if="mode === 'create'"
 							:type="'submit'"
 							:text="'Add User'"
+							class="w-full self-center"
 						/>
 						<v-button
 							v-else-if="mode === 'update' || mode === 'profile'"
 							:type="'submit'"
 							:text="'Update'"
+							class="w-full self-center"
 						/>
 						<v-button
 							:type="'button'"
 							:text="'Cancel'"
 							:variant="'danger'"
 							:method="resetForm"
+							class="w-full self-center"
 						/>
 					</form>
 				</template>
@@ -180,7 +187,6 @@ export default {
 						UsersManager.addUser(this.form)
 						this.resetForm()
 					} else if (this.mode === 'update') {
-						console.log('test')
 						UsersManager.replaceUser(this.user.username, this.form)
 						this.resetForm()
 					} else if (this.mode === 'profile') {
@@ -193,7 +199,6 @@ export default {
 				UsersManager.addUser(this.form)
 				this.resetForm()
 			} else if (this.mode === 'update') {
-				console.log('test')
 				UsersManager.replaceUser(this.user.username, this.form)
 				this.resetForm()
 			} else if (this.mode === 'profile') {
