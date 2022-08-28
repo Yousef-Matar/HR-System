@@ -76,13 +76,15 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="mt-5 flex justify-between">
+		<div class="mt-5 flex justify-between gap-8">
 			<v-button
+				class="w-full"
 				:text="'Previous Page'"
 				:method="prevPage"
 				:disabled="currentPage == 1 ? true : false"
 			/>
 			<v-button
+				class="w-full"
 				:text="'Next Page'"
 				:method="nextPage"
 				:disabled="currentPage * pageSize >= sortedTableData.length ? true : false"

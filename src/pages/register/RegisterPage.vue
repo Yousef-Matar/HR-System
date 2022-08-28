@@ -50,9 +50,13 @@
 					@confirmPasswordChange="(inputContent) => (confirmPassword = inputContent)"
 				/>
 			</div>
-
-			<v-button :type="'submit'" :text="'Sign Up'" />
 			<v-button
+				class="w-full self-center"
+				:type="'submit'"
+				:text="'Sign Up'"
+			/>
+			<v-button
+				class="w-full self-center"
 				:type="'button'"
 				:text="'Already have an account ?'"
 				:method=" () => { $router.push('/Login') } "

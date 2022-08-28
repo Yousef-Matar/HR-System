@@ -16,7 +16,7 @@
 				{{ currentDate }}
 			</h1>
 			<v-button
-				class="self-center"
+				class="self-center w-full"
 				:text="'Check Out'"
 				:method="checkOut"
 			/>

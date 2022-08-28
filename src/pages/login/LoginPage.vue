@@ -25,8 +25,13 @@
 				@passwordChange="(inputContent) => (form.password = inputContent)"
 			/>
 
-			<v-button :type="'submit'" :text="'Log In'" />
 			<v-button
+				class="w-full self-center"
+				:type="'submit'"
+				:text="'Log In'"
+			/>
+			<v-button
+				class="w-full self-center"
 				:type="'button'"
 				:text="'Register'"
 				:method=" () => { $router.push('/Register') } "

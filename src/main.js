@@ -19,6 +19,7 @@ import { createApp } from 'vue'
 // Global Atoms
 import NavigationAccordion from '@/components/navigation/util/NavigationAccordion'
 import AppButton from '@/components/util/AppButton'
+import AppDate from '@/components/util/AppDate'
 import AppInput from '@/components/util/AppInput'
 import AppSelect from '@/components/util/AppSelect'
 import AppTable from '@/components/util/AppTable'
@@ -61,6 +62,7 @@ app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.component('NAccordion', NavigationAccordion)
 app.component('VButton', AppButton)
 app.component('VInput', AppInput)
+app.component('VDate', AppDate)
 app.component('VSelect', AppSelect)
 app.component('VModal', ReusableModal)
 app.component('VTable', AppTable)

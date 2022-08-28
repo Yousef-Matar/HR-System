@@ -1,4 +1,5 @@
-.formContainer {	display: flex;
+.formContainer {
+	display: flex;
 	justify-content: center;
 	flex-flow: column;
 	align-items: center;
@@ -34,6 +35,7 @@ form {
 .inputGroup select {
 	height: auto;
 	position: absolute;
+	cursor: pointer;
 	top: 0;
 	left: 0;
 	width: 100%;
