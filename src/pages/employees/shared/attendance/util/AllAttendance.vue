@@ -1,5 +1,5 @@
 <template>
-	<div class="p-8 rounded-3xl bg-background mx-8 flex flex-col gap-8">
+	<div class="p-8 rounded-3xl bg-background flex flex-col gap-8">
 		<div class="flex flex-col gap-5 items-start">
 			<div class="flex flex-wrap gap-5 justify-between w-full items-end">
 				<div class="flex flex-wrap gap-5 items-end">
@@ -8,6 +8,7 @@
 						:select-label="'Month Filter'"
 						:select-value="table.monthFilter"
 						:items="getMonthFilter"
+						:required="false"
 						@monthChange="(selectContent) => (table.monthFilter = selectContent)"
 					/>
 					<v-select
@@ -15,6 +16,7 @@
 						:select-label="'Year Filter'"
 						:select-value="table.yearFilter"
 						:items="getYearsFilter"
+						:required="false"
 						@yearChange="(selectContent) => (table.yearFilter = selectContent)"
 					/>
 				</div>

@@ -1,7 +1,7 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
 		<form autocomplete="off" @submit.prevent="submit">
-			<div class="text-left">
+			<div class="text-center">
 				<h1 class="text-2xl">
 					Login
 				</h1>
@@ -9,22 +9,25 @@
 					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
 				</div>
 			</div>
-
-			<v-input
-				:input-i-d="'username'"
-				:type="'text'"
-				:input-label="'Username'"
-				:input-value="form.username"
-				@usernameChange="(inputContent) => (form.username = inputContent)"
-			/>
-			<v-input
-				:input-i-d="'password'"
-				:type="'password'"
-				:input-label="'Password'"
-				:input-value="form.password"
-				@passwordChange="(inputContent) => (form.password = inputContent)"
-			/>
-
+			<div class="flex flex-wrap items-center justify-center">
+				<v-input
+					class="m-4"
+					:input-i-d="'username'"
+					:type="'text'"
+					:input-label="'Username'"
+					:input-value="form.username"
+					@usernameChange="(inputContent) => (form.username = inputContent)"
+				/>
+				<div class="break" />
+				<v-input
+					class="m-4"
+					:input-i-d="'password'"
+					:type="'password'"
+					:input-label="'Password'"
+					:input-value="form.password"
+					@passwordChange="(inputContent) => (form.password = inputContent)"
+				/>
+			</div>
 			<v-button
 				class="w-full self-center"
 				:type="'submit'"
@@ -74,4 +77,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.break {
+	flex-basis: 100%;
+	height: 0;
+}
+</style>

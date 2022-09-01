@@ -30,11 +30,7 @@
 							</div>
 						</th>
 						<th v-if="headerComponents" class="p-2 border border-gray-400">
-							<UserForm
-								class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
-								:mode="'create'"
-								@tableRefresh="$emit('refreshData')"
-							/>
+							<slot name="tableHeaderComponents" />
 						</th>
 					</tr>
 				</thead>
@@ -65,12 +61,7 @@
 							</td>
 						</template>
 						<td v-if="tableComponents" class="p-2 border border-gray-600">
-							<UserForm
-								class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
-								:mode="'update'"
-								:user="row.user"
-								@tableRefresh="$emit('refreshData')"
-							/>
+							<slot name="tableBodyComponents" :row="row" />
 						</td>
 					</tr>
 				</tbody>
@@ -94,10 +85,7 @@
 </template>
 
 <script>
-import UserForm from '@/components/modal/UserForm'
-
 export default {
-	components: { UserForm },
 	props: {
 		headers: {
 			type: Array,

@@ -1,5 +1,5 @@
 <template>
-	<div class="p-8 rounded-3xl bg-background mx-8 flex flex-col gap-8">
+	<div class="p-8 rounded-3xl bg-background flex flex-col gap-8">
 		<div class="flex flex-col gap-5 items-start">
 			<div class="flex flex-wrap gap-5 justify-between w-full items-end">
 				<div class="flex flex-wrap gap-5 items-end">
@@ -8,6 +8,7 @@
 						:type="'text'"
 						:input-label="'Search'"
 						:input-value="table.searchFilter"
+						:required="false"
 						@searchBarChange="(inputContent) => (table.searchFilter = inputContent)"
 					/>
 					<v-select
@@ -15,6 +16,7 @@
 						:select-label="'Role Filter'"
 						:select-value="table.roleFilter"
 						:items="getRoleFilter"
+						:required="false"
 						@roleChange="(selectContent) => (table.roleFilter = selectContent)"
 					/>
 				</div>
@@ -32,17 +34,36 @@
 			:header-components="true"
 			:table-components="true"
 			@refreshData="refreshData"
-		/>
+		>
+			<template #tableHeaderComponents>
+				<UserForm
+					class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
+					:mode="'create'"
+					@tableRefresh="$emit('refreshData')"
+				/>
+			</template>
+			<template #tableBodyComponents="slotProps">
+				<UserForm
+					class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
+					:mode="'update'"
+					:user="slotProps.row.user"
+					@tableRefresh="$emit('refreshData')"
+				/>
+			</template>
+		</v-table>
 	</div>
 </template>
 
 <script>
 import exportFromJSON from 'export-from-json'
 
+import UserForm from '@/components/modal/UserForm'
+
 import HoursManager from '@/util/HoursManager'
 import UsersManager from '@/util/UsersManager'
 
 export default {
+	components: { UserForm },
 	data() {
 		return {
 			activeUser: UsersManager.getActiveUser(),

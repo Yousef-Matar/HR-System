@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<MainNavigation />
-		<div class="mt-32" :class="checkActiveUser() ? 'ml-[250px]' : ''">
-			<router-view />
+		<div class="mt-[102px]" :class="checkActiveUser() ? 'ml-72 mr-[38px]' : 'mx-[38px]'">
+			<router-view class="layout" />
 		</div>
 		<WarningModal :show-modal="showWarning" @closeModal="showWarning = false" />
 	</div>
@@ -77,7 +77,6 @@ export default {
 html {
 	min-height: 100vh;
 	background: linear-gradient(to bottom right, #38a2d7, #561139);
-	
 }
 body {
 	font-family: 'Roboto', sans-serif;
@@ -93,5 +92,8 @@ details,
 button,
 label {
 	user-select: none;
+}
+.layout{
+	min-height: calc(100vh - 140px);
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
 		<form autocomplete="off" @submit.prevent="submit">
-			<div class="text-left">
+			<div class="text-center">
 				<h1 class="text-2xl">
 					Sign Up
 				</h1>
@@ -9,16 +9,16 @@
 					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
 				</div>
 			</div>
-
-			<v-input
-				:input-i-d="'username'"
-				:type="'text'"
-				:input-label="'Username'"
-				:input-value="form.username"
-				@usernameChange="(inputContent) => (form.username = inputContent)"
-			/>
-
-			<div class="flex gap-8 flex-wrap">
+			<div class="flex gap-8 flex-wrap items-center justify-center">
+				<v-input
+					:input-i-d="'username'"
+					:type="'text'"
+					:input-label="'Username'"
+					:input-value="form.username"
+					@usernameChange="(inputContent) => (form.username = inputContent)"
+				/>
+			</div>
+			<div class="flex gap-8 flex-wrap items-center justify-center">
 				<v-input
 					:input-i-d="'firstName'"
 					:type="'text'"
@@ -34,7 +34,7 @@
 					@lastNameChange="(inputContent) => (form.lastName = inputContent)"
 				/>
 			</div>
-			<div class="flex gap-8 flex-wrap">
+			<div class="flex gap-8 flex-wrap items-center justify-center">
 				<v-input
 					:input-i-d="'password'"
 					:type="'password'"

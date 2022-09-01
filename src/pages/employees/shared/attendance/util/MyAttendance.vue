@@ -8,6 +8,7 @@
 						:select-label="'Month Filter'"
 						:select-value="table.monthFilter"
 						:items="getMonthFilter"
+						:required="false"
 						@monthChange="(selectContent) => (table.monthFilter = selectContent)"
 					/>
 					<v-select
@@ -15,6 +16,7 @@
 						:select-label="'Year Filter'"
 						:select-value="table.yearFilter"
 						:items="getYearsFilter"
+						:required="false"
 						@yearChange="(selectContent) => (table.yearFilter = selectContent)"
 					/>
 				</div>
