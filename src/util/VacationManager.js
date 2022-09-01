@@ -3,11 +3,17 @@ import store from '@/store/index'
 import UsersManager from '@/util/UsersManager'
 
 var VacationManager = {
+	getAllVacationRequests() {
+		return store.state.vacationRequests
+	},
 	getUserVacationDays() {
 		return UsersManager.getActiveUser().yearlyVacation
 	},
 	addVacationRequest(request) {
 		store.commit('setVacationRequests', this.getAllVacationRequests().concat([request]))
+	},
+	replaceUserInVacationRequest(oldUserUsername, updatedUser) {
+		store.commit('replaceUserVacationRequest', { username: oldUserUsername, updatedUser: updatedUser })
 	},
 	calculateVacationDays(startDate, endDate) {
 		var vacationDays = 0

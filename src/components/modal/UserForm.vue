@@ -121,6 +121,7 @@
 </template>
 <script>
 import UsersManager from '@/util/UsersManager'
+import VacationManager from '@/util/VacationManager'
 
 export default {
 	props: {
@@ -188,10 +189,12 @@ export default {
 						this.resetForm()
 					} else if (this.mode === 'update') {
 						UsersManager.replaceUser(this.user.username, this.form)
+						VacationManager.replaceUserInVacationRequest(this.user.username, this.form)
 						this.resetForm()
 					} else if (this.mode === 'profile') {
 						UsersManager.setActiveUser(this.form)
 						UsersManager.replaceUser(this.user.username, this.form)
+						VacationManager.replaceUserInVacationRequest(this.user.username, this.form)
 						this.resetForm()
 					}
 				}
@@ -200,10 +203,12 @@ export default {
 				this.resetForm()
 			} else if (this.mode === 'update') {
 				UsersManager.replaceUser(this.user.username, this.form)
+				VacationManager.replaceUserInVacationRequest(this.user.username, this.form)
 				this.resetForm()
 			} else if (this.mode === 'profile') {
 				UsersManager.setActiveUser(this.form)
 				UsersManager.replaceUser(this.user.username, this.form)
+				VacationManager.replaceUserInVacationRequest(this.user.username, this.form)
 				this.resetForm()
 			}
 		},

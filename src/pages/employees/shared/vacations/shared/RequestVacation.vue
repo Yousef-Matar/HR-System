@@ -39,7 +39,7 @@
 </template>
 
 <script>
-//import UsersManager from '@/util/UsersManager'
+import UsersManager from '@/util/UsersManager'
 import VacationManager from '@/util/VacationManager'
 
 export default {
@@ -69,15 +69,17 @@ export default {
 			var vacationDays = VacationManager.calculateVacationDays(this.startDate, this.endDate)
 			if (vacationDays > this.userRemainingVacations) {
 				this.error.show = true
-			} 
-			//else {
-			//	var vacationRequest = {
-			//		RequestedBy: UsersManager.getActiveUser(),
-			//		from: this.startDate.toLocaleDateString(),
-			//		till: this.endDate.toLocaleDateString(),
-			//		duration: vacationDays,
-			//	}
-			//}
+			} else {
+				var vacationRequest = {
+					requestedBy: UsersManager.getActiveUser(),
+					handledBy: null,
+					from: this.startDate.toLocaleDateString(),
+					till: this.endDate.toLocaleDateString(),
+					duration: vacationDays,
+					status: 'pending',
+				}
+				VacationManager.addVacationRequest(vacationRequest)
+			}
 		},
 	},
 }

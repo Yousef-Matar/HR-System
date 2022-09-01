@@ -3,6 +3,12 @@ import { createStore } from 'vuex'
 const store = createStore({
 	state() {
 		return {
+			vacationRequests:
+				localStorage.getItem('Vacation Requests') === null
+					? [
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+					  ]
+					: JSON.parse(localStorage.getItem('Vacation Requests')),
 			monthlyHours: localStorage.getItem('Monthly Hours') === null ? 40 : JSON.parse(localStorage.getItem('Monthly Hours')),
 			activeUser: localStorage.getItem('Active User') === null ? null : JSON.parse(localStorage.getItem('Active User')),
 			allHours:
@@ -25,7 +31,7 @@ const store = createStore({
 								firstName: 'SuperAdmin First Name',
 								lastName: 'SuperAdmin Last Name',
 								role: 'SuperAdmin',
-								yearlyVacation:21,
+								yearlyVacation: 21,
 								hireDate: new Date().toLocaleDateString(),
 								attendance: [],
 							},
@@ -40,6 +46,7 @@ const store = createStore({
 			localStorage.setItem('Active User', JSON.stringify(state.activeUser))
 			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
 			localStorage.setItem('Monthly Hours', JSON.stringify(state.monthlyHours))
+			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
 
 			if (state.allHours.find((element) => element.month == new Date().getMonth() && element.year == new Date().getFullYear())) {
 				localStorage.setItem('All Hours', JSON.stringify(state.allHours))
@@ -55,6 +62,26 @@ const store = createStore({
 		setAllEmployees(state, payload) {
 			state.allEmployees = payload
 			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
+		},
+		setVacationRequests(state, payload) {
+			state.vacationRequests = payload
+			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
+		},
+		replaceUserVacationRequest(state, payload) {
+			state.vacationRequests = state.vacationRequests.map((request) =>
+				request.requestedBy.username === payload.username
+					? {
+							requestedBy: payload.updatedUser,
+							handledBy: request.handledBy,
+							from: request.from,
+							till: request.till,
+							duration: request.duration,
+							status: request.status,
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+					  }
+					: request
+			)
+			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
 		},
 		setActiveUser(state, payload) {
 			state.activeUser = payload
