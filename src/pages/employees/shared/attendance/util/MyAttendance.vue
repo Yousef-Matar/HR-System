@@ -1,5 +1,5 @@
 <template>
-	<div class="p-8 rounded-3xl bg-background mx-8 flex flex-col gap-8">
+	<div class="p-8 rounded-3xl bg-background flex flex-col gap-8">
 		<div class="flex flex-col gap-5 items-start">
 			<div class="flex flex-wrap gap-5 justify-between w-full items-end">
 				<div class="flex flex-wrap gap-5 items-end">

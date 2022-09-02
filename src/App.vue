@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<MainNavigation />
-		<div class="mt-[102px]" :class="checkActiveUser() ? 'ml-72 mr-[38px]' : 'mx-[38px]'">
-			<router-view class="layout" />
+		<div class="mt-[102px] mb-[38px]" :class="checkActiveUser() ? 'ml-72 mr-[38px]' : 'mx-[38px]'">
+			<router-view />
 		</div>
 		<WarningModal :show-modal="showWarning" @closeModal="showWarning = false" />
 	</div>
@@ -92,8 +92,5 @@ details,
 button,
 label {
 	user-select: none;
-}
-.layout{
-	min-height: calc(100vh - 140px);
 }
 </style>
