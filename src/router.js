@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 // Pages
-import EmployeesCRUD from '@/pages/employees/EmployeesCRUD'
-import AttendancePage from '@/pages/employees/shared/attendance/AttendancePage'
-import MyVacations from '@/pages/employees/shared/vacations/shared/MyVacations'
-import RequestVacation from '@/pages/employees/shared/vacations/shared/RequestVacation'
-import VacationsCRUD from '@/pages/employees/shared/vacations/VacationsCRUD'
+import EmployeesCRUD from '@/pages/employees/AllEmployees'
+import AttendancePage from '@/pages/employees/attendance/AttendancePage'
+import VacationsCRUD from '@/pages/employees/vacations/AllVacations'
+import MyVacations from '@/pages/employees/vacations/MyVacations'
+import RequestVacation from '@/pages/employees/vacations/RequestVacation'
 import AccessDenied from '@/pages/error/403Error'
 import PageNotFound from '@/pages/error/404Error'
 import HomePage from '@/pages/home/HomePage'
@@ -87,7 +87,7 @@ router.beforeEach((to, _, next) => {
 	if (to.meta.middleware) {
 		const middleware = require(`./middleware/${to.meta.middleware}`)
 		if (middleware) {
-			middleware.default(next, store,to)
+			middleware.default(next, store, to)
 		} else {
 			next()
 		}

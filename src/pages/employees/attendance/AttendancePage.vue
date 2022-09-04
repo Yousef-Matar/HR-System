@@ -4,8 +4,8 @@
 </template>
 
 <script>
-import AllAttendance from '@/pages/employees/shared/attendance/util/AllAttendance'
-import MyAttendance from '@/pages/employees/shared/attendance/util/MyAttendance'
+import AllAttendance from '@/pages/employees/attendance/util/AllAttendance'
+import MyAttendance from '@/pages/employees/attendance/util/MyAttendance'
 
 import UsersManager from '@/util/UsersManager'
 
