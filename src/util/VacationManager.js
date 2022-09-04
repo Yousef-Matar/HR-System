@@ -15,6 +15,9 @@ var VacationManager = {
 	cancelVacationRequest(requestID) {
 		store.commit('cancelVacationRequest', requestID)
 	},
+	changeVacationRequestStatus(requestID, status) {
+		store.commit('changeVacationRequestStatus', { requestID: requestID, status: status ,handler:UsersManager.getActiveUser()})
+	},
 	replaceUserInVacationRequest(oldUserUsername, updatedUser) {
 		store.commit('replaceUserVacationRequest', { username: oldUserUsername, updatedUser: updatedUser })
 	},

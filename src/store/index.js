@@ -68,15 +68,53 @@ const store = createStore({
 			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
 		},
 		replaceUserVacationRequest(state, payload) {
-			state.vacationRequests = state.vacationRequests.map((request) =>
+			var requests = state.vacationRequests
+			requests = requests.map((request) =>
 				request.requestedBy.username === payload.username
 					? {
+							ID: request.ID,
 							requestedBy: payload.updatedUser,
 							handledBy: request.handledBy,
 							from: request.from,
 							till: request.till,
 							duration: request.duration,
 							status: request.status,
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+					  }
+					: request
+			)
+			requests = requests.map((request) => {
+				if (request.handledBy !== null) {
+					if (request.handledBy.username === payload.username) {
+						return {
+							ID: request.ID,
+							requestedBy: request.requestedBy,
+							handledBy: payload.updatedUser,
+							from: request.from,
+							till: request.till,
+							duration: request.duration,
+							status: request.status,
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+						}
+					}
+				} else {
+					return request
+				}
+			})
+			state.vacationRequests = requests
+			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
+		},
+		changeVacationRequestStatus(state, payload) {
+			state.vacationRequests = state.vacationRequests.map((request) =>
+				request.ID === payload.requestID
+					? {
+							ID: request.ID,
+							requestedBy: request.requestedBy,
+							handledBy: payload.handler,
+							from: request.from,
+							till: request.till,
+							duration: request.duration,
+							status: payload.status,
 							// eslint-disable-next-line no-mixed-spaces-and-tabs
 					  }
 					: request
