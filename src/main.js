@@ -18,6 +18,7 @@ import { createApp } from 'vue'
 
 // Global Atoms
 import NavigationAccordion from '@/components/navigation/util/NavigationAccordion'
+import AppAlert from '@/components/util/AppAlert'
 import AppButton from '@/components/util/AppButton'
 import AppDate from '@/components/util/AppDate'
 import AppInput from '@/components/util/AppInput'
@@ -66,5 +67,6 @@ app.component('VDate', AppDate)
 app.component('VSelect', AppSelect)
 app.component('VModal', ReusableModal)
 app.component('VTable', AppTable)
+app.component('VAlert', AppAlert)
 
 app.mount('#app')

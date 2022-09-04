@@ -1,5 +1,10 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
+		<v-alert
+			:text="success.message"
+			:show="success.show"
+			:variant="'success'"
+		/>
 		<div class="flex flex-col gap-8 items-start">
 			<div class="text-2xl text-left">
 				<div v-if="remainingHours >= 0">
@@ -19,6 +24,7 @@
 				class="self-center w-full"
 				:text="'Check Out'"
 				:method="checkOut"
+				:disabled="success.show"
 			/>
 		</div>
 	</div>
@@ -36,6 +42,10 @@ export default {
 			currentTime: new Date().toLocaleTimeString(),
 			currentDate: new Date().toDateString(),
 			remainingHours: null,
+			success: {
+				show: false,
+				message: 'You have successfully checked out at ',
+			},
 		}
 	},
 	beforeUnmount() {
@@ -55,6 +65,12 @@ export default {
 		checkOut() {
 			AttendanceManager.userCheckOut(UsersManager.getActiveUser())
 			this.remainingHours = this.getRemainingHours()
+			this.success.show = true
+			this.success.message += this.currentTime + ' on ' + this.currentDate
+			setTimeout(() => {
+				this.success.show = false
+				this.success.message = 'You have successfully checked out at '
+			}, 2000)
 		},
 		getRemainingHours() {
 			return (HoursManager.getMonthlyHours() - HoursManager.calculateCurrentMonthWorkedHours(UsersManager.getActiveUser().attendance)).toFixed(2)

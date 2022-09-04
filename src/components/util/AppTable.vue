@@ -84,8 +84,9 @@
 			</table>
 		</div>
 		<div v-if="pagination" class="flex flex-col gap-8 mt-8">
-			<div class="text-left">
-				Showing {{ sortTable().length }} out of {{ tableData.length }} rows
+			<div class="flex justify-between gap-8">
+				<div>Showing {{ sortTable().length }} out of {{ tableData.length }} rows</div>
+				<div>Page {{ currentPage }} out of {{ Math.ceil(tableData.length / pageSize) }} pages</div>
 			</div>
 			<div class="flex justify-between gap-8">
 				<v-button

@@ -1,14 +1,14 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
+		<v-alert
+			:text="error.message"
+			:show="error.show"
+			:variant="'error'"
+		/>
 		<form autocomplete="off" @submit.prevent="submit">
-			<div class="text-center">
-				<h1 class="text-2xl">
-					Sign Up
-				</h1>
-				<div v-if="error.show" class="text-red-500 mt-2 text-lg">
-					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
-				</div>
-			</div>
+			<h1 class="text-2xl">
+				Sign Up
+			</h1>
 			<div class="flex gap-8 flex-wrap items-center justify-center">
 				<v-input
 					:input-i-d="'username'"
@@ -94,9 +94,15 @@ export default {
 			if (UsersManager.getUser(this.form.username)) {
 				this.error.show = true
 				this.error.message = 'Username is already in use.'
+				setTimeout(() => {
+					this.error.show = false
+				}, 2000)
 			} else if (this.form.password !== this.confirmPassword) {
 				this.error.show = true
 				this.error.message = 'Passwords do not match.'
+				setTimeout(() => {
+					this.error.show = false
+				}, 2000)
 			} else {
 				var currentUser = this.form
 				currentUser = AttendanceManager.userCheckIn(currentUser)

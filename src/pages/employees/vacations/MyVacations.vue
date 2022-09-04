@@ -11,6 +11,14 @@
 						:required="false"
 						@statusChange="(selectContent) => (table.statusFilter = selectContent)"
 					/>
+					<v-select
+						:select-i-d="'itemsPerPage'"
+						:select-label="'Items Per Page'"
+						:select-value="table.itemsPerPage"
+						:items="itemsPerPageData"
+						:required="false"
+						@itemsPerPageChange="(selectContent) => (table.itemsPerPage = selectContent)"
+					/>
 				</div>
 				<v-button
 					:method="downloadFile"
@@ -27,6 +35,7 @@
 			:table-components="true"
 			:sort-type="'descendingly'"
 			:pagination="true"
+			:page-size="table.itemsPerPage"
 		>
 			<template #tableHeaderComponents>
 				Action
@@ -49,6 +58,7 @@
 <script>
 import exportFromJSON from 'export-from-json'
 
+import TableManager from '@/util/TableManager'
 import UsersManager from '@/util/UsersManager'
 import VacationManager from '@/util/VacationManager'
 
@@ -57,35 +67,11 @@ export default {
 		return {
 			activeUser: UsersManager.getActiveUser(),
 			table: {
+				itemsPerPage: 10,
 				statusFilter: '',
 			},
-			statusFilter: [
-				{
-					title: 'Select a status filter',
-					value: '',
-					hidden: true,
-				},
-				{
-					title: 'All',
-					value: 'All',
-					hidden: false,
-				},
-				{
-					title: 'Pending',
-					value: 'pending',
-					hidden: false,
-				},
-				{
-					title: 'Approved',
-					value: 'approved',
-					hidden: false,
-				},
-				{
-					title: 'Rejected',
-					value: 'rejected',
-					hidden: false,
-				},
-			],
+			itemsPerPageData: TableManager.getItemsPerPage(),
+			statusFilter: TableManager.getStatusFilter(),
 		}
 	},
 	computed: {

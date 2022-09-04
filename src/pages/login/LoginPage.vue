@@ -1,14 +1,14 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
+		<v-alert
+			:text="error.message"
+			:show="error.show"
+			:variant="'error'"
+		/>
 		<form autocomplete="off" @submit.prevent="submit">
-			<div class="text-center">
-				<h1 class="text-2xl">
-					Login
-				</h1>
-				<div v-if="error.show" class="text-red-500 mt-2 text-lg">
-					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
-				</div>
-			</div>
+			<h1 class="text-2xl">
+				Login
+			</h1>
 			<div class="flex flex-wrap items-center justify-center">
 				<v-input
 					class="m-4"
@@ -71,6 +71,9 @@ export default {
 				this.$router.push('/')
 			} else {
 				this.error.show = true
+				setTimeout(() => {
+					this.error.show = false
+				}, 2000)
 			}
 		},
 	},

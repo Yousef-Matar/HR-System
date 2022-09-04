@@ -19,6 +19,14 @@
 						:required="false"
 						@roleChange="(selectContent) => (table.roleFilter = selectContent)"
 					/>
+					<v-select
+						:select-i-d="'itemsPerPage'"
+						:select-label="'Items Per Page'"
+						:select-value="table.itemsPerPage"
+						:items="itemsPerPageData"
+						:required="false"
+						@itemsPerPageChange="(selectContent) => (table.itemsPerPage = selectContent)"
+					/>
 				</div>
 				<v-button
 					:method="downloadFile"
@@ -34,6 +42,7 @@
 			:header-components="true"
 			:table-components="true"
 			:pagination="true"
+			:page-size="table.itemsPerPage"
 		>
 			<template #tableHeaderComponents>
 				<UserForm
@@ -60,6 +69,7 @@ import exportFromJSON from 'export-from-json'
 import UserForm from '@/components/modal/UserForm'
 
 import HoursManager from '@/util/HoursManager'
+import TableManager from '@/util/TableManager'
 import UsersManager from '@/util/UsersManager'
 
 export default {
@@ -67,7 +77,9 @@ export default {
 	data() {
 		return {
 			activeUser: UsersManager.getActiveUser(),
+			itemsPerPageData: TableManager.getItemsPerPage(),
 			table: {
+				itemsPerPage: 10,
 				searchFilter: '',
 				roleFilter: '',
 				initialData: UsersManager.getUsersBasedOnPermissions(UsersManager.getActiveUser().role),

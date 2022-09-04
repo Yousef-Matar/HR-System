@@ -1,16 +1,15 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
+		<v-alert
+			:text="error.show ? error.message : success.message"
+			:show="error.show ? error.show : success.show"
+			:variant="error.show ? 'error' : 'success'"
+		/>
 		<div class="flex flex-col gap-8">
 			<div class="text-2xl text-left">
 				Remaining Yearly Vacation Days: {{ userRemainingVacations }}
 			</div>
 			<form @submit.prevent="submit">
-				<div v-if="error.show" class="text-red-500 text-lg">
-					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
-				</div>
-				<div v-if="success.show" class="text-green-500 text-lg">
-					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ success.message }}
-				</div>
 				<div class="flex flex-wrap items-center justify-center">
 					<v-date
 						class="m-4"
@@ -59,7 +58,7 @@ export default {
 			test: new Date(),
 			error: {
 				show: false,
-				message: 'You exceeded your yearly limit of vacation days.',
+				message: 'You exceeded the yearly limit of vacation days.',
 			},
 			success: {
 				show: false,
@@ -84,7 +83,7 @@ export default {
 				this.error.show = false
 				setTimeout(() => {
 					this.success.show = false
-				}, 5000)
+				}, 2000)
 
 				var vacationRequest = {
 					ID: VacationManager.getAllVacationRequests().length == 0 ? 1 : VacationManager.getAllVacationRequests()[VacationManager.getAllVacationRequests().length - 1].ID + 1,

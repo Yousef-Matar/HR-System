@@ -19,6 +19,14 @@
 						:required="false"
 						@statusChange="(selectContent) => (table.statusFilter = selectContent)"
 					/>
+					<v-select
+						:select-i-d="'itemsPerPage'"
+						:select-label="'Items Per Page'"
+						:select-value="table.itemsPerPage"
+						:items="itemsPerPageData"
+						:required="false"
+						@itemsPerPageChange="(selectContent) => (table.itemsPerPage = selectContent)"
+					/>
 				</div>
 				<v-button
 					:method="downloadFile"
@@ -35,6 +43,7 @@
 			:table-components="true"
 			:sort-type="'descendingly'"
 			:pagination="true"
+			:page-size="table.itemsPerPage"
 		>
 			<template #tableHeaderComponents>
 				Action
@@ -70,6 +79,7 @@ import exportFromJSON from 'export-from-json'
 
 import OperationDenied from '@/components/modal/OperationDenied.vue'
 
+import TableManager from '@/util/TableManager'
 import UsersManager from '@/util/UsersManager'
 import VacationManager from '@/util/VacationManager'
 
@@ -81,36 +91,12 @@ export default {
 			errorMessage: 'This user has exceeded the maximum number of yearly vacations',
 			activeUser: UsersManager.getActiveUser(),
 			table: {
+				itemsPerPage: 10,
 				searchFilter: '',
 				statusFilter: '',
 			},
-			statusFilter: [
-				{
-					title: 'Select a status filter',
-					value: '',
-					hidden: true,
-				},
-				{
-					title: 'All',
-					value: 'all',
-					hidden: false,
-				},
-				{
-					title: 'Pending',
-					value: 'pending',
-					hidden: false,
-				},
-				{
-					title: 'Approved',
-					value: 'approved',
-					hidden: false,
-				},
-				{
-					title: 'Rejected',
-					value: 'rejected',
-					hidden: false,
-				},
-			],
+			itemsPerPageData: TableManager.getItemsPerPage(),
+			statusFilter: TableManager.getStatusFilter(),
 		}
 	},
 	computed: {
