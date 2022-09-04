@@ -6,6 +6,9 @@ var VacationManager = {
 	getAllVacationRequests() {
 		return store.state.vacationRequests
 	},
+	getVacationRequestByID(requestID) {
+		return this.getAllVacationRequests().find((vacationRequest) => vacationRequest.ID == requestID)
+	},
 	getUserVacationDays() {
 		return UsersManager.getActiveUser().yearlyVacation
 	},
@@ -15,8 +18,12 @@ var VacationManager = {
 	cancelVacationRequest(requestID) {
 		store.commit('cancelVacationRequest', requestID)
 	},
+
 	changeVacationRequestStatus(requestID, status) {
-		store.commit('changeVacationRequestStatus', { requestID: requestID, status: status ,handler:UsersManager.getActiveUser()})
+		store.commit('changeVacationRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser() })
+		if (status == 'approved') {
+			UsersManager.changeUserYearlyVacations(this.getVacationRequestByID(requestID))
+		}
 	},
 	replaceUserInVacationRequest(oldUserUsername, updatedUser) {
 		store.commit('replaceUserVacationRequest', { username: oldUserUsername, updatedUser: updatedUser })

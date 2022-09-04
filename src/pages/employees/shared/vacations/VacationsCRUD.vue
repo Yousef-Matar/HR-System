@@ -64,6 +64,7 @@ import VacationManager from '@/util/VacationManager'
 export default {
 	data() {
 		return {
+			activeUser: UsersManager.getActiveUser(),
 			table: {
 				searchFilter: '',
 				statusFilter: '',
@@ -131,7 +132,7 @@ export default {
 			return data
 		},
 		filteredData() {
-			var initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username != UsersManager.getActiveUser().username)
+			var initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username != this.activeUser.username)
 			initialData = initialData.filter((vacationsRequest) => {
 				const searchTerm = this.table.searchFilter.toLowerCase()
 				const IDS = String(vacationsRequest.ID)

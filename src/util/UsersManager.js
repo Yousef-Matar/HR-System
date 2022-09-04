@@ -22,6 +22,11 @@ var UsersManager = {
 			return this.getAllUsers().filter((user) => user.role !== 'SuperAdmin' && user.role !== 'admin')
 		}
 	},
+	changeUserYearlyVacations(vacationRequest) {
+		var updatedUser = vacationRequest.requestedBy
+		updatedUser.yearlyVacation = updatedUser.yearlyVacation - vacationRequest.duration
+		this.replaceUser(updatedUser.username, updatedUser)
+	},
 	logout() {
 		store.commit('setActiveUser', null)
 	},

@@ -49,6 +49,7 @@ import VacationManager from '@/util/VacationManager'
 export default {
 	data() {
 		return {
+			activeUser: UsersManager.getActiveUser(),
 			table: {
 				statusFilter: '',
 			},
@@ -99,9 +100,9 @@ export default {
 		tableData() {
 			var initialData
 			if (this.table.statusFilter == '' || this.table.statusFilter == 'All') {
-				initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username == UsersManager.getActiveUser().username)
+				initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username == this.activeUser.username)
 			} else {
-				initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username == UsersManager.getActiveUser().username && vacation.status == this.table.statusFilter)
+				initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username == this.activeUser.username && vacation.status == this.table.statusFilter)
 			}
 			var data = []
 			initialData.forEach((element) =>
