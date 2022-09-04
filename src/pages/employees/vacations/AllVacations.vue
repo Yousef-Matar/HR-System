@@ -31,9 +31,14 @@
 			:headers="tableHeaders"
 			:table-data="tableData"
 			:table-fields="tableFields"
+			:header-components="true"
 			:table-components="true"
 			:sort-type="'descendingly'"
+			:pagination="true"
 		>
+			<template #tableHeaderComponents>
+				Action
+			</template>
 			<template #tableBodyComponents="slotProps">
 				<div class="flex justify-center">
 					<v-button

@@ -81,6 +81,7 @@ export default {
 				this.error.show = true
 			} else {
 				this.success.show = true
+				this.error.show = false
 				setTimeout(() => {
 					this.success.show = false
 				}, 5000)

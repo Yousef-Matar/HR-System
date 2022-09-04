@@ -33,6 +33,7 @@
 			:table-fields="tableFields"
 			:header-components="true"
 			:table-components="true"
+			:pagination="true"
 		>
 			<template #tableHeaderComponents>
 				<UserForm

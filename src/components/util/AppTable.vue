@@ -83,19 +83,24 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="mt-5 flex justify-between gap-8">
-			<v-button
-				class="w-full"
-				:text="'Previous Page'"
-				:method="prevPage"
-				:disabled="currentPage == 1 ? true : false"
-			/>
-			<v-button
-				class="w-full"
-				:text="'Next Page'"
-				:method="nextPage"
-				:disabled="currentPage * pageSize >= sortedTableData.length ? true : false"
-			/>
+		<div v-if="pagination" class="flex flex-col gap-8 mt-8">
+			<div class="text-left">
+				Showing {{ sortTable().length }} out of {{ tableData.length }} rows
+			</div>
+			<div class="flex justify-between gap-8">
+				<v-button
+					class="w-full"
+					:text="'Previous Page'"
+					:method="prevPage"
+					:disabled="currentPage == 1 ? true : false"
+				/>
+				<v-button
+					class="w-full"
+					:text="'Next Page'"
+					:method="nextPage"
+					:disabled="currentPage * pageSize >= sortedTableData.length ? true : false"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -108,6 +113,10 @@ export default {
 			required: true,
 		},
 		headerComponents: {
+			type: Boolean,
+			default: false,
+		},
+		pagination: {
 			type: Boolean,
 			default: false,
 		},
@@ -131,10 +140,14 @@ export default {
 			type: String,
 			default: 'ascendingly',
 		},
+		sortField: {
+			type: String,
+			default: '',
+		},
 	},
 	data() {
 		return {
-			sortingAttribute: this.tableFields[0],
+			sortingAttribute: this.sortField == '' ? this.tableFields[0] : this.sortField,
 			sortingType: this.sortType,
 			currentPage: 1,
 			sortedTableData: this.tableData,

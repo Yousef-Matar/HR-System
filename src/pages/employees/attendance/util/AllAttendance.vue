@@ -31,6 +31,7 @@
 			:headers="tableHeaders"
 			:table-data="tableData"
 			:table-fields="tableFields"
+			:pagination="true"
 		/>
 	</div>
 </template>
