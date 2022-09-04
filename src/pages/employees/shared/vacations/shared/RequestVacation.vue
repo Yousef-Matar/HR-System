@@ -34,6 +34,7 @@
 					/>
 				</div>
 				<v-button
+					:disabled="success.show"
 					class="w-full self-center"
 					:type="'submit'"
 					:text="'Submit Request'"
@@ -80,6 +81,10 @@ export default {
 				this.error.show = true
 			} else {
 				this.success.show = true
+				setTimeout(() => {
+					this.success.show = false
+				}, 5000)
+
 				var vacationRequest = {
 					ID: VacationManager.getAllVacationRequests().length == 0 ? 1 : VacationManager.getAllVacationRequests()[VacationManager.getAllVacationRequests().length - 1].ID + 1,
 					requestedBy: UsersManager.getActiveUser(),
