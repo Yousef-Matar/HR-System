@@ -19,7 +19,6 @@
 						:disabled="userRemainingVacations > 0 ? false : true"
 						@startDateChange="(inputContent) => (startDate = inputContent)"
 					/>
-					<div class="break" />
 					<v-date
 						class="m-4"
 						:input-i-d="'endDate'"
@@ -89,9 +88,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.break {
-	flex-basis: 100%;
-	height: 0;
-}
-</style>
+<style></style>

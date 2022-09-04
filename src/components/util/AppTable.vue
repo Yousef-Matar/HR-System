@@ -64,6 +64,17 @@
 							<slot name="tableBodyComponents" :row="row" />
 						</td>
 					</tr>
+					<tr v-if="!sortTable().length" class="bg-gray-800">
+						<td
+							v-for="dataField in tableFields"
+							:key="'NoData' + dataField"
+							class="p-2 border border-gray-600"
+						>
+							<div class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center">
+								NO DATA IS AVAILABLE
+							</div>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -111,11 +122,15 @@ export default {
 			type: Number,
 			default: 10,
 		},
+		sortType: {
+			type: String,
+			default: 'ascendingly',
+		},
 	},
 	data() {
 		return {
 			sortingAttribute: this.tableFields[0],
-			sortingType: 'ascendingly',
+			sortingType: this.sortType,
 			currentPage: 1,
 			sortedTableData: this.tableData,
 		}

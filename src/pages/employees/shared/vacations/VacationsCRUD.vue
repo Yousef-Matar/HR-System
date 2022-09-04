@@ -32,6 +32,7 @@
 			:table-data="tableData"
 			:table-fields="tableFields"
 			:table-components="true"
+			:sort-type="'descendingly'"
 		>
 			<template #tableBodyComponents="slotProps">
 				<div class="flex justify-center">
@@ -75,7 +76,7 @@ export default {
 				},
 				{
 					title: 'All',
-					value: 'All',
+					value: 'all',
 					hidden: false,
 				},
 				{
@@ -114,12 +115,7 @@ export default {
 			return fields
 		},
 		tableData() {
-			var initialData
-			if (this.table.statusFilter == '' || this.table.statusFilter == 'All') {
-				initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username != UsersManager.getActiveUser().username)
-			} else {
-				initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username != UsersManager.getActiveUser().username && vacation.status == this.table.statusFilter)
-			}
+			var initialData = this.filteredData
 			var data = []
 			initialData.forEach((element) =>
 				data.push({
@@ -133,6 +129,20 @@ export default {
 				})
 			)
 			return data
+		},
+		filteredData() {
+			var initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username != UsersManager.getActiveUser().username)
+			initialData = initialData.filter((vacationsRequest) => {
+				const searchTerm = this.table.searchFilter.toLowerCase()
+				const IDS = String(vacationsRequest.ID)
+				const requestersUsernames = vacationsRequest.requestedBy.username.toLowerCase()
+				const requestsStatus = vacationsRequest.status.toLowerCase()
+				const handlersUsernames = vacationsRequest.handledBy == null ? '' : vacationsRequest.handledBy.username.toLowerCase()
+
+				if (this.table.statusFilter == 'all' || this.table.statusFilter == '') return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || requestsStatus.includes(searchTerm) || handlersUsernames.includes(searchTerm)
+				else if (this.table.statusFilter !== 'all') return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm)) && requestsStatus.includes(this.table.statusFilter)
+			})
+			return initialData
 		},
 	},
 	methods: {
