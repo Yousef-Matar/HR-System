@@ -26,6 +26,7 @@ const store = createStore({
 				localStorage.getItem('Employees') === null
 					? [
 							{
+								ID: 1,
 								username: 'SuperAdmin',
 								password: 'SuperAdmin',
 								firstName: 'SuperAdmin First Name',

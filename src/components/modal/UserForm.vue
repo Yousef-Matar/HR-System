@@ -162,6 +162,7 @@ export default {
 		resetForm() {
 			if (this.mode === 'create') {
 				this.form = {
+					ID: UsersManager.getAllUsers.length == 0 ? 1 : UsersManager.getAllUsers()[UsersManager.getAllUsers().length - 1].ID + 1,
 					username: '',
 					password: '',
 					role: '',
