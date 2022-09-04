@@ -2,6 +2,7 @@
 // Pages
 import EmployeesCRUD from '@/pages/employees/AllEmployees'
 import AttendancePage from '@/pages/employees/attendance/AttendancePage'
+import RequestDocument from '@/pages/employees/documents/RequestDocument'
 import VacationsCRUD from '@/pages/employees/vacations/AllVacations'
 import MyVacations from '@/pages/employees/vacations/MyVacations'
 import RequestVacation from '@/pages/employees/vacations/RequestVacation'
@@ -38,6 +39,11 @@ const routes = [
 		path: '/Employees',
 		component: EmployeesCRUD,
 		meta: { middleware: 'extraAuthentication' },
+	},
+	{
+		path: '/Documents',
+		component: RequestDocument,
+		meta: { middleware: 'authentication' },
 	},
 	{
 		path: '/Attendance',

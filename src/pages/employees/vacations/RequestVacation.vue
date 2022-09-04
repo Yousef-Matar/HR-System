@@ -10,9 +10,8 @@
 				Remaining Yearly Vacation Days: {{ userRemainingVacations }}
 			</div>
 			<form @submit.prevent="submit">
-				<div class="flex flex-wrap items-center justify-center">
+				<div class="flex flex-wrap items-center justify-center gap-8">
 					<v-date
-						class="m-4"
 						:input-i-d="'startDate'"
 						:input-value="startDate"
 						:input-label="'Start Date'"
@@ -22,7 +21,6 @@
 						@startDateChange="(inputContent) => (startDate = inputContent)"
 					/>
 					<v-date
-						class="m-4"
 						:input-i-d="'endDate'"
 						:input-value="endDate"
 						:min="startDate"
@@ -55,7 +53,6 @@ export default {
 			endDate: null,
 			maxDate: null,
 			minDate: null,
-			test: new Date(),
 			error: {
 				show: false,
 				message: 'You exceeded the yearly limit of vacation days.',

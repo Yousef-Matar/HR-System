@@ -1,5 +1,4 @@
-.formContainer {
-	display: flex;
+.formContainer {	display: flex;
 	justify-content: center;
 	flex-flow: column;
 	align-items: center;
@@ -11,6 +10,9 @@ form {
 	gap: 32px;
 	width: fit-content;
 	border-radius: 1.5rem;
+}
+textarea {
+	max-width: 20rem;
 }
 .inputGroup {
 	position: relative;
