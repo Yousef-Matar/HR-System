@@ -52,18 +52,28 @@
 				</div>
 			</template>
 		</v-table>
+		<OperationDenied
+			:show-modal="showModal"
+			:modal-mmessage="errorMessage"
+			@closeModal="showModal = false"
+		/>
 	</div>
 </template>
 
 <script>
 import exportFromJSON from 'export-from-json'
 
+import OperationDenied from '@/components/modal/OperationDenied.vue'
+
 import UsersManager from '@/util/UsersManager'
 import VacationManager from '@/util/VacationManager'
 
 export default {
+	components: { OperationDenied },
 	data() {
 		return {
+			showModal: false,
+			errorMessage: 'This user has exceeded the maximum number of yearly vacations',
 			activeUser: UsersManager.getActiveUser(),
 			table: {
 				searchFilter: '',
@@ -154,7 +164,10 @@ export default {
 			if (data) exportFromJSON({ data, fileName, exportType })
 		},
 		changeVacationRequestStatus(requestID, status) {
-			VacationManager.changeVacationRequestStatus(requestID, status)
+			var success = VacationManager.changeVacationRequestStatus(requestID, status)
+			if (success == false) {
+				this.showModal = true
+			}
 		},
 	},
 }

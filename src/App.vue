@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import WarningModal from './components/modal/WarningModal.vue'
+import WarningModal from '@/components/modal/WarningModal.vue'
 
 import MainNavigation from '@/components/navigation/MainNavigation'
 

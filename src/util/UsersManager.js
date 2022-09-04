@@ -23,9 +23,14 @@ var UsersManager = {
 		}
 	},
 	changeUserYearlyVacations(vacationRequest) {
-		var updatedUser = vacationRequest.requestedBy
-		updatedUser.yearlyVacation = updatedUser.yearlyVacation - vacationRequest.duration
-		this.replaceUser(updatedUser.username, updatedUser)
+		var updatedUser = this.getUser(vacationRequest.requestedBy.username)
+		if (updatedUser.yearlyVacation - vacationRequest.duration >= 0) {
+			updatedUser.yearlyVacation = updatedUser.yearlyVacation - vacationRequest.duration
+			this.replaceUser(updatedUser.username, updatedUser)
+			return true
+		} else {
+			return false
+		}
 	},
 	logout() {
 		store.commit('setActiveUser', null)

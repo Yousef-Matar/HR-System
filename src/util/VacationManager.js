@@ -20,9 +20,17 @@ var VacationManager = {
 	},
 
 	changeVacationRequestStatus(requestID, status) {
-		store.commit('changeVacationRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser() })
 		if (status == 'approved') {
-			UsersManager.changeUserYearlyVacations(this.getVacationRequestByID(requestID))
+			var canTakeVacations = UsersManager.changeUserYearlyVacations(this.getVacationRequestByID(requestID))
+			if (canTakeVacations) {
+				store.commit('changeVacationRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser() })
+				return true
+			} else {
+				return false
+			}
+		} else {
+			store.commit('changeVacationRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser() })
+			return true
 		}
 	},
 	replaceUserInVacationRequest(oldUserUsername, updatedUser) {
