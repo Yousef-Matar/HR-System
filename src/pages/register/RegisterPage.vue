@@ -51,11 +51,13 @@
 				/>
 			</div>
 			<v-button
+				:disabled="error.show"
 				class="w-full self-center"
 				:type="'submit'"
 				:text="'Sign Up'"
 			/>
 			<v-button
+				:disabled="error.show"
 				class="w-full self-center"
 				:type="'button'"
 				:text="'Already have an account ?'"

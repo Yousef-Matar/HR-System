@@ -21,6 +21,11 @@
 			class="w-full self-center"
 		/>
 		<teleport to="body">
+			<v-alert
+				:text="error.message"
+				:show="error.show"
+				:variant="'error'"
+			/>
 			<v-modal
 				v-if="isModalOpen"
 				:variant="'primary'"
@@ -32,6 +37,7 @@
 					<div class="flex justify-between items-center">
 						<span>Update User</span>
 						<v-button
+							:disabled="error.show"
 							class="w-full self-center"
 							:type="'button'"
 							:text="'Delete User'"
@@ -42,11 +48,6 @@
 				</template>
 				<template #ModalBody>
 					<form autocomplete="off" @submit.prevent="submit">
-						<div v-if="error.show" class="text-red-500 text-left mt-2 text-lg">
-							<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;
-							{{ error.message }}
-						</div>
-
 						<div class="flex gap-8 flex-wrap">
 							<v-input
 								:input-i-d="'username'"
@@ -96,17 +97,20 @@
 						</div>
 						<v-button
 							v-if="mode === 'create'"
+							:disabled="error.show"
 							:type="'submit'"
 							:text="'Add User'"
 							class="w-full self-center"
 						/>
 						<v-button
 							v-else-if="mode === 'update' || mode === 'profile'"
+							:disabled="error.show"
 							:type="'submit'"
 							:text="'Update'"
 							class="w-full self-center"
 						/>
 						<v-button
+							:disabled="error.show"
 							:type="'button'"
 							:text="'Cancel'"
 							:variant="'danger'"
@@ -181,6 +185,9 @@ export default {
 				if (UsersManager.getUser(this.form.username).username != this.user.username && (this.mode === 'create' || this.mode === 'profile')) {
 					this.error.show = true
 					this.error.message = 'Username is already in use.'
+					setTimeout(() => {
+						this.error.show = false
+					}, 2000)
 				} else {
 					if (this.mode === 'create') {
 						UsersManager.addUser(this.form)

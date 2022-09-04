@@ -33,7 +33,7 @@
 					/>
 				</div>
 				<v-button
-					:disabled="success.show"
+					:disabled="success.show || error.show"
 					class="w-full self-center"
 					:type="'submit'"
 					:text="'Submit Request'"
@@ -78,6 +78,9 @@ export default {
 			var vacationDays = VacationManager.calculateVacationDays(this.startDate, this.endDate)
 			if (vacationDays > this.userRemainingVacations) {
 				this.error.show = true
+				setTimeout(() => {
+					this.error.show = false
+				}, 2000)
 			} else {
 				this.success.show = true
 				this.error.show = false

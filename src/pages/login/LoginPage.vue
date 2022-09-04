@@ -29,11 +29,13 @@
 				/>
 			</div>
 			<v-button
+				:disabled="error.show"
 				class="w-full self-center"
 				:type="'submit'"
 				:text="'Log In'"
 			/>
 			<v-button
+				:disabled="error.show"
 				class="w-full self-center"
 				:type="'button'"
 				:text="'Register'"
