@@ -64,7 +64,7 @@ export default {
 	},
 	methods: {
 		submit() {
-			var currentUser = UsersManager.getUser(this.form.username)
+			var currentUser = UsersManager.getUserByUsername(this.form.username)
 			if (currentUser) {
 				currentUser = AttendanceManager.userCheckIn(currentUser)
 				UsersManager.setActiveUser(currentUser)

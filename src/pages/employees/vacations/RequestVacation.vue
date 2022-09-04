@@ -87,7 +87,7 @@ export default {
 
 				var vacationRequest = {
 					ID: VacationManager.getAllVacationRequests().length == 0 ? 1 : VacationManager.getAllVacationRequests()[VacationManager.getAllVacationRequests().length - 1].ID + 1,
-					requestedBy: UsersManager.getActiveUser(),
+					requestedBy: UsersManager.getActiveUser().ID,
 					handledBy: null,
 					from: this.startDate.toLocaleDateString(),
 					till: this.endDate.toLocaleDateString(),

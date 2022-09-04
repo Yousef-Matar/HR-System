@@ -25,19 +25,16 @@ var VacationManager = {
 		if (status == 'approved') {
 			var canTakeVacations = UsersManager.changeUserYearlyVacations(vacationRequest)
 			if (canTakeVacations) {
-				store.commit('changeVacationRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser() })
+				store.commit('changeVacationRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser().ID })
 				AttendanceManager.vacationAttendance(vacationRequest)
 				return true
 			} else {
 				return false
 			}
 		} else {
-			store.commit('changeVacationRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser() })
+			store.commit('changeVacationRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser().ID })
 			return true
 		}
-	},
-	replaceUserInVacationRequest(oldUserUsername, updatedUser) {
-		store.commit('replaceUserVacationRequest', { username: oldUserUsername, updatedUser: updatedUser })
 	},
 	calculateVacationDays(startDate, endDate) {
 		var vacationDays = 0

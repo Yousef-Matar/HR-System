@@ -4,7 +4,7 @@ import UsersManager from '@/util/UsersManager'
 
 var AttendanceManager = {
 	vacationAttendance(vacationRequest) {
-		var user = UsersManager.getUser(vacationRequest.requestedBy.username)
+		var user = UsersManager.getUserByID(vacationRequest.requestedBy)
 		var vacationStart = new Date(vacationRequest.from)
 		var vacationEnd = new Date(vacationRequest.till)
 		while (vacationStart.getDate() != vacationEnd.getDate() || vacationStart.getFullYear() != vacationEnd.getFullYear() || vacationStart.getMonth() != vacationEnd.getMonth()) {

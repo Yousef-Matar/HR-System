@@ -7,8 +7,11 @@ var UsersManager = {
 	getActiveUser() {
 		return store.state.activeUser
 	},
-	getUser(userUsername) {
+	getUserByUsername(userUsername) {
 		return this.getAllUsers().find((user) => user.username === userUsername)
+	},
+	getUserByID(userID) {
+		return this.getAllUsers().find((user) => user.ID === userID)
 	},
 	getSuperAdmin() {
 		return this.getAllUsers().find((user) => user.role === 'SuperAdmin')
@@ -23,7 +26,7 @@ var UsersManager = {
 		}
 	},
 	changeUserYearlyVacations(vacationRequest) {
-		var updatedUser = this.getUser(vacationRequest.requestedBy.username)
+		var updatedUser = this.getUserByID(vacationRequest.requestedBy)
 		if (updatedUser.yearlyVacation - vacationRequest.duration >= 0) {
 			updatedUser.yearlyVacation = updatedUser.yearlyVacation - vacationRequest.duration
 			this.replaceUser(updatedUser.username, updatedUser)

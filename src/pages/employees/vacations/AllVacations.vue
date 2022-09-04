@@ -122,8 +122,8 @@ export default {
 			initialData.forEach((element) =>
 				data.push({
 					'Request ID': element.ID,
-					'Requested By': element.requestedBy.username,
-					'Handled By': element.handledBy == null ? 'Pending Action' : element.handledBy.username,
+					'Requested By': UsersManager.getUserByID(element.requestedBy).username,
+					'Handled By': element.handledBy == null ? 'Pending Action' : UsersManager.getUserByID(element.handledBy).username,
 					From: element.from,
 					Till: element.till,
 					Duration: element.duration == 1 ? element.duration + ' Day' : element.duration + ' Days',
@@ -133,13 +133,13 @@ export default {
 			return data
 		},
 		filteredData() {
-			var initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy.username != this.activeUser.username)
+			var initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy != this.activeUser.ID)
 			initialData = initialData.filter((vacationsRequest) => {
 				const searchTerm = this.table.searchFilter.toLowerCase()
 				const IDS = String(vacationsRequest.ID)
-				const requestersUsernames = vacationsRequest.requestedBy.username.toLowerCase()
+				const requestersUsernames = UsersManager.getUserByID(vacationsRequest.requestedBy).username.toLowerCase()
 				const requestsStatus = vacationsRequest.status.toLowerCase()
-				const handlersUsernames = vacationsRequest.handledBy == null ? '' : vacationsRequest.handledBy.username.toLowerCase()
+				const handlersUsernames = vacationsRequest.handledBy == null ? '' : UsersManager.getUserByID(vacationsRequest.handledBy).username.toLowerCase()
 
 				if (this.table.statusFilter == 'all' || this.table.statusFilter == '') return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || requestsStatus.includes(searchTerm) || handlersUsernames.includes(searchTerm)
 				else if (this.table.statusFilter !== 'all') return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm)) && requestsStatus.includes(this.table.statusFilter)

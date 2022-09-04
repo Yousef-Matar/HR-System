@@ -79,7 +79,7 @@ export default {
 				message: 'Invalid username or password.',
 			},
 			form: {
-				ID: UsersManager.getAllUsers.length == 0 ? 1 : UsersManager.getAllUsers()[UsersManager.getAllUsers().length - 1].ID + 1,
+				ID: UsersManager.getAllUsers().length == 0 ? 1 : UsersManager.getAllUsers()[UsersManager.getAllUsers().length - 1].ID + 1,
 				username: '',
 				password: '',
 				firstName: '',
@@ -94,7 +94,7 @@ export default {
 	},
 	methods: {
 		submit() {
-			if (UsersManager.getUser(this.form.username)) {
+			if (UsersManager.getUserByUsername(this.form.username)) {
 				this.error.show = true
 				this.error.message = 'Username is already in use.'
 				setTimeout(() => {

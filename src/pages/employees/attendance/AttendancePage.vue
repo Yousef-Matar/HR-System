@@ -20,7 +20,7 @@ export default {
 	computed: {
 		getAttendanceData() {
 			if (this.username) {
-				return UsersManager.getUser(this.username)
+				return UsersManager.getUserByUsername(this.username)
 			} else {
 				var activeUser = UsersManager.getActiveUser()
 				if (activeUser.role == 'SuperAdmin') {
