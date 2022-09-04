@@ -33,13 +33,12 @@
 			:table-fields="tableFields"
 			:header-components="true"
 			:table-components="true"
-			@refreshData="refreshData"
 		>
 			<template #tableHeaderComponents>
 				<UserForm
 					class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
 					:mode="'create'"
-					@tableRefresh="$emit('refreshData')"
+					@tableRefresh="refreshData"
 				/>
 			</template>
 			<template #tableBodyComponents="slotProps">
@@ -47,7 +46,7 @@
 					class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
 					:mode="'update'"
 					:user="slotProps.row.user"
-					@tableRefresh="$emit('refreshData')"
+					@tableRefresh="refreshData"
 				/>
 			</template>
 		</v-table>

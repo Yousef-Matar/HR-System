@@ -8,6 +8,9 @@
 				<div v-if="error.show" class="text-red-500 text-lg">
 					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
 				</div>
+				<div v-if="success.show" class="text-green-500 text-lg">
+					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ success.message }}
+				</div>
 				<div class="flex flex-wrap items-center justify-center">
 					<v-date
 						class="m-4"
@@ -57,6 +60,10 @@ export default {
 				show: false,
 				message: 'You exceeded your yearly limit of vacation days.',
 			},
+			success: {
+				show: false,
+				message: 'Your request has been successfully sent.',
+			},
 		}
 	},
 	beforeMount() {
@@ -72,6 +79,7 @@ export default {
 			if (vacationDays > this.userRemainingVacations) {
 				this.error.show = true
 			} else {
+				this.success.show = true
 				var vacationRequest = {
 					ID: VacationManager.getAllVacationRequests().length == 0 ? 1 : VacationManager.getAllVacationRequests()[VacationManager.getAllVacationRequests().length - 1].ID + 1,
 					requestedBy: UsersManager.getActiveUser(),

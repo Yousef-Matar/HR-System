@@ -1,6 +1,39 @@
 import store from '@/store/index'
 
+import UsersManager from '@/util/UsersManager'
+
 var AttendanceManager = {
+	vacationAttendance(vacationRequest) {
+		var user = UsersManager.getUser(vacationRequest.requestedBy.username)
+		var vacationStart = new Date(vacationRequest.from)
+		var vacationEnd = new Date(vacationRequest.till)
+		while (vacationStart.getDate() != vacationEnd.getDate() || vacationStart.getFullYear() != vacationEnd.getFullYear() || vacationStart.getMonth() != vacationEnd.getMonth()) {
+			if (vacationStart.getDay() != 5 && vacationStart.getDay() != 6) {
+				user.attendance.push({
+					currentDay: vacationStart.toLocaleDateString(),
+					time: [
+						{
+							checkInTime: '8:00:00 AM',
+							checkOutTime: '4:00:00 PM',
+						},
+					],
+				})
+			}
+			vacationStart.setDate(vacationStart.getDate() + 1)
+		}
+		if (vacationStart.getDate() == vacationEnd.getDate() && vacationStart.getFullYear() == vacationEnd.getFullYear() && vacationStart.getMonth() == vacationEnd.getMonth() && vacationStart.getDay() != 5 && vacationStart.getDay() != 6) {
+			user.attendance.push({
+				currentDay: vacationStart.toLocaleDateString(),
+				time: [
+					{
+						checkInTime: '8:00:00 AM',
+						checkOutTime: '4:00:00 PM',
+					},
+				],
+			})
+		}
+		UsersManager.replaceUser(user.username, user)
+	},
 	userCheckIn(user) {
 		if (!user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString())) {
 			user.attendance.push({

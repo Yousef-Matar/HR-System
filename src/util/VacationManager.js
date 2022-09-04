@@ -1,5 +1,6 @@
 import store from '@/store/index'
 
+import AttendanceManager from '@/util/AttendanceManager'
 import UsersManager from '@/util/UsersManager'
 
 var VacationManager = {
@@ -20,10 +21,12 @@ var VacationManager = {
 	},
 
 	changeVacationRequestStatus(requestID, status) {
+		var vacationRequest = this.getVacationRequestByID(requestID)
 		if (status == 'approved') {
-			var canTakeVacations = UsersManager.changeUserYearlyVacations(this.getVacationRequestByID(requestID))
+			var canTakeVacations = UsersManager.changeUserYearlyVacations(vacationRequest)
 			if (canTakeVacations) {
 				store.commit('changeVacationRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser() })
+				AttendanceManager.vacationAttendance(vacationRequest)
 				return true
 			} else {
 				return false

@@ -74,6 +74,11 @@
 								NO DATA IS AVAILABLE
 							</div>
 						</td>
+						<td v-if="tableComponents && headerComponents" class="p-2 border border-gray-600">
+							<div class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center">
+								NO DATA IS AVAILABLE
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>

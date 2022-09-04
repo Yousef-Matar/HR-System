@@ -173,10 +173,8 @@ export default {
 			} else if (this.mode === 'profile') {
 				this.form = Object.assign({}, this.user)
 			}
-
 			this.error.show = false
 			this.isModalOpen = false
-			this.$emit('tableRefresh')
 		},
 		submit() {
 			if (UsersManager.getUser(this.form.username)) {
@@ -211,11 +209,13 @@ export default {
 				VacationManager.replaceUserInVacationRequest(this.user.username, this.form)
 				this.resetForm()
 			}
+			this.$emit('tableRefresh')
 		},
 		deleteUser() {
 			UsersManager.deleteUser(this.user.username)
 			this.error.show = false
 			this.isModalOpen = false
+			this.$emit('tableRefresh')
 		},
 
 		setRoles() {
