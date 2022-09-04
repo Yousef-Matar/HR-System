@@ -47,7 +47,12 @@ const store = createStore({
 			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
 			localStorage.setItem('Monthly Hours', JSON.stringify(state.monthlyHours))
 			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
-
+			if (new Date().getDate() == 1 && new Date().getMonth() == 1 && new Date().getFullYear() >= new Date().getFullYear()) {
+				state.allEmployees.forEach((employee) => {
+					employee.yearlyVacation = 21
+				})
+			}
+			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
 			if (state.allHours.find((element) => element.month == new Date().getMonth() && element.year == new Date().getFullYear())) {
 				localStorage.setItem('All Hours', JSON.stringify(state.allHours))
 			} else {
