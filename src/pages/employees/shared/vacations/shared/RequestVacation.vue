@@ -1,6 +1,6 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
-		<div class="flex flex-col gap-8 items-start">
+		<div class="flex flex-col gap-8">
 			<div class="text-2xl text-left">
 				Remaining Yearly Vacation Days: {{ userRemainingVacations }}
 			</div>
@@ -8,8 +8,9 @@
 				<div v-if="error.show" class="text-red-500 text-lg">
 					<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;{{ error.message }}
 				</div>
-				<div class="flex gap-8 flex-wrap">
+				<div class="flex flex-wrap items-center justify-center">
 					<v-date
+						class="m-4"
 						:input-i-d="'startDate'"
 						:input-value="startDate"
 						:input-label="'Start Date'"
@@ -18,7 +19,9 @@
 						:disabled="userRemainingVacations > 0 ? false : true"
 						@startDateChange="(inputContent) => (startDate = inputContent)"
 					/>
+					<div class="break" />
 					<v-date
+						class="m-4"
 						:input-i-d="'endDate'"
 						:input-value="endDate"
 						:min="startDate"
@@ -71,6 +74,7 @@ export default {
 				this.error.show = true
 			} else {
 				var vacationRequest = {
+					ID: VacationManager.getAllVacationRequests().length == 0 ? 1 : VacationManager.getAllVacationRequests()[VacationManager.getAllVacationRequests().length - 1].ID + 1,
 					requestedBy: UsersManager.getActiveUser(),
 					handledBy: null,
 					from: this.startDate.toLocaleDateString(),
@@ -85,4 +89,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.break {
+	flex-basis: 100%;
+	height: 0;
+}
+</style>

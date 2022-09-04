@@ -83,6 +83,10 @@ const store = createStore({
 			)
 			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
 		},
+		cancelVacationRequest(state, payload) {
+			state.vacationRequests = state.vacationRequests.filter((request) => request.ID != payload)
+			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
+		},
 		setActiveUser(state, payload) {
 			state.activeUser = payload
 			localStorage.setItem('Active User', JSON.stringify(state.activeUser))
