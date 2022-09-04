@@ -117,7 +117,20 @@ export default {
 			if (data) exportFromJSON({ data, fileName, exportType })
 		},
 		cancelVacationRequest(requestID) {
-			VacationManager.cancelVacationRequest(requestID)
+			this.$swal
+				.fire({
+					title: 'Are you sure?',
+					text: 'You won\'t be able to revert this!',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'Yes, cancel it!',
+				})
+				.then((result) => {
+					if (result.isConfirmed) {
+						this.$swal.fire('Canceled!', 'Your request has been canceled.', 'success')
+						VacationManager.cancelVacationRequest(requestID)
+					}
+				})
 		},
 	},
 }

@@ -3,6 +3,7 @@ import App from '@/App.vue'
 // Styles
 import '@/assets/css/form.css'
 import '@/assets/css/scrollbar.css'
+import '@/assets/css/sweetAlert.css'
 import '@/assets/css/tailwind.css'
 // Router
 import router from '@/router'
@@ -14,7 +15,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCalendarAlt, faClock, faExclamationTriangle, faFileArrowDown, faHome, faMinus, faPlus, faSignIn, faSignOut, faSortDown, faSortUp, faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons'
 // import font awesome icon component
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+// Sweet Alerts
+import 'sweetalert2/dist/sweetalert2.min.css'
 import { createApp } from 'vue'
+import VueSweetalert2 from 'vue-sweetalert2'
 
 // Global Atoms
 import NavigationAccordion from '@/components/navigation/util/NavigationAccordion'
@@ -58,6 +62,15 @@ library.add(
 const app = createApp(App)
 app.use(router)
 app.use(store)
+// SweetAlert Config
+const options = {
+	confirmButtonColor: '#18ffff',
+	cancelButtonColor: '#ef4444',
+	background: '#060b23',
+	color: '#fff',
+	cancelButtonTextColor: '#000',
+}
+app.use(VueSweetalert2, options)
 // Global Components
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.component('NAccordion', NavigationAccordion)

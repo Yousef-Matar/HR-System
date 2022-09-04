@@ -219,10 +219,23 @@ export default {
 			this.$emit('tableRefresh')
 		},
 		deleteUser() {
-			UsersManager.deleteUser(this.user.username)
-			this.error.show = false
-			this.isModalOpen = false
-			this.$emit('tableRefresh')
+			this.$swal
+				.fire({
+					title: 'Are you sure?',
+					text: 'You won\'t be able to revert this!',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'Yes, delete it!',
+				})
+				.then((result) => {
+					if (result.isConfirmed) {
+						this.$swal.fire('Deleted!', 'Account has been deleted.', 'success')
+						UsersManager.deleteUser(this.user.username)
+						this.error.show = false
+						this.isModalOpen = false
+						this.$emit('tableRefresh')
+					}
+				})
 		},
 
 		setRoles() {
