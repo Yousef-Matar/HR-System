@@ -48,12 +48,31 @@ import UsersManager from '@/util/UsersManager'
 export default {
 	data() {
 		return {
-			userName: UsersManager.getActiveUser().firstName + ' ' + UsersManager.getActiveUser().lastName,
+			userName: '',
 			form: {
 				requestDate: new Date(),
 				requestDetails: '',
 			},
 		}
+	},
+	computed: {
+		userFirstLastName() {
+			var userName = {
+				firstName: UsersManager.getActiveUser().firstName,
+				lastName: UsersManager.getActiveUser().lastName,
+			}
+			return userName
+		},
+	},
+	// ...
+	watch: {
+		userFirstLastName: {
+			handler(newData) {
+				this.userName = newData.firstName + ' ' + newData.lastName
+			},
+			// force eager callback execution
+			immediate: true,
+		},
 	},
 	methods: {
 		submit() {

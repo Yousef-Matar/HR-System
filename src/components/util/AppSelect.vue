@@ -51,8 +51,17 @@ export default {
 	},
 	data() {
 		return {
-			selectContent: this.selectValue,
+			selectContent: '',
 		}
+	},
+	watch: {
+		selectValue: {
+			handler(newData) {
+				this.selectContent = newData
+			},
+			// force eager callback execution
+			immediate: true,
+		},
 	},
 }
 </script>

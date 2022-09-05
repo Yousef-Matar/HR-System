@@ -77,8 +77,17 @@ export default {
 	},
 	data() {
 		return {
-			inputContent: this.inputValue,
+			inputContent: '',
 		}
+	},
+	watch: {
+		inputValue: {
+			handler(newData) {
+				this.inputContent = newData
+			},
+			// force eager callback execution
+			immediate: true,
+		},
 	},
 	methods: {
 		increment() {

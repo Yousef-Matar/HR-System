@@ -27,7 +27,7 @@ export default {
 	components: { RequestDocument, SubmitDocument, MyDocuments },
 	data() {
 		return {
-			documentType: '',
+			documentType: TableManager.getDocumentTypes()[0].value,
 			documentTypes: TableManager.getDocumentTypes(),
 		}
 	},

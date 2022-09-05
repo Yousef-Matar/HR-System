@@ -2,18 +2,13 @@ var TableManager = {
 	getDocumentTypes() {
 		const documentTypes = [
 			{
-				title: 'Select a document type',
-				value: '',
-				hidden: true,
+				title: 'My Documents',
+				value: 'MyDocuments',
+				hidden: false,
 			},
 			{
 				title: 'Submit Document',
 				value: 'SubmitDocument',
-				hidden: false,
-			},
-			{
-				title: 'My Documents',
-				value: 'MyDocuments',
 				hidden: false,
 			},
 			{
