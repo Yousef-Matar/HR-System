@@ -107,7 +107,7 @@ const store = createStore({
 			localStorage.setItem('All Hours', JSON.stringify(state.allHours))
 		},
 		replaceUser(state, payload) {
-			state.allEmployees = state.allEmployees.map((user) => (user.username === payload.username ? payload.updatedUser : user))
+			state.allEmployees = state.allEmployees.map((user) => (user.ID === payload.userID ? payload.updatedUser : user))
 			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
 		},
 	},

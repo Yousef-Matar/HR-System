@@ -192,11 +192,11 @@ export default {
 						UsersManager.addUser(this.form)
 						this.resetForm()
 					} else if (this.mode === 'update') {
-						UsersManager.replaceUser(this.user.username, this.form)
+						UsersManager.replaceUser(this.user.ID, this.form)
 						this.resetForm()
 					} else if (this.mode === 'profile') {
 						UsersManager.setActiveUser(this.form)
-						UsersManager.replaceUser(this.user.username, this.form)
+						UsersManager.replaceUser(this.user.ID, this.form)
 						this.resetForm()
 					}
 				}
@@ -204,11 +204,11 @@ export default {
 				UsersManager.addUser(this.form)
 				this.resetForm()
 			} else if (this.mode === 'update') {
-				UsersManager.replaceUser(this.user.username, this.form)
+				UsersManager.replaceUser(this.user.ID, this.form)
 				this.resetForm()
 			} else if (this.mode === 'profile') {
 				UsersManager.setActiveUser(this.form)
-				UsersManager.replaceUser(this.user.username, this.form)
+				UsersManager.replaceUser(this.user.ID, this.form)
 				this.resetForm()
 			}
 			this.$emit('tableRefresh')

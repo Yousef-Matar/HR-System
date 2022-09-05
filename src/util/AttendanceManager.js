@@ -1,4 +1,4 @@
-import store from '@/store/index'
+
 
 import UsersManager from '@/util/UsersManager'
 
@@ -32,7 +32,7 @@ var AttendanceManager = {
 				],
 			})
 		}
-		UsersManager.replaceUser(user.username, user)
+		UsersManager.replaceUser(user.ID, user)
 	},
 	userCheckIn(user) {
 		if (!user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString())) {
@@ -71,7 +71,7 @@ var AttendanceManager = {
 		} else {
 			user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString()).time[user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString()).time.length - 1].checkOutTime = new Date().toLocaleTimeString()
 		}
-		store.commit('replaceUser', { username: user.username, updatedUser: user })
+		UsersManager.replaceUser(user.ID, user)
 		return user
 	},
 	getUserYears(userHireDate) {

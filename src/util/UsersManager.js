@@ -29,7 +29,7 @@ var UsersManager = {
 		var updatedUser = this.getUserByID(vacationRequest.requestedBy)
 		if (updatedUser.yearlyVacation - vacationRequest.duration >= 0) {
 			updatedUser.yearlyVacation = updatedUser.yearlyVacation - vacationRequest.duration
-			this.replaceUser(updatedUser.username, updatedUser)
+			this.replaceUser(updatedUser.ID, updatedUser)
 			return true
 		} else {
 			return false
@@ -47,8 +47,8 @@ var UsersManager = {
 	addUser(user) {
 		store.commit('setAllEmployees', this.getAllUsers().concat([user]))
 	},
-	replaceUser(oldUserUsername, updatedUser) {
-		store.commit('replaceUser', { username: oldUserUsername, updatedUser: updatedUser })
+	replaceUser(userID, updatedUser) {
+		store.commit('replaceUser', { userID: userID, updatedUser: updatedUser })
 	},
 	deleteUser(userID) {
 		store.commit(
