@@ -2,7 +2,7 @@
 // Pages
 import EmployeesCRUD from '@/pages/employees/AllEmployees'
 import AttendancePage from '@/pages/employees/attendance/AttendancePage'
-import RequestDocument from '@/pages/employees/documents/RequestDocument'
+import DocumentPage from '@/pages/employees/documents/DocumentPage'
 import VacationsCRUD from '@/pages/employees/vacations/AllVacations'
 import MyVacations from '@/pages/employees/vacations/MyVacations'
 import RequestVacation from '@/pages/employees/vacations/RequestVacation'
@@ -42,7 +42,7 @@ const routes = [
 	},
 	{
 		path: '/Documents',
-		component: RequestDocument,
+		component: DocumentPage,
 		meta: { middleware: 'authentication' },
 	},
 	{

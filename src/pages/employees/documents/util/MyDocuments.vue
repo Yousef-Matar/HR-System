@@ -1,5 +1,5 @@
 <template>
-	<div>AccidentReport</div>
+	<div>MyDocuments</div>
 </template>
 
 <script>

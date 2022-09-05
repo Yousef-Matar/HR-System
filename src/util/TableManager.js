@@ -1,44 +1,24 @@
 var TableManager = {
-	getDocumentTypes(){
+	getDocumentTypes() {
 		const documentTypes = [
-         {
+			{
 				title: 'Select a document type',
 				value: '',
 				hidden: true,
 			},
 			{
-				title: 'Return to Work',
-				value: 'ReturnToWork',
+				title: 'Submit Document',
+				value: 'SubmitDocument',
 				hidden: false,
 			},
 			{
-				title: 'Accident Report',
-				value: 'AccidentReport',
+				title: 'My Documents',
+				value: 'MyDocuments',
 				hidden: false,
 			},
 			{
-				title: 'Exit Interview',
-				value: 'ExitInterview',
-				hidden: false,
-			},
-			{
-				title: 'Job Satisfaction',
-				value: 'JobSatisfaction',
-				hidden: false,
-			},
-			{
-				title: 'End of Year Feedback',
-				value: 'EndOfYearFeedback',
-				hidden: false,
-			},
-			{
-				title: 'Military Leave',
-				value: 'Military Leave',
-				hidden: false,
-			},
-			{
-				title: 'Complaint',
-				value: 'EmployeeComplaint',
+				title: 'Request Document',
+				value: 'RequestDocument',
 				hidden: false,
 			},
 		]
@@ -46,7 +26,7 @@ var TableManager = {
 	},
 	getItemsPerPage() {
 		const itemsPerPage = [
-         {
+			{
 				title: '5',
 				value: 5,
 				hidden: false,
@@ -104,7 +84,7 @@ var TableManager = {
 		]
 		return statusFilter
 	},
-	getAccountStatus(){
+	getAccountStatus() {
 		const accountStatus = [
 			{
 				title: 'active',
@@ -118,6 +98,6 @@ var TableManager = {
 			},
 		]
 		return accountStatus
-	}
+	},
 }
 export default TableManager

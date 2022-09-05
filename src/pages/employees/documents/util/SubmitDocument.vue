@@ -1,5 +1,5 @@
 <template>
-	<div>End of year feedback</div>
+	<div>SubmitDocument</div>
 </template>
 
 <script>

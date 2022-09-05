@@ -17,17 +17,14 @@
 </template>
 
 <script>
-import AccidentReport from '@/pages/employees/documents/util/AccidentReport'
-import EmployeeComplaint from '@/pages/employees/documents/util/EmployeeComplaint'
-import EndOfYearFeedback from '@/pages/employees/documents/util/EndOfYearFeedback'
-import ExitInterview from '@/pages/employees/documents/util/ExitInterview'
-import JobSatisfaction from '@/pages/employees/documents/util/JobSatisfaction'
-import ReturnToWork from '@/pages/employees/documents/util/ReturnToWork'
+import MyDocuments from '@/pages/employees/documents/util/MyDocuments'
+import RequestDocument from '@/pages/employees/documents/util/RequestDocument'
+import SubmitDocument from '@/pages/employees/documents/util/SubmitDocument'
 
 import TableManager from '@/util/TableManager'
 
 export default {
-	components: { AccidentReport, EmployeeComplaint, EndOfYearFeedback, JobSatisfaction, ExitInterview, ReturnToWork },
+	components: { RequestDocument, SubmitDocument, MyDocuments },
 	data() {
 		return {
 			documentType: '',
