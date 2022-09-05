@@ -50,11 +50,5 @@ var UsersManager = {
 	replaceUser(userID, updatedUser) {
 		store.commit('replaceUser', { userID: userID, updatedUser: updatedUser })
 	},
-	deleteUser(userID) {
-		store.commit(
-			'setAllEmployees',
-			this.getAllUsers().filter((user) => user.ID !== userID)
-		)
-	},
 }
 export default UsersManager

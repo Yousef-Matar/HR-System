@@ -33,19 +33,7 @@
 			>
 				<template v-if="mode === 'create'" #ModalHeader> Add New User </template>
 				<template v-else-if="mode === 'profile'" #ModalHeader> Account Details </template>
-				<template v-else-if="mode === 'update'" #ModalHeader>
-					<div class="flex justify-between items-center">
-						<span>Update User</span>
-						<v-button
-							:disabled="error.show"
-							class="w-full self-center"
-							:type="'button'"
-							:text="'Delete User'"
-							:variant="'danger'"
-							:method="deleteUser"
-						/>
-					</div>
-				</template>
+				<template v-else-if="mode === 'update'" #ModalHeader> Update User </template>
 				<template #ModalBody>
 					<form autocomplete="off" @submit.prevent="submit">
 						<div class="flex gap-8 flex-wrap">
@@ -94,6 +82,14 @@
 								:select-label="'Account Role'"
 								@roleChange="(selectContent) => (form.role = selectContent)"
 							/>
+							<v-select
+								:select-i-d="'accountStatus'"
+								:disabled="mode !== 'profile' ? false : true"
+								:select-value="form.status"
+								:items="accountStatus"
+								:select-label="'Account Status'"
+								@accountStatusChange="(selectContent) => (form.status = selectContent)"
+							/>
 						</div>
 						<v-button
 							v-if="mode === 'create'"
@@ -124,6 +120,7 @@
 	</span>
 </template>
 <script>
+import TableManager from '@/util/TableManager'
 import UsersManager from '@/util/UsersManager'
 
 export default {
@@ -148,6 +145,7 @@ export default {
 			},
 			roles: null,
 			form: null,
+			accountStatus: TableManager.getAccountStatus(),
 		}
 	},
 	mounted() {
@@ -161,13 +159,14 @@ export default {
 		resetForm() {
 			if (this.mode === 'create') {
 				this.form = {
-					ID: UsersManager.getAllUsers.length == 0 ? 1 : UsersManager.getAllUsers()[UsersManager.getAllUsers().length - 1].ID + 1,
+					ID: UsersManager.getAllUsers().length == 0 ? 1 : UsersManager.getAllUsers()[UsersManager.getAllUsers().length - 1].ID + 1,
 					username: '',
 					password: '',
 					role: '',
 					firstName: '',
 					lastName: '',
 					yearlyVacation: 21,
+					status: 'active',
 					hireDate: new Date().toLocaleDateString(),
 					attendance: [],
 				}
@@ -212,25 +211,6 @@ export default {
 				this.resetForm()
 			}
 			this.$emit('tableRefresh')
-		},
-		deleteUser() {
-			this.$swal
-				.fire({
-					title: 'Are you sure?',
-					text: 'You won\'t be able to revert this!',
-					icon: 'warning',
-					showCancelButton: true,
-					confirmButtonText: 'Yes, delete it!',
-				})
-				.then((result) => {
-					if (result.isConfirmed) {
-						this.$swal.fire('Deleted!', 'Account has been deleted.', 'success')
-						UsersManager.deleteUser(this.user.ID)
-						this.error.show = false
-						this.isModalOpen = false
-						this.$emit('tableRefresh')
-					}
-				})
 		},
 
 		setRoles() {

@@ -104,5 +104,20 @@ var TableManager = {
 		]
 		return statusFilter
 	},
+	getAccountStatus(){
+		const accountStatus = [
+			{
+				title: 'active',
+				value: 'active',
+				hidden: false,
+			},
+			{
+				title: 'disabled',
+				value: 'disabled',
+				hidden: false,
+			},
+		]
+		return accountStatus
+	}
 }
 export default TableManager

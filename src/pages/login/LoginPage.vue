@@ -66,12 +66,21 @@ export default {
 		submit() {
 			var currentUser = UsersManager.getUserByUsername(this.form.username)
 			if (currentUser) {
-				currentUser = AttendanceManager.userCheckIn(currentUser)
-				UsersManager.setActiveUser(currentUser)
-				UsersManager.setAllUsers()
-				this.error.show = false
-				this.$router.push('/')
+				if (currentUser.status == 'disabled') {
+					this.error.message = 'This account has been disabled please contact your supervisor.'
+					this.error.show = true
+					setTimeout(() => {
+						this.error.show = false
+					}, 2000)
+				} else {
+					currentUser = AttendanceManager.userCheckIn(currentUser)
+					UsersManager.setActiveUser(currentUser)
+					UsersManager.setAllUsers()
+					this.error.show = false
+					this.$router.push('/')
+				}
 			} else {
+				this.error.message = 'Invalid username or password.'
 				this.error.show = true
 				setTimeout(() => {
 					this.error.show = false

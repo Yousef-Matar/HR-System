@@ -114,6 +114,7 @@ export default {
 		tableHeaders() {
 			var headers = [
 				{ value: 'Username', sortable: true },
+				{ value: 'Account Status', sortable: true },
 				{ value: 'Role', sortable: true },
 				{ value: 'Month Hours', sortable: true },
 			]
@@ -131,6 +132,7 @@ export default {
 				var dataTemplate = {}
 				dataTemplate.user = user
 				dataTemplate.Username = user.username
+				dataTemplate['Account Status'] = user.status
 				dataTemplate.Role = user.role
 				dataTemplate['Month Hours'] = HoursManager.calculateCurrentMonthWorkedHours(user.attendance) + '/' + HoursManager.getMonthlyHours()
 

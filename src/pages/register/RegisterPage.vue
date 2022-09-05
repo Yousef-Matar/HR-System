@@ -86,6 +86,7 @@ export default {
 				lastName: '',
 				yearlyVacation: 21,
 				role: 'employee',
+				status: 'active',
 				hireDate: new Date().toLocaleDateString(),
 				attendance: [],
 			},
