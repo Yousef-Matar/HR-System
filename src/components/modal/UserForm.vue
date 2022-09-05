@@ -225,7 +225,7 @@ export default {
 				.then((result) => {
 					if (result.isConfirmed) {
 						this.$swal.fire('Deleted!', 'Account has been deleted.', 'success')
-						UsersManager.deleteUser(this.user.username)
+						UsersManager.deleteUser(this.user.ID)
 						this.error.show = false
 						this.isModalOpen = false
 						this.$emit('tableRefresh')
