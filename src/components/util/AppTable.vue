@@ -37,9 +37,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<template v-if="sortedTableData != null">
+					<template v-if="sortTable() != null">
 						<tr
-							v-for="row in sortedTableData"
+							v-for="row in sortTable()"
 							:key="'tableRow' + row"
 							class="bg-gray-800"
 						>
@@ -70,7 +70,7 @@
 							</td>
 						</tr>
 					</template>
-					<tr v-if="sortedTableData.length == 0 && sortedTableData != null && tableFields != null" class="bg-gray-800">
+					<tr v-if="sortTable().length == 0 && sortTable() != null && tableFields != null" class="bg-gray-800">
 						<td
 							v-for="dataField in tableFields"
 							:key="'NoData' + dataField"
@@ -163,7 +163,6 @@ export default {
 	watch: {
 		tableData(newData) {
 			this.sortedTableData = newData
-			this.sortTable()
 		},
 	},
 	methods: {
@@ -188,7 +187,7 @@ export default {
 				this.sortedTableData = []
 				return
 			}
-			this.sortedTableData = this.sortedTableData
+			return this.sortedTableData
 				.sort((a, b) => {
 					let modifier = 1
 					if (this.sortingType === 'descendingly') modifier = -1
