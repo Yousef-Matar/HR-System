@@ -19,14 +19,14 @@ import MyDocuments from '@/pages/employees/documents/util/MyDocuments'
 import RequestDocument from '@/pages/employees/documents/util/RequestDocument'
 import SubmitDocument from '@/pages/employees/documents/util/SubmitDocument'
 
-import TableManager from '@/util/TableManager'
+import SelectOptions from '@/util/SelectOptions'
 
 export default {
 	components: { RequestDocument, SubmitDocument, MyDocuments },
 	data() {
 		return {
-			documentType: TableManager.getDocumentTypes()[0].value,
-			documentTypes: TableManager.getDocumentTypes(),
+			documentType: SelectOptions.getDocumentTypes()[0].value,
+			documentTypes: SelectOptions.getDocumentTypes(),
 		}
 	},
 }

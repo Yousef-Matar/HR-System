@@ -120,7 +120,7 @@
 	</span>
 </template>
 <script>
-import TableManager from '@/util/TableManager'
+import SelectOptions from '@/util/SelectOptions'
 import UsersManager from '@/util/UsersManager'
 
 export default {
@@ -145,7 +145,7 @@ export default {
 			},
 			roles: null,
 			form: null,
-			accountStatus: TableManager.getAccountStatus(),
+			accountStatus: SelectOptions.getAccountStatus(),
 		}
 	},
 	mounted() {
@@ -215,77 +215,11 @@ export default {
 
 		setRoles() {
 			if (this.activeUser.role === 'admin') {
-				this.roles = [
-					{
-						title: 'Select a role',
-						value: '',
-						hidden: true,
-					},
-					{
-						title: 'Employee',
-						value: 'employee',
-						hidden: false,
-					},
-					{
-						title: 'Human Resources',
-						value: 'human resources',
-						hidden: false,
-					},
-					{
-						title: 'Admin',
-						value: 'admin',
-						hidden: false,
-					},
-					// eslint-disable-next-line no-mixed-spaces-and-tabs
-				]
+				this.roles = SelectOptions.getAdminRoles()
 			} else if (this.activeUser.role === 'SuperAdmin') {
-				this.roles = [
-					{
-						title: 'Select a role',
-						value: '',
-						hidden: true,
-					},
-					{
-						title: 'SuperAdmin',
-						value: 'SuperAdmin',
-						hidden: true,
-					},
-					{
-						title: 'Employee',
-						value: 'employee',
-						hidden: false,
-					},
-					{
-						title: 'Human Resources',
-						value: 'human resources',
-						hidden: false,
-					},
-					{
-						title: 'Admin',
-						value: 'admin',
-						hidden: false,
-					},
-					// eslint-disable-next-line no-mixed-spaces-and-tabs
-				]
+				this.roles = SelectOptions.getSuperAdminRoles()
 			} else {
-				this.roles = [
-					{
-						title: 'Select a role',
-						value: '',
-						hidden: true,
-					},
-					{
-						title: 'Employee',
-						value: 'employee',
-						hidden: false,
-					},
-					{
-						title: 'Human Resources',
-						value: 'human resources',
-						hidden: false,
-					},
-					// eslint-disable-next-line no-mixed-spaces-and-tabs
-				]
+				this.roles = SelectOptions.getHRRoles()
 			}
 		},
 	},

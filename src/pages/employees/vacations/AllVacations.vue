@@ -79,7 +79,7 @@ import exportFromJSON from 'export-from-json'
 
 import OperationDenied from '@/components/modal/OperationDenied.vue'
 
-import TableManager from '@/util/TableManager'
+import SelectOptions from '@/util/SelectOptions'
 import UsersManager from '@/util/UsersManager'
 import VacationManager from '@/util/VacationManager'
 
@@ -95,8 +95,8 @@ export default {
 				searchFilter: '',
 				statusFilter: '',
 			},
-			itemsPerPageData: TableManager.getItemsPerPage(),
-			statusFilter: TableManager.getStatusFilter(),
+			itemsPerPageData: SelectOptions.getItemsPerPage(),
+			statusFilter: SelectOptions.getStatusFilter(),
 		}
 	},
 	computed: {

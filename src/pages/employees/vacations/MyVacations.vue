@@ -58,7 +58,7 @@
 <script>
 import exportFromJSON from 'export-from-json'
 
-import TableManager from '@/util/TableManager'
+import SelectOptions from '@/util/SelectOptions'
 import UsersManager from '@/util/UsersManager'
 import VacationManager from '@/util/VacationManager'
 
@@ -70,8 +70,8 @@ export default {
 				itemsPerPage: 10,
 				statusFilter: '',
 			},
-			itemsPerPageData: TableManager.getItemsPerPage(),
-			statusFilter: TableManager.getStatusFilter(),
+			itemsPerPageData: SelectOptions.getItemsPerPage(),
+			statusFilter: SelectOptions.getStatusFilter(),
 		}
 	},
 	computed: {
