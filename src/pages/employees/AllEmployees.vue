@@ -10,6 +10,15 @@
 				@searchBarChange="(inputContent) => (table.searchFilter = inputContent)"
 			/>
 			<v-select
+				class="w-44"
+				:select-i-d="'role'"
+				:select-label="'Account Status'"
+				:select-value="table.accountStatus"
+				:items="getAccountStatus"
+				:required="false"
+				@roleChange="(selectContent) => (table.accountStatus = selectContent)"
+			/>
+			<v-select
 				class="w-40"
 				:select-i-d="'role'"
 				:select-label="'Role Filter'"
@@ -76,10 +85,12 @@ export default {
 		return {
 			activeUser: UsersManager.getActiveUser(),
 			itemsPerPageData: SelectOptions.getItemsPerPage(),
+			getAccountStatus: SelectOptions.getAccountStatusFilter(),
 			table: {
 				itemsPerPage: 10,
 				searchFilter: '',
 				roleFilter: '',
+				accountStatus: '',
 				initialData: UsersManager.getUsersBasedOnPermissions(UsersManager.getActiveUser().role),
 			},
 		}
@@ -123,9 +134,12 @@ export default {
 			users = users.filter((user) => {
 				const usernames = user.username.toLowerCase()
 				const accountRoles = user.role.toLowerCase()
+				const accountStatus = user.status.toLowerCase()
 				const searchTerm = this.table.searchFilter.toLowerCase()
-				if (this.table.roleFilter == 'all' || this.table.roleFilter == '') return usernames.includes(searchTerm)
-				else if (this.table.roleFilter !== 'all') return usernames.includes(searchTerm) && accountRoles.includes(this.table.roleFilter)
+				if ((this.table.roleFilter == 'all' || this.table.roleFilter == '') && (this.table.accountStatus == 'all' || this.table.accountStatus == '')) return usernames.includes(searchTerm)
+				else if ((this.table.roleFilter != 'all' || this.table.roleFilter != '') && (this.table.accountStatus == 'all' || this.table.accountStatus == '')) return usernames.includes(searchTerm) && accountRoles.includes(this.table.roleFilter)
+				else if ((this.table.roleFilter == 'all' || this.table.roleFilter == '') && (this.table.accountStatus != 'all' || this.table.accountStatus != '')) return usernames.includes(searchTerm) && accountStatus.includes(this.table.accountStatus)
+				else if ((this.table.roleFilter != 'all' || this.table.roleFilter != '') && (this.table.accountStatus != 'all' || this.table.accountStatus != '')) return usernames.includes(searchTerm) && accountStatus.includes(this.table.accountStatus) && accountRoles.includes(this.table.roleFilter)
 			})
 			return users
 		},

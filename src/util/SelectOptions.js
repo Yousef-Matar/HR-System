@@ -182,6 +182,31 @@ var SelectOptions = {
 		]
 		return statusFilter
 	},
+	getAccountStatusFilter() {
+		const accountStatus = [
+			{
+				title: 'Account Status',
+				value: '',
+				hidden: true,
+			},
+			{
+				title: 'All',
+				value: 'all',
+				hidden: false,
+			},
+			{
+				title: 'active',
+				value: 'active',
+				hidden: false,
+			},
+			{
+				title: 'disabled',
+				value: 'disabled',
+				hidden: false,
+			},
+		]
+		return accountStatus
+	},
 	getAccountStatus() {
 		const accountStatus = [
 			{
