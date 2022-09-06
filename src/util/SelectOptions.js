@@ -1,4 +1,64 @@
 var SelectOptions = {
+	getDocumentStatus() {
+		const documentsStatus = [
+			{
+				title: 'Select document status',
+				value: '',
+				hidden: true,
+			},
+			{
+				title: 'All',
+				value: 'all',
+				hidden: false,
+			},
+			{
+				title: 'Approved',
+				value: 'approved',
+				hidden: false,
+			},
+			{
+				title: 'Pending',
+				value: 'pending',
+				hidden: false,
+			},
+			{
+				title: 'Rejected',
+				value: 'rejected',
+				hidden: false,
+			},
+		]
+		return documentsStatus
+	},
+	getDocumentFilters() {
+		const documentsTypes = [
+			{
+				title: 'Select which type of document',
+				value: '',
+				hidden: true,
+			},
+			{
+				title: 'All',
+				value: 'all',
+				hidden: false,
+			},
+			{
+				title: 'Word Document',
+				value: 'Word Document',
+				hidden: false,
+			},
+			{
+				title: 'Image',
+				value: 'Image',
+				hidden: false,
+			},
+			{
+				title: 'PDF',
+				value: 'PDF',
+				hidden: false,
+			},
+		]
+		return documentsTypes
+	},
 	getDocumentTypes() {
 		const documentsTypes = [
 			{

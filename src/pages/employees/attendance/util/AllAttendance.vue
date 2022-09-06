@@ -84,7 +84,6 @@ export default {
 		tableHeaders() {
 			var headers = [
 				{ value: 'Username', sortable: true },
-				{ value: 'Account Status', sortable: true },
 				{ value: 'Role', sortable: true },
 				{ value: 'Monthly Covered Hours', sortable: true },
 			]
@@ -104,11 +103,11 @@ export default {
 		tableData() {
 			var data = []
 			var month = this.table.monthFilter + 1
+			if(this.users==null)return
 			var users = this.users.filter((user) => String(this.table.yearFilter) + String(month) >= user.hireDate.slice(user.hireDate.lastIndexOf('/') + 1) + user.hireDate.slice(0, user.hireDate.indexOf('/')))
 			users.forEach((user) => {
 				var dataTemplate = {}
 				dataTemplate.Username = user.username
-				dataTemplate['Account Status'] = user.status
 				dataTemplate.Role = user.role
 				dataTemplate['Monthly Covered Hours'] = HoursManager.getMonthWorkedHours(user.attendance, this.table.yearFilter, this.table.monthFilter) + '/' + HoursManager.getMonthHours(this.table.yearFilter, this.table.monthFilter).hours
 				this.getDaysInMonth.forEach((day) => {

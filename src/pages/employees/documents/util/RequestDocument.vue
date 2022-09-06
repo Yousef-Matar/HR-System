@@ -13,13 +13,6 @@
 			</div>
 		</div>
 		<div class="flex flex-col gap-8">
-			<v-input
-				:input-i-d="'employeeName'"
-				:type="'text'"
-				:input-label="'Name'"
-				:input-value="userName"
-				:disabled="true"
-			/>
 			<v-date
 				:input-i-d="'requestDate'"
 				:input-value="form.requestDate"
@@ -55,31 +48,11 @@ export default {
 	data() {
 		return {
 			documentTypes: SelectOptions.getDocumentTypes(),
-			userName: '',
 			form: {
 				requestDate: new Date(),
 				documentType: '',
 			},
 		}
-	},
-	computed: {
-		userFirstLastName() {
-			var userName = {
-				firstName: UsersManager.getActiveUser().firstName,
-				lastName: UsersManager.getActiveUser().lastName,
-			}
-			return userName
-		},
-	},
-	// ...
-	watch: {
-		userFirstLastName: {
-			handler(newData) {
-				this.userName = newData.firstName + ' ' + newData.lastName
-			},
-			// force eager callback execution
-			immediate: true,
-		},
 	},
 	methods: {
 		submit() {

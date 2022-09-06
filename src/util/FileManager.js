@@ -16,6 +16,9 @@ var FileManager = {
 	getAllRequestedFiles() {
 		return this.getAllFiles().requestedFiles
 	},
+	getAllOtherUsersRequestedFiles(userID) {
+		return this.getAllRequestedFiles().filter((file) => file.userID != userID)
+	},
 	getUserUploadedFiles(userID) {
 		return this.getAllUploadedFiles().filter((file) => file.userID == userID)
 	},

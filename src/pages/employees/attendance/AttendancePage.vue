@@ -23,12 +23,13 @@ export default {
 				return UsersManager.getUserByUsername(this.username)
 			} else {
 				var activeUser = UsersManager.getActiveUser()
+				if (activeUser == null) return
 				if (activeUser.role == 'SuperAdmin') {
-					return UsersManager.getAllUsers().filter((user) => user.role != 'SuperAdmin' && user.username != activeUser.username)
+					return UsersManager.getAllUsers().filter((user) => user.role != 'SuperAdmin' && user.username != activeUser.username && user.status != 'disabled')
 				} else if (activeUser.role == 'admin') {
-					return UsersManager.getAllUsers().filter((user) => user.role != 'SuperAdmin' && user.username != activeUser.username)
+					return UsersManager.getAllUsers().filter((user) => user.role != 'SuperAdmin' && user.username != activeUser.username && user.status != 'disabled')
 				} else if (activeUser.role == 'human resources') {
-					return UsersManager.getAllUsers().filter((user) => user.role != 'SuperAdmin' && user.role != 'admin' && user.username != activeUser.username)
+					return UsersManager.getAllUsers().filter((user) => user.role != 'SuperAdmin' && user.role != 'admin' && user.username != activeUser.username && user.status != 'disabled')
 				}
 				return null
 			}

@@ -4,67 +4,73 @@
 			<table class="w-full text-base text-left text-gray-400">
 				<thead class="text-xs text-gray-400 uppercase bg-gray-700">
 					<tr>
-						<th
-							v-for="(header, index) in headers"
-							:key="'tableHeader' + header"
-							class="p-2 border border-gray-400"
-						>
-							<div
-								v-if="header.sortable == true"
-								:key="'headerSort' + header.value"
-								class="flex justify-between gap-5 whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center cursor-pointer"
-								@click="sort(header.value)"
+						<template v-if="headers != null">
+							<th
+								v-for="(header, index) in headers"
+								:key="'tableHeader' + header"
+								class="p-2 border border-gray-400"
 							>
-								{{ header.value }}
-								<div class="flex flex-col">
-									<font-awesome-icon icon="fa-solid fa-sort-up" :class="header.value === sortingAttribute && sortingType === 'ascendingly' ? 'text-primary' : ''" />
-									<font-awesome-icon icon="fa-solid fa-sort-down" :class="header.value === sortingAttribute && sortingType === 'descendingly' ? 'text-primary' : ''" />
+								<div
+									v-if="header.sortable == true"
+									:key="'headerSort' + header.value"
+									class="flex justify-between gap-5 whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center cursor-pointer"
+									@click="sort(header.value)"
+								>
+									{{ header.value }}
+									<div class="flex flex-col">
+										<font-awesome-icon icon="fa-solid fa-sort-up" :class="header.value === sortingAttribute && sortingType === 'ascendingly' ? 'text-primary' : ''" />
+										<font-awesome-icon icon="fa-solid fa-sort-down" :class="header.value === sortingAttribute && sortingType === 'descendingly' ? 'text-primary' : ''" />
+									</div>
 								</div>
-							</div>
-							<div
-								v-else
-								:key="'headerUnSorted' + tableFields[index]"
-								class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
-							>
-								{{ header.value }}
-							</div>
-						</th>
+								<div
+									v-else
+									:key="'headerUnSorted' + tableFields[index]"
+									class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
+								>
+									{{ header.value }}
+								</div>
+							</th>
+						</template>
 						<th v-if="headerComponents" class="p-2 border border-gray-400">
 							<slot name="tableHeaderComponents" />
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr
-						v-for="row in sortTable()"
-						:key="'tableRow' + row"
-						class="bg-gray-800"
-					>
-						<template v-for="dataField in tableFields">
-							<th
-								v-if="tableFields.indexOf(dataField) == 0"
-								:key="'tableDataFirst' + dataField"
-								class="p-2 border border-gray-600 font-medium text-white"
-							>
-								<div class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center">
-									{{ row[dataField] }}
-								</div>
-							</th>
-							<td
-								v-else
-								:key="'tableDataSecond' + dataField"
-								class="p-2 border border-gray-600"
-							>
-								<div class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center">
-									{{ row[dataField] }}
-								</div>
+					<template v-if="sortedTableData != null">
+						<tr
+							v-for="row in sortedTableData"
+							:key="'tableRow' + row"
+							class="bg-gray-800"
+						>
+							<template v-if="tableFields != null">
+								<template v-for="dataField in tableFields">
+									<th
+										v-if="tableFields.indexOf(dataField) == 0"
+										:key="'tableDataFirst' + dataField"
+										class="p-2 border border-gray-600 font-medium text-white"
+									>
+										<div class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center">
+											{{ row[dataField] }}
+										</div>
+									</th>
+									<td
+										v-else
+										:key="'tableDataSecond' + dataField"
+										class="p-2 border border-gray-600"
+									>
+										<div class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center">
+											{{ row[dataField] }}
+										</div>
+									</td>
+								</template>
+							</template>
+							<td v-if="tableComponents" class="p-2 border border-gray-600">
+								<slot name="tableBodyComponents" :row="row" />
 							</td>
-						</template>
-						<td v-if="tableComponents" class="p-2 border border-gray-600">
-							<slot name="tableBodyComponents" :row="row" />
-						</td>
-					</tr>
-					<tr v-if="!sortTable().length" class="bg-gray-800">
+						</tr>
+					</template>
+					<tr v-if="sortedTableData.length == 0 && sortedTableData != null && tableFields != null" class="bg-gray-800">
 						<td
 							v-for="dataField in tableFields"
 							:key="'NoData' + dataField"
@@ -83,9 +89,9 @@
 				</tbody>
 			</table>
 		</div>
-		<div v-if="pagination" class="flex flex-col gap-8 mt-8">
+		<div v-if="pagination && sortedTableData != null && tableData != null" class="flex flex-col gap-8 mt-8">
 			<div class="flex justify-between gap-8">
-				<div>Showing {{ sortTable().length }} out of {{ tableData.length }} rows</div>
+				<div>Showing {{ sortedTableData.length }} out of {{ tableData.length }} rows</div>
 				<div>Page {{ currentPage }} out of {{ Math.ceil(tableData.length / pageSize) }} pages</div>
 			</div>
 			<div class="flex justify-between gap-8">
@@ -157,6 +163,7 @@ export default {
 	watch: {
 		tableData(newData) {
 			this.sortedTableData = newData
+			this.sortTable()
 		},
 	},
 	methods: {
@@ -177,7 +184,11 @@ export default {
 			this.sortingAttribute = tableHeader
 		},
 		sortTable() {
-			return this.sortedTableData
+			if (this.sortedTableData == null) {
+				this.sortedTableData = []
+				return
+			}
+			this.sortedTableData = this.sortedTableData
 				.sort((a, b) => {
 					let modifier = 1
 					if (this.sortingType === 'descendingly') modifier = -1
