@@ -3,6 +3,14 @@
 		<div class="flex flex-col gap-5 items-start">
 			<div class="flex flex-wrap gap-5 justify-between w-full items-end">
 				<div class="flex flex-wrap gap-5 items-end">
+					<v-input
+						:input-i-d="'searchBar'"
+						:type="'text'"
+						:input-label="'Search'"
+						:input-value="table.searchFilter"
+						:required="false"
+						@searchBarChange="(inputContent) => (table.searchFilter = inputContent)"
+					/>
 					<v-select
 						:select-i-d="'status'"
 						:select-label="'Status Filter'"
@@ -68,6 +76,7 @@ export default {
 			activeUser: UsersManager.getActiveUser(),
 			table: {
 				itemsPerPage: 10,
+				searchFilter: '',
 				statusFilter: '',
 			},
 			itemsPerPageData: SelectOptions.getItemsPerPage(),
@@ -90,12 +99,7 @@ export default {
 			return fields
 		},
 		tableData() {
-			var initialData
-			if (this.table.statusFilter == '' || this.table.statusFilter == 'All') {
-				initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy == this.activeUser.ID)
-			} else {
-				initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy == this.activeUser.ID && vacation.status == this.table.statusFilter)
-			}
+			var initialData = this.filteredData
 			var data = []
 			initialData.forEach((element) =>
 				data.push({
@@ -107,6 +111,20 @@ export default {
 				})
 			)
 			return data
+		},
+		filteredData() {
+			var initialData = VacationManager.getAllVacationRequests().filter((vacation) => vacation.requestedBy == this.activeUser.ID)
+			initialData = initialData.filter((vacationsRequest) => {
+				const searchTerm = this.table.searchFilter.toLowerCase()
+				const IDS = String(vacationsRequest.ID)
+				const requestersUsernames = UsersManager.getUserByID(vacationsRequest.requestedBy).username.toLowerCase()
+				const vacationFromDate = vacationsRequest.from
+				const vacationTillDate = vacationsRequest.till
+				const requestsStatus = vacationsRequest.status.toLowerCase()
+				if (this.table.statusFilter == 'all' || this.table.statusFilter == '') return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || vacationFromDate.includes(searchTerm) || vacationTillDate.includes(searchTerm)
+				else if (this.table.statusFilter !== 'all') return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || vacationFromDate.includes(searchTerm) || vacationTillDate.includes(searchTerm)) && requestsStatus.includes(this.table.statusFilter)
+			})
+			return initialData
 		},
 	},
 	methods: {
