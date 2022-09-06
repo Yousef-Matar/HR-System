@@ -4,17 +4,14 @@ var TableManager = {
 			{
 				title: 'My Documents',
 				value: 'MyDocuments',
-				hidden: false,
 			},
 			{
 				title: 'Submit Document',
 				value: 'SubmitDocument',
-				hidden: false,
 			},
 			{
 				title: 'Request Document',
 				value: 'RequestDocument',
-				hidden: false,
 			},
 		]
 		return documentTypes

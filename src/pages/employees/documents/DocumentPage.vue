@@ -1,18 +1,16 @@
 <template>
 	<div class="p-8 rounded-3xl bg-background flex flex-col gap-8">
-		<v-select
-			:select-i-d="'document'"
-			:select-label="'Document Type'"
-			:select-value="documentType"
-			:items="documentTypes"
-			:required="false"
-			@documentChange="(selectContent) => (documentType = selectContent)"
-		/>
-		<component
-			:is="documentType"
-			v-if="documentType != ''"
-			class="self-center"
-		/>
+		<div class="w-full h-16 items-center flex text-sm p-2 gap-5">
+			<v-button
+				v-for="document in documentTypes"
+				:key="document.title"
+				class="w-full"
+				:text="document.title"
+				:has-border="documentType == document.value ? true : false"
+				:method=" () => { documentType = document.value } "
+			/>
+		</div>
+		<component :is="documentType" />
 	</div>
 </template>
 
