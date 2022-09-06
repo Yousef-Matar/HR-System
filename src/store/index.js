@@ -3,6 +3,12 @@ import { createStore } from 'vuex'
 const store = createStore({
 	state() {
 		return {
+			uploadedFiles:
+				localStorage.getItem('Uploaded Files') === null
+					? [
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+					  ]
+					: JSON.parse(localStorage.getItem('Uploaded Files')),
 			documentRequests:
 				localStorage.getItem('Document Requests') === null
 					? [
@@ -56,6 +62,7 @@ const store = createStore({
 			localStorage.setItem('Monthly Hours', JSON.stringify(state.monthlyHours))
 			localStorage.setItem('Document Requests', JSON.stringify(state.documentRequests))
 			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
+			localStorage.setItem('Uploaded Files', JSON.stringify(state.uploadedFiles))
 			if (new Date().getDate() == 1 && new Date().getMonth() == 1 && new Date().getFullYear() >= new Date().getFullYear()) {
 				state.allEmployees.forEach((employee) => {
 					employee.yearlyVacation = 21
@@ -76,6 +83,14 @@ const store = createStore({
 		setAllEmployees(state, payload) {
 			state.allEmployees = payload
 			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
+		},
+		setUploadedFiles(state, payload) {
+			state.uploadedFiles = payload
+			localStorage.setItem('Uploaded Files', JSON.stringify(state.uploadedFiles))
+		},
+		deleteUploadedFile(state, payload) {
+			state.uploadedFiles = state.uploadedFiles.filter((file) => file.ID != payload)
+			localStorage.setItem('Uploaded Files', JSON.stringify(state.uploadedFiles))
 		},
 		setVacationRequests(state, payload) {
 			state.vacationRequests = payload

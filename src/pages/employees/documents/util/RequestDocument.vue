@@ -1,8 +1,12 @@
 <template>
-	<form autocomplete="off" @submit.prevent="submit">
+	<form
+		autocomplete="off"
+		class="self-center"
+		@submit.prevent="submit"
+	>
 		<div>
 			<h1 class="text-2xl">
-				Request a document
+				Request A Document
 			</h1>
 			<div class="text-lg">
 				Tell us how can we assist you.
