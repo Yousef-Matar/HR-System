@@ -2,7 +2,7 @@ var SelectOptions = {
 	getDocumentStatus() {
 		const documentsStatus = [
 			{
-				title: 'Select document status',
+				title: 'document status',
 				value: '',
 				hidden: true,
 			},
@@ -32,7 +32,7 @@ var SelectOptions = {
 	getDocumentFilters() {
 		const documentsTypes = [
 			{
-				title: 'Select which type of document',
+				title: 'document type',
 				value: '',
 				hidden: true,
 			},
@@ -62,7 +62,7 @@ var SelectOptions = {
 	getDocumentTypes() {
 		const documentsTypes = [
 			{
-				title: 'Select which document',
+				title: 'document type',
 				value: '',
 				hidden: true,
 			},
@@ -276,7 +276,7 @@ var SelectOptions = {
 		var usersUniqueRoles = [...new Set(users.map(({ role }) => role))]
 		var allUniqueRoles = [
 			{
-				title: 'Filter by role',
+				title: 'Role Filter',
 				value: '',
 				hidden: true,
 			},

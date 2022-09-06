@@ -1,39 +1,37 @@
 <template>
 	<div class="p-8 rounded-3xl bg-background flex flex-col gap-8">
-		<div class="flex flex-col gap-5 items-start">
-			<div class="flex flex-wrap gap-5 justify-between w-full items-end">
-				<div class="flex flex-wrap gap-5 items-end">
-					<v-input
-						:input-i-d="'searchBar'"
-						:type="'text'"
-						:input-label="'Search'"
-						:input-value="table.searchFilter"
-						:required="false"
-						@searchBarChange="(inputContent) => (table.searchFilter = inputContent)"
-					/>
-					<v-select
-						:select-i-d="'role'"
-						:select-label="'Role Filter'"
-						:select-value="table.roleFilter"
-						:items="getRoleFilter"
-						:required="false"
-						@roleChange="(selectContent) => (table.roleFilter = selectContent)"
-					/>
-					<v-select
-						:select-i-d="'itemsPerPage'"
-						:select-label="'Items Per Page'"
-						:select-value="table.itemsPerPage"
-						:items="itemsPerPageData"
-						:required="false"
-						@itemsPerPageChange="(selectContent) => (table.itemsPerPage = selectContent)"
-					/>
-				</div>
-				<v-button
-					:method="downloadFile"
-					:text="'Export to Excel'"
-					:icon="'fa fa-file-arrow-down'"
-				/>
-			</div>
+		<div class="flex flex-wrap gap-5 items-center w-full">
+			<v-input
+				:input-i-d="'searchBar'"
+				:type="'text'"
+				:input-label="'Search'"
+				:input-value="table.searchFilter"
+				:required="false"
+				@searchBarChange="(inputContent) => (table.searchFilter = inputContent)"
+			/>
+			<v-select
+				class="w-40"
+				:select-i-d="'role'"
+				:select-label="'Role Filter'"
+				:select-value="table.roleFilter"
+				:items="getRoleFilter"
+				:required="false"
+				@roleChange="(selectContent) => (table.roleFilter = selectContent)"
+			/>
+			<v-select
+				class="w-40"
+				:select-i-d="'itemsPerPage'"
+				:select-label="'Items Per Page'"
+				:select-value="table.itemsPerPage"
+				:items="itemsPerPageData"
+				:required="false"
+				@itemsPerPageChange="(selectContent) => (table.itemsPerPage = selectContent)"
+			/>
+			<v-button
+				:method="downloadFile"
+				:text="'Export to Excel'"
+				:icon="'fa fa-file-arrow-down'"
+			/>
 		</div>
 		<v-table
 			:headers="tableHeaders"
@@ -126,7 +124,7 @@ export default {
 				const usernames = user.username.toLowerCase()
 				const accountRoles = user.role.toLowerCase()
 				const searchTerm = this.table.searchFilter.toLowerCase()
-				if (this.table.roleFilter == 'all' || this.table.roleFilter == '') return usernames.includes(searchTerm) || accountRoles.includes(searchTerm)
+				if (this.table.roleFilter == 'all' || this.table.roleFilter == '') return usernames.includes(searchTerm)
 				else if (this.table.roleFilter !== 'all') return usernames.includes(searchTerm) && accountRoles.includes(this.table.roleFilter)
 			})
 			return users
