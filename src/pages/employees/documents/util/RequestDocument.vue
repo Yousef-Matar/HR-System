@@ -91,6 +91,7 @@ export default {
 				ID: FileManager.getFileID(),
 				userID: UsersManager.getActiveUser().ID,
 				handledBy: null,
+				requestedFile: null,
 				requestDate: this.form.requestDate.toLocaleDateString(),
 				documentType: this.form.documentType,
 				status: 'pending',

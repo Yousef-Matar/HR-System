@@ -19,6 +19,9 @@ var FileManager = {
 	getUserUploadedFiles(userID) {
 		return this.getAllUploadedFiles().filter((file) => file.userID == userID)
 	},
+	getUserRequestedFiles(userID) {
+		return this.getAllRequestedFiles().filter((file) => file.userID == userID)
+	},
 	deleteFile(fileID, fileType) {
 		store.commit('deleteFile', { fileID: fileID, fileType: fileType })
 	},

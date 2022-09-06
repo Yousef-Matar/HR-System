@@ -9,12 +9,12 @@
 					Submitted Documents:
 				</h1>
 				<v-file-description
-					v-for="file in submittedDecodedFiles"
+					v-for="file in uploadedDecodedFiles"
 					:key="file.ID"
 					:file="file.data"
 					:icon-action="[ { icon: 'fa fa-file-arrow-down', size: 'xl', class: 'cursor-pointer hover:text-primary', action: () => { downloadFile(file.data) }, }, { icon: 'fa fa-multiply', size: 'xl', class: 'cursor-pointer hover:text-red-500', action: () => { deleteFile(file.ID, 'uploadedFiles') }, }, ]"
 				/>
-				<div v-if="submittedDecodedFiles.length == 0" class="p-2 text-sm font-normal text-gray-400 bg-gray-800 bg-clip-padding border shadow border-gray-600 rounded m-0 flex justify-between items-center">
+				<div v-if="uploadedDecodedFiles.length == 0" class="p-2 text-sm font-normal text-gray-400 bg-gray-800 bg-clip-padding border shadow border-gray-600 rounded m-0 flex justify-between items-center">
 					<div class="flex items-start flex-col">
 						<p>No files have been submitted yet.</p>
 					</div>
@@ -25,12 +25,24 @@
 					Requested Documents:
 				</h1>
 				<v-file-description
-					v-for="file in requestedDecodedFiles"
+					v-for="file in requestedDecodedFiles.approvedFiles"
 					:key="file.ID"
 					:file="file.data"
 					:icon-action="[ { icon: 'fa fa-file-arrow-down', size: 'xl', class: 'cursor-pointer hover:text-primary', action: () => { downloadFile(file.data) }, }, ]"
 				/>
-				<div v-if="requestedDecodedFiles.length == 0" class="p-2 text-sm font-normal text-gray-400 bg-gray-800 bg-clip-padding border shadow border-gray-600 rounded m-0 flex justify-between items-center">
+				<v-file-status
+					v-for="file in requestedDecodedFiles.rejectedFiles"
+					:key="file.ID"
+					:file="file"
+					:icon-action="[ { icon: 'fa fa-multiply', size: 'xl', class: 'cursor-pointer hover:text-red-500', action: () => { deleteFile(file.ID, 'requestedFiles') }, }, ]"
+				/>
+				<v-file-status
+					v-for="file in requestedDecodedFiles.pendingFiles"
+					:key="file.ID"
+					:file="file"
+					:icon-action="[ { icon: 'fa fa-multiply', size: 'xl', class: 'cursor-pointer hover:text-red-500', action: () => { deleteFile(file.ID, 'requestedFiles') }, }, ]"
+				/>
+				<div v-if="requestedDecodedFiles.approvedFiles.length == 0 && requestedDecodedFiles.pendingFiles.length == 0 && requestedDecodedFiles.rejectedFiles.length == 0" class="p-2 text-sm font-normal text-gray-400 bg-gray-800 bg-clip-padding border shadow border-gray-600 rounded m-0 flex justify-between items-center">
 					<div class="flex items-start flex-col">
 						<p>No files have been sent yet.</p>
 					</div>
@@ -47,22 +59,57 @@ import UsersManager from '@/util/UsersManager'
 export default {
 	data() {
 		return {
-			encodedFiles: FileManager.getUserUploadedFiles(UsersManager.getActiveUser().ID),
-			submittedDecodedFiles: [],
-			requestedDecodedFiles: [],
+			userUploadedEncodedFiles: FileManager.getUserUploadedFiles(UsersManager.getActiveUser().ID),
+			uploadedDecodedFiles: [],
+			userRequestedEncodedFiles: FileManager.getUserRequestedFiles(UsersManager.getActiveUser().ID),
+			requestedDecodedFiles: {
+				approvedFiles: [],
+				pendingFiles: [],
+				rejectedFiles: [],
+			},
 		}
 	},
 	watch: {
-		encodedFiles: {
+		userUploadedEncodedFiles: {
 			handler(newFiles) {
-				this.submittedDecodedFiles = []
+				this.uploadedDecodedFiles = []
 				newFiles.forEach((encodedFile) => {
 					FileManager.decodeFile(encodedFile.fileURL, encodedFile.fileName, encodedFile.fileType).then((file) => {
-						this.submittedDecodedFiles.push({
+						this.uploadedDecodedFiles.push({
 							ID: encodedFile.ID,
 							data: file,
 						})
 					})
+				})
+			},
+			// force eager callback execution
+			immediate: true,
+		},
+		userRequestedEncodedFiles: {
+			handler(newFiles) {
+				this.requestedDecodedFiles = {
+					approvedFiles: [],
+					pendingFiles: [],
+					rejectedFiles: [],
+				}
+				newFiles.forEach((encodedFile) => {
+					switch (encodedFile.status) {
+						case 'approved':
+							FileManager.decodeFile(encodedFile.requestedFile.fileURL, encodedFile.requestedFile.fileName, encodedFile.requestedFile.fileType).then((file) => {
+								this.uploadedDecodedFiles.push({
+									ID: encodedFile.ID,
+									data: file,
+								})
+							})
+							break
+						case 'rejected':
+							this.requestedDecodedFiles.rejectedFiles.push(encodedFile)
+							break
+
+						default:
+							this.requestedDecodedFiles.pendingFiles.push(encodedFile)
+							break
+					}
 				})
 			},
 			// force eager callback execution
@@ -84,7 +131,8 @@ export default {
 					if (result.isConfirmed) {
 						this.$swal.fire('Deleted!', 'Your file has been deleted.', 'success')
 						FileManager.deleteFile(fileID, fileType)
-						this.encodedFiles = FileManager.getUserUploadedFiles(UsersManager.getActiveUser().ID)
+						this.userUploadedEncodedFiles = FileManager.getUserUploadedFiles(UsersManager.getActiveUser().ID)
+						this.userRequestedEncodedFiles = FileManager.getUserRequestedFiles(UsersManager.getActiveUser().ID)
 					}
 				})
 		},

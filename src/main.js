@@ -27,6 +27,7 @@ import AppButton from '@/components/util/AppButton'
 import AppDate from '@/components/util/AppDate'
 import AppDropzone from '@/components/util/AppDropzone'
 import AppFileDescription from '@/components/util/AppFileDescription'
+import AppFileStatus from '@/components/util/AppFileStatus'
 import AppInput from '@/components/util/AppInput'
 import AppSelect from '@/components/util/AppSelect'
 import AppTable from '@/components/util/AppTable'
@@ -93,5 +94,6 @@ app.component('VAlert', AppAlert)
 app.component('VTextarea', AppTextarea)
 app.component('VDropzone', AppDropzone)
 app.component('VFileDescription', AppFileDescription)
+app.component('VFileStatus', AppFileStatus)
 
 app.mount('#app')
