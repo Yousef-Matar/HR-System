@@ -1,4 +1,29 @@
 var SelectOptions = {
+	getDocumentsTypes() {
+		const documentsTypes = [
+			{
+				title: 'Select which document',
+				value: '',
+				hidden: true,
+			},
+			{
+				title: 'Word Document',
+				value: 'Word Document',
+				hidden: false,
+			},
+			{
+				title: 'Image',
+				value: 'Image',
+				hidden: false,
+			},
+			{
+				title: 'PDF',
+				value: 'PDF',
+				hidden: false,
+			},
+		]
+		return documentsTypes
+	},
 	getDocumentTypes() {
 		const documentTypes = [
 			{

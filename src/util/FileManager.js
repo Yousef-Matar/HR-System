@@ -1,26 +1,41 @@
 import store from '@/store/index'
 
 var FileManager = {
+	getFileID() {
+		if (this.getAllFiles().uploadedFiles.length == 0 && this.getAllFiles().requestedFiles.length == 0) return 1
+		if (this.getAllFiles().uploadedFiles.length == 0 && this.getAllFiles().requestedFiles.length != 0) return this.getAllFiles().requestedFiles[this.getAllFiles().requestedFiles.length - 1].ID + 1
+		if (this.getAllFiles().uploadedFiles.length != 0 && this.getAllFiles().requestedFiles.length == 0) return this.getAllFiles().uploadedFiles[this.getAllFiles().uploadedFiles.length - 1].ID + 1
+		return this.getAllFiles().uploadedFiles.length + this.getAllFiles().requestedFiles.length + 1
+	},
 	getAllFiles() {
-		return store.state.uploadedFiles
+		return store.state.allFiles
+	},
+	getAllUploadedFiles() {
+		return this.getAllFiles().uploadedFiles
+	},
+	getAllRequestedFiles() {
+		return this.getAllFiles().requestedFiles
 	},
 	getUserUploadedFiles(userID) {
-		return this.getAllFiles().filter((file) => file.userID == userID)
+		return this.getAllUploadedFiles().filter((file) => file.userID == userID)
 	},
-	deleteFile(fileID) {
-		store.commit('deleteUploadedFile', fileID)
+	deleteFile(fileID, fileType) {
+		store.commit('deleteFile', { fileID: fileID, fileType: fileType })
 	},
-	encodeFile(fileList, userID) {
+	addFile(file, fileType) {
+		store.commit('setAllFiles', { file: file, fileType: fileType })
+	},
+	encodeFile(fileList, userID, fileType) {
 		fileList.forEach((file) => {
 			let reader = new FileReader()
 			reader.onload = () => {
 				let fileTemplate = {}
-				fileTemplate.ID = this.getAllFiles().length == 0 ? 1 : this.getAllFiles()[this.getAllFiles().length - 1].ID + 1
+				fileTemplate.ID = this.getFileID()
 				fileTemplate.userID = userID
 				fileTemplate.fileName = file.name
 				fileTemplate.fileType = file.type
 				fileTemplate.fileURL = reader.result
-				store.commit('setUploadedFiles', this.getAllFiles().concat([fileTemplate]))
+				this.addFile(fileTemplate, fileType)
 			}
 			reader.readAsDataURL(file)
 		})

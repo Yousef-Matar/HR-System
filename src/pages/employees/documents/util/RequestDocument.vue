@@ -28,12 +28,13 @@
 				:required="true"
 				@requestDateChange="(inputContent) => (form.requestDate = inputContent)"
 			/>
-
-			<v-textarea
-				:text-area-i-d="'requestDetails'"
-				:value="form.requestDetails"
-				:input-label="'Describe accurately the details of your request:'"
-				@requestDetailsChange="(inputContent) => (form.requestDetails = inputContent)"
+			<v-select
+				:select-i-d="'documentType'"
+				:select-label="'Document Type'"
+				:select-value="form.documentType"
+				:items="documentTypes"
+				:required="true"
+				@documentTypeChange="(selectContent) => (form.documentType = selectContent)"
 			/>
 		</div>
 
@@ -46,16 +47,18 @@
 </template>
 
 <script>
-import DocumentManager from '@/util/DocumentManager'
+import FileManager from '@/util/FileManager'
+import SelectOptions from '@/util/SelectOptions'
 import UsersManager from '@/util/UsersManager'
 
 export default {
 	data() {
 		return {
+			documentTypes: SelectOptions.getDocumentsTypes(),
 			userName: '',
 			form: {
 				requestDate: new Date(),
-				requestDetails: '',
+				documentType: '',
 			},
 		}
 	},
@@ -85,14 +88,14 @@ export default {
 				icon: 'success',
 			})
 			var documentRequest = {
-				ID: DocumentManager.getAllDocumentRequests().length == 0 ? 1 : DocumentManager.getAllDocumentRequests()[DocumentManager.getAllDocumentRequests().length - 1].ID + 1,
+				ID: FileManager.getFileID(),
 				userID: UsersManager.getActiveUser().ID,
 				handledBy: null,
 				requestDate: this.form.requestDate.toLocaleDateString(),
-				requestDetails: this.form.requestDetails,
+				documentType: this.form.documentType,
 				status: 'pending',
 			}
-			DocumentManager.addDocumentRequest(documentRequest)
+			FileManager.addFile(documentRequest, 'requestedFiles')
 		},
 	},
 }

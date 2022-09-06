@@ -46,7 +46,7 @@ export default {
 				title: 'Your attachments has been submitted successfully!',
 				icon: 'success',
 			})
-			FileManager.encodeFile(this.files, UsersManager.getActiveUser().ID)
+			FileManager.encodeFile(this.files, UsersManager.getActiveUser().ID, 'uploadedFiles')
 			this.files = []
 		},
 	},

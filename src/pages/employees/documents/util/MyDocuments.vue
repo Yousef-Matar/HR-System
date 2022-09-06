@@ -12,7 +12,7 @@
 					v-for="file in submittedDecodedFiles"
 					:key="file.ID"
 					:file="file.data"
-					:icon-action="[ { icon: 'fa fa-file-arrow-down', size: 'xl', class: 'cursor-pointer hover:text-primary', action: () => { downloadFile(file.data) }, }, { icon: 'fa fa-multiply', size: 'xl', class: 'cursor-pointer hover:text-red-500', action: () => { deleteFile(file.ID) }, }, ]"
+					:icon-action="[ { icon: 'fa fa-file-arrow-down', size: 'xl', class: 'cursor-pointer hover:text-primary', action: () => { downloadFile(file.data) }, }, { icon: 'fa fa-multiply', size: 'xl', class: 'cursor-pointer hover:text-red-500', action: () => { deleteFile(file.ID, 'uploadedFiles') }, }, ]"
 				/>
 				<div v-if="submittedDecodedFiles.length == 0" class="p-2 text-sm font-normal text-gray-400 bg-gray-800 bg-clip-padding border shadow border-gray-600 rounded m-0 flex justify-between items-center">
 					<div class="flex items-start flex-col">
@@ -71,8 +71,7 @@ export default {
 	},
 
 	methods: {
-		deleteFile(fileID) {
-			console.log('deleteFile')
+		deleteFile(fileID, fileType) {
 			this.$swal
 				.fire({
 					title: 'Are you sure?',
@@ -84,7 +83,7 @@ export default {
 				.then((result) => {
 					if (result.isConfirmed) {
 						this.$swal.fire('Deleted!', 'Your file has been deleted.', 'success')
-						FileManager.deleteFile(fileID)
+						FileManager.deleteFile(fileID, fileType)
 						this.encodedFiles = FileManager.getUserUploadedFiles(UsersManager.getActiveUser().ID)
 					}
 				})

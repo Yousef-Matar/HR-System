@@ -79,7 +79,7 @@ export default {
 				message: 'Invalid username or password.',
 			},
 			form: {
-				ID: UsersManager.getAllUsers().length == 0 ? 1 : UsersManager.getAllUsers()[UsersManager.getAllUsers().length - 1].ID + 1,
+				ID: UsersManager.getUserID(),
 				username: '',
 				password: '',
 				firstName: '',

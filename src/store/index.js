@@ -3,18 +3,14 @@ import { createStore } from 'vuex'
 const store = createStore({
 	state() {
 		return {
-			uploadedFiles:
-				localStorage.getItem('Uploaded Files') === null
-					? [
+			allFiles:
+				localStorage.getItem('All Files') === null
+					? {
+							uploadedFiles: [],
+							requestedFiles: [],
 							// eslint-disable-next-line no-mixed-spaces-and-tabs
-					  ]
-					: JSON.parse(localStorage.getItem('Uploaded Files')),
-			documentRequests:
-				localStorage.getItem('Document Requests') === null
-					? [
-							// eslint-disable-next-line no-mixed-spaces-and-tabs
-					  ]
-					: JSON.parse(localStorage.getItem('Document Requests')),
+					  }
+					: JSON.parse(localStorage.getItem('All Files')),
 			vacationRequests:
 				localStorage.getItem('Vacation Requests') === null
 					? [
@@ -60,9 +56,8 @@ const store = createStore({
 			localStorage.setItem('Active User', JSON.stringify(state.activeUser))
 			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
 			localStorage.setItem('Monthly Hours', JSON.stringify(state.monthlyHours))
-			localStorage.setItem('Document Requests', JSON.stringify(state.documentRequests))
 			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
-			localStorage.setItem('Uploaded Files', JSON.stringify(state.uploadedFiles))
+			localStorage.setItem('All Files', JSON.stringify(state.allFiles))
 			if (new Date().getDate() == 1 && new Date().getMonth() == 1 && new Date().getFullYear() >= new Date().getFullYear()) {
 				state.allEmployees.forEach((employee) => {
 					employee.yearlyVacation = 21
@@ -84,13 +79,13 @@ const store = createStore({
 			state.allEmployees = payload
 			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
 		},
-		setUploadedFiles(state, payload) {
-			state.uploadedFiles = payload
-			localStorage.setItem('Uploaded Files', JSON.stringify(state.uploadedFiles))
+		setAllFiles(state, payload) {
+			state.allFiles[payload.fileType].push(payload.file)
+			localStorage.setItem('All Files', JSON.stringify(state.allFiles))
 		},
-		deleteUploadedFile(state, payload) {
-			state.uploadedFiles = state.uploadedFiles.filter((file) => file.ID != payload)
-			localStorage.setItem('Uploaded Files', JSON.stringify(state.uploadedFiles))
+		deleteFile(state, payload) {
+			state.allFiles[payload.fileType] = state.allFiles[payload.fileType].filter((file) => file.ID != payload.fileID)
+			localStorage.setItem('All Files', JSON.stringify(state.allFiles))
 		},
 		setVacationRequests(state, payload) {
 			state.vacationRequests = payload
@@ -116,14 +111,6 @@ const store = createStore({
 		cancelVacationRequest(state, payload) {
 			state.vacationRequests = state.vacationRequests.filter((request) => request.ID != payload)
 			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
-		},
-		setDocumentRequests(state, payload) {
-			state.documentRequests = payload
-			localStorage.setItem('Document Requests', JSON.stringify(state.documentRequests))
-		},
-		cancelDocumentRequest(state, payload) {
-			state.documentRequests = state.documentRequests.filter((request) => request.ID != payload)
-			localStorage.setItem('Document Requests', JSON.stringify(state.documentRequests))
 		},
 		setActiveUser(state, payload) {
 			state.activeUser = payload

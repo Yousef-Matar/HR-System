@@ -4,6 +4,9 @@ import AttendanceManager from '@/util/AttendanceManager'
 import UsersManager from '@/util/UsersManager'
 
 var VacationManager = {
+	getVacationRequestID() {
+		return this.getAllVacationRequests().length == 0 ? 1 : this.getAllVacationRequests()[this.getAllVacationRequests().length - 1].ID + 1
+	},
 	getAllVacationRequests() {
 		return store.state.vacationRequests
 	},

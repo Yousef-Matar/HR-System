@@ -1,6 +1,9 @@
 import store from '@/store/index'
 
 var UsersManager = {
+	getUserID() {
+		return this.getAllUsers().length == 0 ? 1 : this.getAllUsers()[this.getAllUsers().length - 1].ID + 1
+	},
 	getAllUsers() {
 		return store.state.allEmployees
 	},
