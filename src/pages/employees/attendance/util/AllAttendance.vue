@@ -37,7 +37,7 @@
 				@itemsPerPageChange="(selectContent) => (table.itemsPerPage = selectContent)"
 			/>
 			<v-button
-				class="justify-end"
+				class="w-40 h-12"
 				:method="downloadFile"
 				:text="'Export to Excel'"
 				:icon="'fa fa-file-arrow-down'"

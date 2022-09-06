@@ -37,6 +37,7 @@
 				@itemsPerPageChange="(selectContent) => (table.itemsPerPage = selectContent)"
 			/>
 			<v-button
+				class="w-40 h-12"
 				:method="downloadFile"
 				:text="'Export to Excel'"
 				:icon="'fa fa-file-arrow-down'"
@@ -147,9 +148,16 @@ export default {
 	methods: {
 		downloadFile() {
 			var data = this.tableData
-			var fileName = 'All-Users'
-			const exportType = exportFromJSON.types.csv
-			if (data) exportFromJSON({ data, fileName, exportType })
+			if (data.length == 0) {
+				this.$swal.fire({
+					title: 'No Data to be exported!',
+					icon: 'error',
+				})
+			} else {
+				var fileName = 'All-Users'
+				const exportType = exportFromJSON.types.csv
+				if (data) exportFromJSON({ data, fileName, exportType })
+			}
 		},
 		refreshData() {
 			this.table.initialData = UsersManager.getUsersBasedOnPermissions(UsersManager.getActiveUser().role)
