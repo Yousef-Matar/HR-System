@@ -29,7 +29,7 @@
 			/>
 
 			<v-button
-				class="w-40 h-12"
+				class="w-40 min-h-[3rem]"
 				:method="downloadFile"
 				:text="'Export to Excel'"
 				:icon="'fa fa-file-arrow-down'"

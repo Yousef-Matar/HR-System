@@ -1,10 +1,10 @@
 <template>
 	<div class="p-8 rounded-3xl bg-background flex flex-col gap-8">
-		<div class="w-full h-16 items-center flex text-sm p-2 gap-5">
+		<div class="w-full h-fit items-center flex text-sm p-2 gap-5 overflow-x-auto">
 			<v-button
 				v-for="document in documentTypes"
 				:key="document.title"
-				class="w-full"
+				class="w-full min-h-[3rem]"
 				:text="document.title"
 				:has-border="documentType == document.value ? true : false"
 				:method=" () => { documentType = document.value } "

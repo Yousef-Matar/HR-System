@@ -1,46 +1,47 @@
 <template>
 	<div class="p-8 rounded-3xl bg-background flex flex-col gap-8">
-		<div class="flex flex-col gap-5 items-start">
-			<div class="flex flex-wrap gap-5 items-end">
-				<v-input
-					:input-i-d="'searchBar'"
-					:type="'text'"
-					:input-label="'Search'"
-					:input-value="table.searchFilter"
-					:required="false"
-					@searchBarChange="(inputContent) => (table.searchFilter = inputContent)"
-				/>
-				<v-select
-					:select-i-d="'document'"
-					:select-label="'Document Type'"
-					:select-value="table.documentType"
-					:items="documentTypes"
-					:required="false"
-					@documentChange="(selectContent) => (table.documentType = selectContent)"
-				/>
-				<v-select
-					:select-i-d="'documentStatus'"
-					:select-label="'Document Status'"
-					:select-value="table.documentStatus"
-					:items="documentStatus"
-					:required="false"
-					@documentStatusChange="(selectContent) => (table.documentStatus = selectContent)"
-				/>
-				<v-select
-					:select-i-d="'itemsPerPage'"
-					:select-label="'Items Per Page'"
-					:select-value="table.itemsPerPage"
-					:items="itemsPerPageData"
-					:required="false"
-					@itemsPerPageChange="(selectContent) => (table.itemsPerPage = selectContent)"
-				/>
-				<v-button
-					class="w-40 h-12"
-					:method="downloadFile"
-					:text="'Export to Excel'"
-					:icon="'fa fa-file-arrow-down'"
-				/>
-			</div>
+		<div class="flex flex-wrap gap-5 items-center w-full">
+			<v-input
+				:input-i-d="'searchBar'"
+				:type="'text'"
+				:input-label="'Search'"
+				:input-value="table.searchFilter"
+				:required="false"
+				@searchBarChange="(inputContent) => (table.searchFilter = inputContent)"
+			/>
+			<v-select
+				class="w-44"
+				:select-i-d="'document'"
+				:select-label="'Document Type'"
+				:select-value="table.documentType"
+				:items="documentTypes"
+				:required="false"
+				@documentChange="(selectContent) => (table.documentType = selectContent)"
+			/>
+			<v-select
+				class="w-48"
+				:select-i-d="'documentStatus'"
+				:select-label="'Document Status'"
+				:select-value="table.documentStatus"
+				:items="documentStatus"
+				:required="false"
+				@documentStatusChange="(selectContent) => (table.documentStatus = selectContent)"
+			/>
+			<v-select
+				class="w-40"
+				:select-i-d="'itemsPerPage'"
+				:select-label="'Items Per Page'"
+				:select-value="table.itemsPerPage"
+				:items="itemsPerPageData"
+				:required="false"
+				@itemsPerPageChange="(selectContent) => (table.itemsPerPage = selectContent)"
+			/>
+			<v-button
+				class="w-40 min-h-[3rem]"
+				:method="downloadFile"
+				:text="'Export to Excel'"
+				:icon="'fa fa-file-arrow-down'"
+			/>
 		</div>
 		<v-table
 			:headers="tableHeaders"
@@ -128,11 +129,11 @@ export default {
 				const handlersUsernames = documentRequest.handledBy == null ? '' : UsersManager.getUserByID(documentRequest.handledBy).username.toLowerCase()
 				const documentStatus = documentRequest.status.toLowerCase()
 				const documentType = documentRequest.documentType.toLowerCase()
-				const requestDates = documentRequest.requestDate.toLowerCase()
-				if (this.table.documentType == 'all' || (this.table.documentType == '' && (this.table.documentStatus == 'all' || this.table.documentStatus == ''))) return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || documentStatus.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm) || documentType.includes(searchTerm)
-				else if (this.table.documentType !== 'all' && (this.table.documentStatus == 'all' || this.table.documentStatus == '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm) || documentStatus.includes(searchTerm)) && documentType.includes(this.table.documentType)
-				else if (this.table.documentStatus !== 'all' && (this.table.documentType == 'all' || this.table.documentType == '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm) || documentType.includes(searchTerm)) && documentStatus.includes(this.table.documentStatus)
-				else if (this.table.documentStatus !== 'all' && this.table.documentType != 'all') return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm)) && documentStatus.includes(this.table.documentStatus) && documentType.includes(searchTerm)
+				const requestDates = documentRequest.requestDate
+				if ((this.table.documentType == 'all' || this.table.documentType == '') && (this.table.documentStatus == 'all' || this.table.documentStatus == '')) return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm)
+				else if ((this.table.documentType != 'all' || this.table.documentType != '') && (this.table.documentStatus == 'all' || this.table.documentStatus == '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm)) && documentType.includes(this.table.documentType)
+				else if ((this.table.documentType == 'all' || this.table.documentType == '') && (this.table.documentStatus != 'all' || this.table.documentStatus != '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm)) && documentStatus.includes(this.table.documentStatus)
+				else if ((this.table.documentType != 'all' || this.table.documentType != '') && (this.table.documentStatus != 'all' || this.table.documentStatus != '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm)) && documentStatus.includes(this.table.documentStatus) && documentType.includes(this.table.documentType)
 			})
 			return initialData
 		},
@@ -140,9 +141,16 @@ export default {
 	methods: {
 		downloadFile() {
 			var data = this.tableData
-			var fileName = 'Document-Requests'
-			const exportType = exportFromJSON.types.csv
-			if (data) exportFromJSON({ data, fileName, exportType })
+			if (data.length == 0) {
+				this.$swal.fire({
+					title: 'No Data to be exported!',
+					icon: 'error',
+				})
+			} else {
+				var fileName = 'Document-Requests'
+				const exportType = exportFromJSON.types.csv
+				if (data) exportFromJSON({ data, fileName, exportType })
+			}
 		},
 		changeVacationRequestStatus(requestID, status) {
 			console.log(requestID, status)
