@@ -138,11 +138,13 @@ export default {
 				const searchTerm = this.table.searchFilter.toLowerCase()
 				const IDS = String(vacationsRequest.ID)
 				const requestersUsernames = UsersManager.getUserByID(vacationsRequest.requestedBy).username.toLowerCase()
-				const requestsStatus = vacationsRequest.status.toLowerCase()
 				const handlersUsernames = vacationsRequest.handledBy == null ? '' : UsersManager.getUserByID(vacationsRequest.handledBy).username.toLowerCase()
+				const vacationFromDate = vacationsRequest.from
+				const vacationTillDate = vacationsRequest.till
+				const requestsStatus = vacationsRequest.status.toLowerCase()
 
-				if (this.table.statusFilter == 'all' || this.table.statusFilter == '') return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || requestsStatus.includes(searchTerm) || handlersUsernames.includes(searchTerm)
-				else if (this.table.statusFilter !== 'all') return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm)) && requestsStatus.includes(this.table.statusFilter)
+				if (this.table.statusFilter == 'all' || this.table.statusFilter == '') return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || vacationFromDate.includes(searchTerm) || vacationTillDate.includes(searchTerm) || requestsStatus.includes(searchTerm)
+				else if (this.table.statusFilter !== 'all') return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || vacationFromDate.includes(searchTerm) || vacationTillDate.includes(searchTerm)) && requestsStatus.includes(this.table.statusFilter)
 			})
 			return initialData
 		},
