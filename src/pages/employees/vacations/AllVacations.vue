@@ -143,7 +143,7 @@ export default {
 				const vacationTillDate = vacationsRequest.till
 				const requestsStatus = vacationsRequest.status.toLowerCase()
 
-				if (this.table.statusFilter == 'all' || this.table.statusFilter == '') return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || vacationFromDate.includes(searchTerm) || vacationTillDate.includes(searchTerm) || requestsStatus.includes(searchTerm)
+				if (this.table.statusFilter == 'all' || this.table.statusFilter == '') return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || vacationFromDate.includes(searchTerm) || vacationTillDate.includes(searchTerm)
 				else if (this.table.statusFilter !== 'all') return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || vacationFromDate.includes(searchTerm) || vacationTillDate.includes(searchTerm)) && requestsStatus.includes(this.table.statusFilter)
 			})
 			return initialData
