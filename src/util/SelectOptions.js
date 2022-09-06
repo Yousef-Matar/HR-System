@@ -155,7 +155,7 @@ var SelectOptions = {
 	getStatusFilter() {
 		const statusFilter = [
 			{
-				title: 'Filter by status',
+				title: 'Status Filter',
 				value: '',
 				hidden: true,
 			},
