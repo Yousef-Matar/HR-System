@@ -54,7 +54,7 @@ import UsersManager from '@/util/UsersManager'
 export default {
 	data() {
 		return {
-			documentTypes: SelectOptions.getDocumentsTypes(),
+			documentTypes: SelectOptions.getDocumentTypes(),
 			userName: '',
 			form: {
 				requestDate: new Date(),

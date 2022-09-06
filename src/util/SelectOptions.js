@@ -1,5 +1,5 @@
 var SelectOptions = {
-	getDocumentsTypes() {
+	getDocumentTypes() {
 		const documentsTypes = [
 			{
 				title: 'Select which document',
@@ -24,7 +24,28 @@ var SelectOptions = {
 		]
 		return documentsTypes
 	},
-	getDocumentTypes() {
+	getAllDocumentTypes() {
+		const documentTypes = [
+			{
+				title: 'Document Requests',
+				value: 'DocumentRequests',
+			},
+			{
+				title: 'My Documents',
+				value: 'MyDocuments',
+			},
+			{
+				title: 'Submit Document',
+				value: 'SubmitDocument',
+			},
+			{
+				title: 'Request Document',
+				value: 'RequestDocument',
+			},
+		]
+		return documentTypes
+	},
+	getEmployeeDocumentTypes() {
 		const documentTypes = [
 			{
 				title: 'My Documents',
