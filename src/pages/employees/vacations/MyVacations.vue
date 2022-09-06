@@ -12,6 +12,7 @@
 						@searchBarChange="(inputContent) => (table.searchFilter = inputContent)"
 					/>
 					<v-select
+						class="w-40"
 						:select-i-d="'status'"
 						:select-label="'Status Filter'"
 						:select-value="table.statusFilter"
@@ -20,6 +21,7 @@
 						@statusChange="(selectContent) => (table.statusFilter = selectContent)"
 					/>
 					<v-select
+						class="w-40"
 						:select-i-d="'itemsPerPage'"
 						:select-label="'Items Per Page'"
 						:select-value="table.itemsPerPage"
