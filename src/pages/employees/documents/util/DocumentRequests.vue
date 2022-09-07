@@ -60,14 +60,15 @@
 				<div class="flex justify-center gap-2">
 					<v-button
 						class="self-center w-full"
-						:text="slotProps.row.Status == 'approved' ? 'Edit' : 'Approve'"
+						:text="'Approve'"
+						:disabled="slotProps.row.Status == 'pending' ? false : true"
 						:method="() => openUploadModal(slotProps.row['Request ID'])"
 					/>
 					<v-button
 						class="self-center w-full"
 						:text="'Reject'"
 						:variant="'danger'"
-						:disabled="slotProps.row.Status != 'rejected' ? false : true"
+						:disabled="slotProps.row.Status == 'pending' ? false : true"
 						:method="() => changeFileRequestStatus(slotProps.row['Request ID'], 'rejected')"
 					/>
 				</div>
@@ -191,27 +192,11 @@ export default {
 		},
 		changeFileRequestStatus(requestID, status, files) {
 			if (status == 'rejected') {
-				this.$swal
-					.fire({
-						title: 'Are you sure?',
-						text: 'You won\'t be able to revert this!',
-						icon: 'warning',
-						showCancelButton: true,
-						confirmButtonText: 'Yes, reject it!',
-					})
-					.then((result) => {
-						if (result.isConfirmed) {
-							this.$swal.fire('Request Rejected!', 'The Request has been rejected.', 'success')
-							FileManager.changeFileRequestStatus(requestID, status)
-						}
-					})
+				this.$swal.fire('Request Rejected!', 'The Request has been rejected.', 'success')
+				FileManager.changeFileRequestStatus(requestID, status, [])
 			} else {
-				this.$swal.fire({
-				title: 'Request attachments have been successfully uploaded!',
-				icon: 'success',
-			})
-			FileManager.changeFileRequestStatus(requestID, status,files)
-				
+				this.$swal.fire('Request Approved!', 'The Request has been approved.', 'success')
+				FileManager.changeFileRequestStatus(requestID, status, files)
 			}
 		},
 	},
