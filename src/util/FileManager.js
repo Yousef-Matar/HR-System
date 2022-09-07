@@ -1,5 +1,7 @@
 import store from '@/store/index'
 
+import UsersManager from '@/util/UsersManager'
+
 var FileManager = {
 	getFileID() {
 		if (this.getAllFiles().uploadedFiles.length == 0 && this.getAllFiles().requestedFiles.length == 0) return 1
@@ -17,13 +19,16 @@ var FileManager = {
 		return this.getAllFiles().requestedFiles
 	},
 	getAllOtherUsersRequestedFiles(userID) {
-		return this.getAllRequestedFiles().filter((file) => file.userID != userID)
+		return this.getAllRequestedFiles().filter((file) => file.userID != userID && UsersManager.getUserByID(file.userID).status != 'disabled')
 	},
 	getUserUploadedFiles(userID) {
 		return this.getAllUploadedFiles().filter((file) => file.userID == userID)
 	},
 	getUserRequestedFiles(userID) {
 		return this.getAllRequestedFiles().filter((file) => file.userID == userID)
+	},
+	getFileRequestByID(requestID) {
+		return this.getAllRequestedFiles().filter((file) => file.ID == requestID)
 	},
 	deleteFile(fileID, fileType) {
 		store.commit('deleteFile', { fileID: fileID, fileType: fileType })
@@ -58,6 +63,11 @@ var FileManager = {
 	convertFiletoArray(fileList) {
 		var fileArray = Array.from(fileList)
 		return fileArray
+	},
+	changeFileRequestStatus(requestID, status) {
+		if (status == 'rejected') {
+			store.commit('changeFileRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser().ID })
+		}
 	},
 }
 export default FileManager

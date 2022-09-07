@@ -87,6 +87,23 @@ const store = createStore({
 			state.allFiles[payload.fileType] = state.allFiles[payload.fileType].filter((file) => file.ID != payload.fileID)
 			localStorage.setItem('All Files', JSON.stringify(state.allFiles))
 		},
+		changeFileRequestStatus(state, payload) {
+			state.allFiles.requestedFiles = state.allFiles.requestedFiles.map((request) =>
+				request.ID === payload.requestID
+					? {
+							ID: request.ID,
+							userID: request.userID,
+							handledBy: payload.handler,
+							requestedFile: request.requestedFile,
+							requestDate: request.requestDate,
+							documentType: request.documentType,
+							status: payload.status,
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+					  }
+					: request
+			)
+			localStorage.setItem('All Files', JSON.stringify(state.vacationRequests))
+		},
 		setVacationRequests(state, payload) {
 			state.vacationRequests = payload
 			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))

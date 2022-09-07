@@ -49,7 +49,7 @@
 				Action
 			</template>
 			<template #tableBodyComponents="slotProps">
-				<div class="flex justify-center">
+				<div class="flex justify-center gap-2">
 					<v-button
 						class="self-center w-full"
 						:text="'Approve'"

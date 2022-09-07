@@ -57,8 +57,20 @@
 				Action
 			</template>
 			<template #tableBodyComponents="slotProps">
-				<div class="flex justify-center">
-					{{ slotProps }}
+				<div class="flex justify-center gap-2">
+					<v-button
+						class="self-center w-full"
+						:text="'Approve'"
+						:disabled="slotProps.row.Status == 'pending' ? false : true"
+						:method="() => changeVacationRequestStatus(slotProps.row['Request ID'], 'approved')"
+					/>
+					<v-button
+						class="self-center w-full"
+						:text="'Reject'"
+						:variant="'danger'"
+						:disabled="slotProps.row.Status == 'pending' ? false : true"
+						:method="() => changeFileRequestStatus(slotProps.row['Request ID'], 'rejected')"
+					/>
 				</div>
 			</template>
 		</v-table>
@@ -152,12 +164,23 @@ export default {
 				if (data) exportFromJSON({ data, fileName, exportType })
 			}
 		},
-		changeVacationRequestStatus(requestID, status) {
-			console.log(requestID, status)
-			//	var success = VacationManager.changeVacationRequestStatus(requestID, status)
-			//	if (success == false) {
-			//
-			//	}
+		changeFileRequestStatus(requestID, status) {
+			if (status == 'rejected') {
+				this.$swal
+					.fire({
+						title: 'Are you sure?',
+						text: 'You won\'t be able to revert this!',
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonText: 'Yes, reject it!',
+					})
+					.then((result) => {
+						if (result.isConfirmed) {
+							this.$swal.fire('Request Rejected!', 'The Request has been rejected.', 'success')
+							FileManager.changeFileRequestStatus(requestID, status)
+						}
+					})
+			}
 		},
 	},
 }
