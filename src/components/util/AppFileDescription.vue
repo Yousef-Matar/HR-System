@@ -1,8 +1,12 @@
 <template>
-	<div class="p-2 text-sm font-normal text-gray-400 bg-gray-800 bg-clip-padding border shadow border-gray-600 rounded m-0 flex justify-between items-center">
-		<div class="flex items-start flex-col">
-			<p>File Name: {{ file.name }}</p>
-			<p>File Size: {{ formatFileSize }}</p>
+	<div class="p-2 text-sm font-normal text-gray-400 bg-gray-800 bg-clip-padding border shadow border-gray-600 rounded m-0 flex justify-between items-center gap-3">
+		<div class="min-w-0">
+			<p class="text-left truncate">
+				File Name: {{ file.name }}
+			</p>
+			<p class="text-left truncate">
+				File Size: {{ formatFileSize }}
+			</p>
 		</div>
 		<div class="flex gap-3">
 			<font-awesome-icon

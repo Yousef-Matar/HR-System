@@ -1,5 +1,5 @@
 // Application
-import App from '@/App.vue'
+import App from '@/App'
 // Styles
 import '@/assets/css/form.css'
 import '@/assets/css/scrollbar.css'

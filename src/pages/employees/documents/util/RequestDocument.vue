@@ -64,11 +64,13 @@ export default {
 				ID: FileManager.getFileID(),
 				userID: UsersManager.getActiveUser().ID,
 				handledBy: null,
-				requestedFile: null,
+				handleDate: null,
+				requestedFile: [],
 				requestDate: this.form.requestDate.toLocaleDateString(),
 				documentType: this.form.documentType,
 				status: 'pending',
 			}
+			this.form.documentType = ''
 			FileManager.addFile(documentRequest, 'requestedFiles')
 		},
 	},

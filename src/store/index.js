@@ -94,7 +94,8 @@ const store = createStore({
 							ID: request.ID,
 							userID: request.userID,
 							handledBy: payload.handler,
-							requestedFile: request.requestedFile,
+							handleDate: new Date().toLocaleDateString(),
+							requestedFile: payload.requestedFile,
 							requestDate: request.requestDate,
 							documentType: request.documentType,
 							status: payload.status,
@@ -102,7 +103,7 @@ const store = createStore({
 					  }
 					: request
 			)
-			localStorage.setItem('All Files', JSON.stringify(state.vacationRequests))
+			localStorage.setItem('All Files', JSON.stringify(state.allFiles))
 		},
 		setVacationRequests(state, payload) {
 			state.vacationRequests = payload

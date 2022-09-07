@@ -19,7 +19,7 @@ var FileManager = {
 		return this.getAllFiles().requestedFiles
 	},
 	getAllOtherUsersRequestedFiles(userID) {
-		return this.getAllRequestedFiles().filter((file) => file.userID != userID && UsersManager.getUserByID(file.userID).status != 'disabled')
+		return this.getAllRequestedFiles().filter((file) => file.userID == userID && UsersManager.getUserByID(file.userID).status != 'disabled')
 	},
 	getUserUploadedFiles(userID) {
 		return this.getAllUploadedFiles().filter((file) => file.userID == userID)
@@ -28,7 +28,7 @@ var FileManager = {
 		return this.getAllRequestedFiles().filter((file) => file.userID == userID)
 	},
 	getFileRequestByID(requestID) {
-		return this.getAllRequestedFiles().filter((file) => file.ID == requestID)
+		return this.getAllRequestedFiles().find((file) => file.ID == requestID)
 	},
 	deleteFile(fileID, fileType) {
 		store.commit('deleteFile', { fileID: fileID, fileType: fileType })
@@ -64,9 +64,25 @@ var FileManager = {
 		var fileArray = Array.from(fileList)
 		return fileArray
 	},
-	changeFileRequestStatus(requestID, status) {
+	changeFileRequestStatus(requestID, status, requestedFile) {
 		if (status == 'rejected') {
-			store.commit('changeFileRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser().ID })
+			store.commit('changeFileRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser().ID, requestedFile: [] })
+		}else if(status == 'approved'){
+			var requestedFiles=[]
+			requestedFile.forEach((file) => {
+				let reader = new FileReader()
+				reader.onload = () => {
+
+					let fileTemplate = {}
+					fileTemplate.ID = this.getFileID()
+					fileTemplate.fileName = file.name
+					fileTemplate.fileType = file.type
+					fileTemplate.fileURL = reader.result
+					requestedFiles.push(fileTemplate)
+					store.commit('changeFileRequestStatus', { requestID: requestID, status: status, handler: UsersManager.getActiveUser().ID, requestedFile: requestedFiles })
+				}
+				reader.readAsDataURL(file)
+			})
 		}
 	},
 }

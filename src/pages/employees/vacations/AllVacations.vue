@@ -77,7 +77,7 @@
 <script>
 import exportFromJSON from 'export-from-json'
 
-import OperationDenied from '@/components/modal/OperationDenied.vue'
+import OperationDenied from '@/components/modal/OperationDenied'
 
 import SelectOptions from '@/util/SelectOptions'
 import UsersManager from '@/util/UsersManager'

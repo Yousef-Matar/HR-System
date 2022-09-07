@@ -30,7 +30,6 @@ export default {
 	data() {
 		return {
 			files: [],
-			fileDescriptionIcons: [],
 		}
 	},
 	methods: {

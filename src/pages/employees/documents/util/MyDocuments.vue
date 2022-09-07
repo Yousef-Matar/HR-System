@@ -15,7 +15,7 @@
 					:icon-action="[ { icon: 'fa fa-file-arrow-down', size: 'xl', class: 'cursor-pointer hover:text-primary', action: () => { downloadFile(file.data) }, }, { icon: 'fa fa-multiply', size: 'xl', class: 'cursor-pointer hover:text-red-500', action: () => { deleteFile(file.ID, 'uploadedFiles') }, }, ]"
 				/>
 				<div v-if="uploadedDecodedFiles.length == 0" class="p-2 text-sm font-normal text-gray-400 bg-gray-800 bg-clip-padding border shadow border-gray-600 rounded m-0 flex justify-between items-center">
-					<div class="flex items-start flex-col">
+					<div class="flex items-start flex-col text-left">
 						<p>No files have been submitted yet.</p>
 					</div>
 				</div>
@@ -43,7 +43,7 @@
 					:icon-action="[ { icon: 'fa fa-multiply', size: 'xl', class: 'cursor-pointer hover:text-red-500', action: () => { deleteFile(file.ID, 'requestedFiles') }, }, ]"
 				/>
 				<div v-if="requestedDecodedFiles.approvedFiles.length == 0 && requestedDecodedFiles.pendingFiles.length == 0 && requestedDecodedFiles.rejectedFiles.length == 0" class="p-2 text-sm font-normal text-gray-400 bg-gray-800 bg-clip-padding border shadow border-gray-600 rounded m-0 flex justify-between items-center">
-					<div class="flex items-start flex-col">
+					<div class="flex items-start flex-col text-left">
 						<p>No files have been sent yet.</p>
 					</div>
 				</div>
@@ -95,12 +95,15 @@ export default {
 				newFiles.forEach((encodedFile) => {
 					switch (encodedFile.status) {
 						case 'approved':
-							FileManager.decodeFile(encodedFile.requestedFile.fileURL, encodedFile.requestedFile.fileName, encodedFile.requestedFile.fileType).then((file) => {
-								this.uploadedDecodedFiles.push({
-									ID: encodedFile.ID,
-									data: file,
+							encodedFile.requestedFile.forEach((requestedFile) => {
+								FileManager.decodeFile(requestedFile.fileURL, requestedFile.fileName, requestedFile.fileType).then((file) => {
+									this.requestedDecodedFiles.approvedFiles.push({
+										ID: encodedFile.ID,
+										data: file,
+									})
 								})
 							})
+
 							break
 						case 'rejected':
 							this.requestedDecodedFiles.rejectedFiles.push(encodedFile)

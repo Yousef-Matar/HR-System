@@ -60,33 +60,43 @@
 				<div class="flex justify-center gap-2">
 					<v-button
 						class="self-center w-full"
-						:text="'Approve'"
-						:disabled="slotProps.row.Status == 'pending' ? false : true"
-						:method="() => changeVacationRequestStatus(slotProps.row['Request ID'], 'approved')"
+						:text="slotProps.row.Status == 'approved' ? 'Edit' : 'Approve'"
+						:method="() => openUploadModal(slotProps.row['Request ID'])"
 					/>
 					<v-button
 						class="self-center w-full"
 						:text="'Reject'"
 						:variant="'danger'"
-						:disabled="slotProps.row.Status == 'pending' ? false : true"
+						:disabled="slotProps.row.Status != 'rejected' ? false : true"
 						:method="() => changeFileRequestStatus(slotProps.row['Request ID'], 'rejected')"
 					/>
 				</div>
 			</template>
 		</v-table>
+		<UploadFile
+			:show-modal="showModal"
+			:files="initialFiles"
+			@closeModal="resetUploadModal()"
+			@uploadFiles="(dataFiles) => changeFileRequestStatus(requestID, 'approved', dataFiles)"
+		/>
 	</div>
 </template>
 
 <script>
 import exportFromJSON from 'export-from-json'
 
+import UploadFile from '@/components/modal/UploadFile'
+
 import FileManager from '@/util/FileManager'
 import SelectOptions from '@/util/SelectOptions'
 import UsersManager from '@/util/UsersManager'
 
 export default {
+	components: { UploadFile },
+
 	data() {
 		return {
+			showModal: false,
 			activeUser: UsersManager.getActiveUser(),
 			table: {
 				itemsPerPage: 10,
@@ -97,6 +107,8 @@ export default {
 			itemsPerPageData: SelectOptions.getItemsPerPage(),
 			documentTypes: SelectOptions.getDocumentFilters(),
 			documentStatus: SelectOptions.getDocumentStatus(),
+			initialFiles: [],
+			requestID: 0,
 		}
 	},
 	computed: {
@@ -104,8 +116,9 @@ export default {
 			var headers = [
 				{ value: 'Request ID', sortable: true },
 				{ value: 'Requested By', sortable: true },
-				{ value: 'Handled By', sortable: true },
 				{ value: 'Request Date', sortable: true },
+				{ value: 'Handled By', sortable: true },
+				{ value: 'Handle Date', sortable: true },
 				{ value: 'Document Type', sortable: true },
 				{ value: 'Status', sortable: true },
 			]
@@ -124,6 +137,7 @@ export default {
 					'Request ID': element.ID,
 					'Requested By': UsersManager.getUserByID(element.userID).username,
 					'Handled By': element.handledBy == null ? 'Pending Action' : UsersManager.getUserByID(element.handledBy).username,
+					'Handle Date': element.handleDate == null ? 'Pending Action' : element.handleDate,
 					'Request Date': element.requestDate,
 					'Document Type': element.documentType,
 					Status: element.status,
@@ -139,13 +153,14 @@ export default {
 				const IDS = String(documentRequest.ID)
 				const requestersUsernames = UsersManager.getUserByID(documentRequest.userID).username.toLowerCase()
 				const handlersUsernames = documentRequest.handledBy == null ? '' : UsersManager.getUserByID(documentRequest.handledBy).username.toLowerCase()
+				const handlersDates = documentRequest.handleDate == null ? '' : documentRequest.handleDate
 				const documentStatus = documentRequest.status.toLowerCase()
 				const documentType = documentRequest.documentType.toLowerCase()
 				const requestDates = documentRequest.requestDate
-				if ((this.table.documentType == 'all' || this.table.documentType == '') && (this.table.documentStatus == 'all' || this.table.documentStatus == '')) return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm)
-				else if ((this.table.documentType != 'all' || this.table.documentType != '') && (this.table.documentStatus == 'all' || this.table.documentStatus == '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm)) && documentType.includes(this.table.documentType)
-				else if ((this.table.documentType == 'all' || this.table.documentType == '') && (this.table.documentStatus != 'all' || this.table.documentStatus != '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm)) && documentStatus.includes(this.table.documentStatus)
-				else if ((this.table.documentType != 'all' || this.table.documentType != '') && (this.table.documentStatus != 'all' || this.table.documentStatus != '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || requestDates.includes(searchTerm)) && documentStatus.includes(this.table.documentStatus) && documentType.includes(this.table.documentType)
+				if ((this.table.documentType == 'all' || this.table.documentType == '') && (this.table.documentStatus == 'all' || this.table.documentStatus == '')) return IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || handlersDates.includes(searchTerm) || requestDates.includes(searchTerm)
+				else if ((this.table.documentType != 'all' || this.table.documentType != '') && (this.table.documentStatus == 'all' || this.table.documentStatus == '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || handlersDates.includes(searchTerm) || requestDates.includes(searchTerm)) && documentType.includes(this.table.documentType)
+				else if ((this.table.documentType == 'all' || this.table.documentType == '') && (this.table.documentStatus != 'all' || this.table.documentStatus != '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || handlersDates.includes(searchTerm) || requestDates.includes(searchTerm)) && documentStatus.includes(this.table.documentStatus)
+				else if ((this.table.documentType != 'all' || this.table.documentType != '') && (this.table.documentStatus != 'all' || this.table.documentStatus != '')) return (IDS.includes(searchTerm) || requestersUsernames.includes(searchTerm) || handlersUsernames.includes(searchTerm) || handlersDates.includes(searchTerm) || requestDates.includes(searchTerm)) && documentStatus.includes(this.table.documentStatus) && documentType.includes(this.table.documentType)
 			})
 			return initialData
 		},
@@ -164,7 +179,17 @@ export default {
 				if (data) exportFromJSON({ data, fileName, exportType })
 			}
 		},
-		changeFileRequestStatus(requestID, status) {
+		openUploadModal(requestID) {
+			this.showModal = true
+			this.requestID = requestID
+			this.initialFiles = FileManager.getFileRequestByID(requestID).requestedFile
+		},
+		resetUploadModal() {
+			this.showModal = false
+			this.requestID = 0
+			this.initialFiles = []
+		},
+		changeFileRequestStatus(requestID, status, files) {
 			if (status == 'rejected') {
 				this.$swal
 					.fire({
@@ -180,6 +205,13 @@ export default {
 							FileManager.changeFileRequestStatus(requestID, status)
 						}
 					})
+			} else {
+				this.$swal.fire({
+				title: 'Request attachments have been successfully uploaded!',
+				icon: 'success',
+			})
+			FileManager.changeFileRequestStatus(requestID, status,files)
+				
 			}
 		},
 	},
