@@ -27,8 +27,8 @@ export default {
 	components: { RequestDocument, SubmitDocument, MyDocuments, DocumentRequests },
 	data() {
 		return {
-			documentType: UsersManager.getActiveUser.role == 'employee' ? SelectOptions.getEmployeeDocumentTypes()[0].value : SelectOptions.getAllDocumentTypes()[0].value,
-			documentTypes: UsersManager.getActiveUser.role == 'employee' ? SelectOptions.getEmployeeDocumentTypes() : SelectOptions.getAllDocumentTypes(),
+			documentType: UsersManager.getActiveUser().role == 'employee' ? SelectOptions.getEmployeeDocumentTypes()[0].value : SelectOptions.getAllDocumentTypes()[0].value,
+			documentTypes: UsersManager.getActiveUser().role == 'employee' ? SelectOptions.getEmployeeDocumentTypes() : SelectOptions.getAllDocumentTypes(),
 		}
 	},
 }

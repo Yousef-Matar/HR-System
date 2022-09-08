@@ -52,7 +52,7 @@ export default {
 					title: 'Vacations',
 					children: [
 						{ title: 'Request Vacation', to: '/Vacations' },
-						{ title: 'My Vacations', to: '/VacationRequests' },
+						{ title: 'My Requests', to: '/VacationRequests' },
 						{ title: 'View All', to: '/VacationApproval' },
 					],
 				},
@@ -73,7 +73,7 @@ export default {
 					title: 'Vacations',
 					children: [
 						{ title: 'Request Vacation', to: '/Vacations' },
-						{ title: 'My Vacations', to: '/VacationRequests' },
+						{ title: 'My Requests', to: '/VacationRequests' },
 						{ title: 'View All', to: '/VacationApproval' },
 					],
 				},
@@ -86,7 +86,7 @@ export default {
 					title: 'Vacations',
 					children: [
 						{ title: 'Request Vacation', to: '/Vacations' },
-						{ title: 'View All', to: '/VacationApproval' },
+						{ title: 'My Requests', to: '/VacationRequests' },
 					],
 				},
 			]
