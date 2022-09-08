@@ -21,5 +21,5 @@ npm run lint
 ```
 
 ### Default Admin Account 
-Username: SuperAdmin
-Password: SuperAdmin
+- Username: SuperAdmin
+- Password: SuperAdmin
