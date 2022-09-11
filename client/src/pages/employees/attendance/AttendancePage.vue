@@ -20,7 +20,7 @@ export default {
 	computed: {
 		getAttendanceData() {
 			if (this.username) {
-				return UsersManager.getUserByUsername(this.username)
+				return UsersManager.getActiveUser()
 			} else {
 				var activeUser = UsersManager.getActiveUser()
 				if (activeUser == null) return

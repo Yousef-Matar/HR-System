@@ -37,67 +37,73 @@ export default {
 			sideNavigationLinks: [],
 		}
 	},
-	mounted() {
-		if (this.user == null) {
-			this.sideNavigationLinks = []
-		} else if (this.user.role == 'admin' || this.user.role === 'SuperAdmin') {
-			this.sideNavigationLinks = [
-				{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
-				{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username } }, icon: 'fa fa-calendar-alt' },
-				{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
-				{
-					title: 'Employees',
-					children: [
-						{ title: 'View All', to: '/Employees', icon: 'fa fa-users' },
-						{ title: 'Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
-					],
-				},
-				{
-					title: 'Vacations',
-					children: [
-						{ title: 'Request Vacation', to: '/Vacations' },
-						{ title: 'My Requests', to: '/VacationRequests' },
-						{ title: 'View All', to: '/VacationApproval' },
-					],
-				},
-			]
-		} else if (this.user.role == 'human resources') {
-			this.sideNavigationLinks = [
-				{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
-				{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username } }, icon: 'fa fa-calendar-alt' },
-				{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
-				{
-					title: 'Employees',
-					children: [
-						{ title: 'View All', to: '/Employees', icon: 'fa fa-users' },
-						{ title: 'Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
-					],
-				},
-				{
-					title: 'Vacations',
-					children: [
-						{ title: 'Request Vacation', to: '/Vacations' },
-						{ title: 'My Requests', to: '/VacationRequests' },
-						{ title: 'View All', to: '/VacationApproval' },
-					],
-				},
-			]
-		} else if (this.user.role == 'employee') {
-			this.sideNavigationLinks = [
-				{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
-				{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username } }, icon: 'fa fa-calendar-alt' },
-				{
-					title: 'Vacations',
-					children: [
-						{ title: 'Request Vacation', to: '/Vacations' },
-						{ title: 'My Requests', to: '/VacationRequests' },
-					],
-				},
-			]
-		}
+	watch: {
+		user: {
+			handler(newUser) {
+				if (newUser == null) {
+					this.sideNavigationLinks = []
+				} else if (newUser.role == 'admin' || newUser.role === 'SuperAdmin') {
+					this.sideNavigationLinks = [
+						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
+						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
+						{ title: 'My Attendance', to: { name: 'Attendance', params: { username: newUser.username } }, icon: 'fa fa-calendar-alt' },
+						{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
+						{
+							title: 'Employees',
+							children: [
+								{ title: 'View All', to: '/Employees', icon: 'fa fa-users' },
+								{ title: 'Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
+							],
+						},
+						{
+							title: 'Vacations',
+							children: [
+								{ title: 'Request Vacation', to: '/Vacations' },
+								{ title: 'My Requests', to: '/VacationRequests' },
+								{ title: 'View All', to: '/VacationApproval' },
+							],
+						},
+					]
+				} else if (newUser.role == 'human resources') {
+					this.sideNavigationLinks = [
+						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
+						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
+						{ title: 'My Attendance', to: { name: 'Attendance', params: { username: newUser.username } }, icon: 'fa fa-calendar-alt' },
+						{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
+						{
+							title: 'Employees',
+							children: [
+								{ title: 'View All', to: '/Employees', icon: 'fa fa-users' },
+								{ title: 'Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
+							],
+						},
+						{
+							title: 'Vacations',
+							children: [
+								{ title: 'Request Vacation', to: '/Vacations' },
+								{ title: 'My Requests', to: '/VacationRequests' },
+								{ title: 'View All', to: '/VacationApproval' },
+							],
+						},
+					]
+				} else if (newUser.role == 'employee') {
+					this.sideNavigationLinks = [
+						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
+						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
+						{ title: 'My Attendance', to: { name: 'Attendance', params: { username: newUser.username } }, icon: 'fa fa-calendar-alt' },
+						{
+							title: 'Vacations',
+							children: [
+								{ title: 'Request Vacation', to: '/Vacations' },
+								{ title: 'My Requests', to: '/VacationRequests' },
+							],
+						},
+					]
+				}
+			},
+			// force eager callback execution
+			immediate: true,
+		},
 	},
 }
 </script>
