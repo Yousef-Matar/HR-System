@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<MainNavigation />
+		<MainNavigation v-if="checkActiveUser()" />
 		<div class="mt-[102px] mb-[38px]" :class="checkActiveUser() ? 'ml-72 mr-[38px]' : ''">
 			<router-view />
 		</div>
@@ -10,7 +10,6 @@
 
 <script>
 import WarningModal from '@/components/modal/WarningModal'
-
 import MainNavigation from '@/components/navigation/MainNavigation'
 
 import AttendanceManager from '@/util/AttendanceManager'
@@ -67,7 +66,7 @@ export default {
 			this.showWarning = false
 			AttendanceManager.userCheckOut(UsersManager.getActiveUser())
 			UsersManager.logout()
-			this.$router.push('/')
+			this.$router.push('/Login')
 		},
 	},
 }

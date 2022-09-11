@@ -21,14 +21,17 @@ const routes = [
 	{
 		path: '/',
 		component: HomePage,
+		meta: { middleware: 'authentication' },
 	},
 	{
 		path: '/Login',
 		component: LoginPage,
+		meta: { middleware: 'noUser' },
 	},
 	{
 		path: '/Register',
 		component: RegisterPage,
+		meta: { middleware: 'noUser' },
 	},
 	{
 		path: '/Hours',

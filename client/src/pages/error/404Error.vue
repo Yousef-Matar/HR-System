@@ -6,11 +6,22 @@
 		<h1 class="text-5xl">
 			Page Not Found
 		</h1>
+		<v-button
+			class="self-center w-full"
+			:text="'Back'"
+			:method="goBack"
+		/>
 	</div>
 </template>
 
 <script>
-export default {}
+export default {
+	methods: {
+		goBack() {
+			history.back()
+		},
+	},
+}
 </script>
 
 <style></style>

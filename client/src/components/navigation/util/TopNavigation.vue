@@ -62,7 +62,7 @@ export default {
 		logout() {
 			AttendanceManager.userCheckOut(this.user)
 			UsersManager.logout()
-			this.$router.push('/')
+			this.$router.push('/Login')
 			this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
 		},
 	},
