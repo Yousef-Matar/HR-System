@@ -1,10 +1,5 @@
 <template>
 	<div class="fixed top-0 w-full h-16 items-center bg-background flex justify-between text-sm px-3 z-[1]">
-		<!--<v-alert
-			:text="success.message"
-			:show="success.show"
-			:variant="'success'"
-		/>-->
 		<span class="flex gap-1">
 			<v-button
 				class="w-full self-center"
@@ -68,12 +63,7 @@ export default {
 			AttendanceManager.userCheckOut(this.user)
 			UsersManager.logout()
 			this.$router.push('/')
-			this.success.show = true
-			this.success.message += new Date().toLocaleTimeString() + ' on ' + new Date().toDateString()
-			setTimeout(() => {
-				this.success.show = false
-				this.success.message = 'You have successfully checked out at '
-			}, 2000)
+			this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
 		},
 	},
 }

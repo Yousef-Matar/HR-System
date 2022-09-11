@@ -1,43 +1,37 @@
 <template>
-	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
-		<!--<v-alert
-			:text="error.show ? error.message : success.message"
-			:show="error.show ? error.show : success.show"
-			:variant="error.show ? 'error' : 'success'"
-		/>-->
-		<div class="flex flex-col gap-8">
-			<div class="text-2xl text-left">
+	<div class="mx-auto p-8 rounded-3xl bg-background w-fit flex flex-col items-center">
+		<h1 class="text-2xl mb-3 w-full">
+			<div>Request Vacation</div>
+			<div class="text-left">
 				Remaining Yearly Vacation Days: {{ userRemainingVacations }}
 			</div>
-			<form @submit.prevent="submit">
-				<div class="flex flex-wrap items-center justify-center gap-8">
-					<v-date
-						:input-i-d="'startDate'"
-						:input-value="startDate"
-						:input-label="'Start Date'"
-						:min="minDate"
-						:max="maxDate"
-						:disabled="userRemainingVacations > 0 ? false : true"
-						@startDateChange="(inputContent) => (startDate = inputContent)"
-					/>
-					<v-date
-						:input-i-d="'endDate'"
-						:input-value="endDate"
-						:min="startDate"
-						:max="maxDate"
-						:input-label="'End Date'"
-						:disabled="userRemainingVacations > 0 ? false : true"
-						@endDateChange="(inputContent) => (endDate = inputContent)"
-					/>
-				</div>
-				<v-button
-					:disabled="success.show || error.show"
-					class="w-full self-center"
-					:type="'submit'"
-					:text="'Submit Request'"
-				/>
-			</form>
-		</div>
+		</h1>
+		<form class="formContainer" @submit.prevent="submit">
+			<v-date
+				:input-i-d="'startDate'"
+				:input-value="startDate"
+				:input-label="'Start Date'"
+				:min="minDate"
+				:max="maxDate"
+				:disabled="userRemainingVacations > 0 ? false : true"
+				@startDateChange="(inputContent) => (startDate = inputContent)"
+			/>
+			<v-date
+				:input-i-d="'endDate'"
+				:input-value="endDate"
+				:min="startDate"
+				:max="maxDate"
+				:input-label="'End Date'"
+				:disabled="userRemainingVacations > 0 ? false : true"
+				@endDateChange="(inputContent) => (endDate = inputContent)"
+			/>
+
+			<v-button
+				class="w-full"
+				:type="'submit'"
+				:text="'Submit Request'"
+			/>
+		</form>
 	</div>
 </template>
 
@@ -53,14 +47,6 @@ export default {
 			endDate: null,
 			maxDate: null,
 			minDate: null,
-			error: {
-				show: false,
-				message: 'You exceeded the yearly limit of vacation days.',
-			},
-			success: {
-				show: false,
-				message: 'Your request has been successfully sent.',
-			},
 		}
 	},
 	beforeMount() {
@@ -74,17 +60,8 @@ export default {
 		submit() {
 			var vacationDays = VacationManager.calculateVacationDays(this.startDate, this.endDate)
 			if (vacationDays > this.userRemainingVacations) {
-				this.error.show = true
-				setTimeout(() => {
-					this.error.show = false
-				}, 2000)
+				this.$swal.fire('', 'You exceeded the yearly limit of vacation days.', 'error')
 			} else {
-				this.success.show = true
-				this.error.show = false
-				setTimeout(() => {
-					this.success.show = false
-				}, 2000)
-
 				var vacationRequest = {
 					ID: VacationManager.getVacationRequestID(),
 					requestedBy: UsersManager.getActiveUser().ID,
@@ -95,6 +72,7 @@ export default {
 					status: 'pending',
 				}
 				VacationManager.addVacationRequest(vacationRequest)
+				this.$swal.fire('Successfull', 'Your request has been successfully sent.', 'success')
 			}
 		},
 	},
