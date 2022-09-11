@@ -65,8 +65,6 @@
 </template>
 
 <script>
-import AuthenticationService from '@/plugins/AuthenticationService'
-
 import AttendanceManager from '@/util/AttendanceManager'
 import FormValidation from '@/util/FormValidation'
 import UsersManager from '@/util/UsersManager'
