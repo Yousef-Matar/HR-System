@@ -111,7 +111,7 @@ export default {
 	text-align: left;
 	position: fixed;
 	height: 100%;
-	max-width: 425px;
+	max-width: 250px;
 	width: 100vw;
 	z-index: 1;
 	top: 4rem;

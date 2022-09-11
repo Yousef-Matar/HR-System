@@ -28,6 +28,7 @@ export default {
 			showWarning: false,
 		}
 	},
+
 	mounted() {
 		this.$store.commit('init')
 		this.events.forEach((event) => {
@@ -45,12 +46,12 @@ export default {
 		editClass() {
 			if (this.checkActiveUser()) {
 				if (!this.sideNavToggle) {
-					return 'ml-72 mr-[38px] overflow-x-hidden'
+					return 'ml-72 mr-[38px] hidden sm:block'
 				} else {
-					return ''
+					return 'mx-[38px]'
 				}
 			} else {
-				return ''
+				return 'mx-auto'
 			}
 		},
 		resetTimer() {
@@ -100,5 +101,8 @@ details,
 button,
 label {
 	user-select: none;
+}
+label {
+	white-space: nowrap;
 }
 </style>

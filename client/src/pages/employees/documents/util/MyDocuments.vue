@@ -3,8 +3,8 @@
 		<h1 class="text-2xl">
 			My Documents
 		</h1>
-		<div class="flex w-full gap-8">
-			<div class="flex flex-col w-full gap-1">
+		<div class="flex w-full gap-y-8 justify-between flex-wrap">
+			<div class="flex flex-col w-full sm:w-[48%] gap-1">
 				<h1 class="text-xl text-left">
 					Submitted Documents:
 				</h1>
@@ -20,7 +20,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="flex flex-col w-full gap-1">
+			<div class="flex flex-col w-full sm:w-[48%] w- gap-1">
 				<h1 class="text-xl text-left">
 					Requested Documents:
 				</h1>

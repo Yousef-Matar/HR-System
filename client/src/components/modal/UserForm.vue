@@ -30,14 +30,14 @@
 				<template v-else-if="mode === 'profile'" #ModalHeader> Account Details </template>
 				<template v-else-if="mode === 'update'" #ModalHeader> Update User </template>
 				<template #ModalBody>
-					<div v-if="errors.length" class="mb-8">
-						<form-errors
-							v-for="error in errors"
-							:key="error.message"
-							:error="error"
-						/>
-					</div>
 					<form class="formContainer" @submit.prevent="validateForm">
+						<div v-if="errors.length">
+							<form-errors
+								v-for="error in errors"
+								:key="error.message"
+								:error="error"
+							/>
+						</div>
 						<v-input
 							:input-i-d="'username'"
 							:type="'text'"

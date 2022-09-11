@@ -1,7 +1,7 @@
 <template>
 	<form
 		autocomplete="off"
-		class="self-center"
+		class="self-center formContainer"
 		@submit.prevent="submit"
 	>
 		<div>
@@ -17,9 +17,7 @@
 				:input-i-d="'requestDate'"
 				:input-value="form.requestDate"
 				:input-label="'Request Date'"
-				:max="new Date()"
-				:required="true"
-				@requestDateChange="(inputContent) => (form.requestDate = inputContent)"
+				:disabled="true"
 			/>
 			<v-select
 				:select-i-d="'documentType'"
