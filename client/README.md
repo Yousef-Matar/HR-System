@@ -1,4 +1,4 @@
-# hr_system
+# Client Side
 
 ## Project setup
 ```
