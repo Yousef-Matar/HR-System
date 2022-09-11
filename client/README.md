@@ -20,6 +20,12 @@ npm run build
 npm run lint
 ```
 
+## Environment Variables
+
+To run this project, you will need to edit the following environment variables in the .env file
+
+`VUE_APP_SERVER_URL`
+
 ### Default Admin Account 
 - Username: SuperAdmin
 - Password: SuperAdmin
