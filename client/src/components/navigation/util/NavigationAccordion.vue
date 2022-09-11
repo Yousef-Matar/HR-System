@@ -4,15 +4,15 @@
 			{{ link.title }}
 		</summary>
 
-		<v-button
+		<router-link
 			v-for="child in link.children"
 			:key="child.title"
-			class="levelOneButton w-full self-center"
-			:text="child.title"
-			:icon="child.icon"
-			:has-border="hasBorder"
-			:method=" () => { $router.push(child.to) } "
-		/>
+			class="levelOneButton w-full text-left text-base rounded-3xl p-2 shadow text-primary border-primary hover:shadow-[#adffff]"
+			:to="child.to"
+		>
+			<font-awesome-icon :icon="child.icon" /> &nbsp;
+			{{ child.title }}
+		</router-link>
 	</details>
 </template>
 
@@ -32,6 +32,9 @@ export default {
 </script>
 
 <style scoped>
+.router-link-active {
+	border-width: 1px;
+}
 .levelOneButton {
 	width: calc(100% - 12px);
 	text-align: left;

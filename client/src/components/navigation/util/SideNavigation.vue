@@ -7,15 +7,15 @@
 				:link="link"
 				class="w-full"
 			/>
-			<v-button
+			<router-link
 				v-else
 				:key="'button' + link.title"
-				class="w-full text-left"
-				:text="link.title"
-				:icon="link.icon"
-				:has-border="false"
-				:method=" () => { $router.push(link.to) } "
-			/>
+				class="w-full text-left text-base rounded-3xl p-2 shadow text-primary border-primary hover:shadow-[#adffff]"
+				:to="link.to"
+			>
+				<font-awesome-icon :icon="link.icon" /> &nbsp;
+				{{ link.title }}
+			</router-link>
 		</template>
 	</div>
 </template>
@@ -142,5 +142,8 @@ export default {
 }
 .sidenav a {
 	width: 100%;
+}
+.router-link-active {
+	border-width: 1px;
 }
 </style>
