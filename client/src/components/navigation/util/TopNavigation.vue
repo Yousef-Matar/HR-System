@@ -4,7 +4,7 @@
 			<font-awesome-icon
 				icon="fa fa-bars"
 				size="2xl"
-				class="cursor-pointer rounded-3xl p-2 shadow text-primary border-primary hover:shadow-[#adffff]"
+				class="cursor-pointer rounded-3xl p-2 shadow text-primary hover:shadow-[#adffff]"
 				@click="$emit('toggleSideNav')"
 			/>
 		</span>
