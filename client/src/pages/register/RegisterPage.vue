@@ -3,14 +3,14 @@
 		<h1 class="text-2xl mb-3">
 			Register
 		</h1>
-		<div v-if="errors.length" class="mb-3">
+		<div v-if="errors.length" class="mb-8">
 			<form-errors
 				v-for="error in errors"
 				:key="error.message"
 				:error="error"
 			/>
 		</div>
-		<div class="formContainer">
+		<form class="formContainer" @submit.prevent="validateForm">
 			<v-input
 				:input-i-d="'username'"
 				:type="'text'"
@@ -52,14 +52,15 @@
 			<v-button
 				class="w-full"
 				:text="'Sign Up'"
-				:method="validateForm"
+				:type="'submit'"
 			/>
 			<v-button
 				class="w-full"
 				:text="'Already have an account ?'"
+				:type="'button'"
 				:method=" () => { $router.push('/Login') } "
 			/>
-		</div>
+		</form>
 	</div>
 </template>
 
@@ -91,36 +92,6 @@ export default {
 	methods: {
 		validateForm() {
 			this.errors = []
-			if (FormValidation.empty(this.form.username)) {
-				this.errors.push({
-					show: true,
-					message: 'Username field is required.',
-				})
-			}
-			if (FormValidation.empty(this.form.firstName)) {
-				this.errors.push({
-					show: true,
-					message: 'First Name field is required.',
-				})
-			}
-			if (FormValidation.empty(this.form.lastName)) {
-				this.errors.push({
-					show: true,
-					message: 'Last Name field is required.',
-				})
-			}
-			if (FormValidation.empty(this.form.password)) {
-				this.errors.push({
-					show: true,
-					message: 'Password field is required.',
-				})
-			}
-			if (FormValidation.empty(this.confirmPassword)) {
-				this.errors.push({
-					show: true,
-					message: 'Confirm Password field is required.',
-				})
-			}
 			if (FormValidation.noSpace(this.form.username)) {
 				this.errors.push({
 					show: true,

@@ -3,14 +3,14 @@
 		<h1 class="text-2xl mb-3">
 			Login
 		</h1>
-		<div v-if="errors.length" class="mb-3">
+		<div v-if="errors.length" class="mb-8">
 			<form-errors
 				v-for="error in errors"
 				:key="error.message"
 				:error="error"
 			/>
 		</div>
-		<div class="formContainer">
+		<form class="formContainer" @submit.prevent="validateForm">
 			<v-input
 				:input-i-d="'username'"
 				:type="'text'"
@@ -29,14 +29,15 @@
 			<v-button
 				class="w-full"
 				:text="'Log In'"
-				:method="validateForm"
+				:type="'submit'"
 			/>
 			<v-button
 				class="w-full"
 				:text="'Register'"
+				:type="'button'"
 				:method=" () => { $router.push('/Register') } "
 			/>
-		</div>
+		</form>
 	</div>
 </template>
 
@@ -58,18 +59,6 @@ export default {
 	methods: {
 		validateForm() {
 			this.errors = []
-			if (FormValidation.empty(this.form.username)) {
-				this.errors.push({
-					show: true,
-					message: 'Username field is required.',
-				})
-			}
-			if (FormValidation.empty(this.form.password)) {
-				this.errors.push({
-					show: true,
-					message: 'Password field is required.',
-				})
-			}
 			if (FormValidation.noSpace(this.form.username)) {
 				this.errors.push({
 					show: true,
@@ -82,28 +71,27 @@ export default {
 					message: 'Password field cannot have whitespace.',
 				})
 			}
-			if (!FormValidation.empty(this.form.username) && !FormValidation.noSpace(this.form.username)) {
-				var currentUser = UsersManager.getUserByUsername(this.form.username)
-				if (currentUser) {
-					if (currentUser.password != this.form.password) {
-						this.errors.push({
-							show: true,
-							message: 'Invalid username or password.',
-						})
-					}
-					if (currentUser.status == 'disabled') {
-						this.errors.push({
-							show: true,
-							message: 'This account has been disabled. Please contact your supervisor.',
-						})
-					}
-				} else {
+			var currentUser = UsersManager.getUserByUsername(this.form.username)
+			if (currentUser) {
+				if (currentUser.password != this.form.password) {
 					this.errors.push({
 						show: true,
-						message: 'User not found. Please contact your supervisor.',
+						message: 'Invalid username or password.',
 					})
 				}
+				if (currentUser.status == 'disabled') {
+					this.errors.push({
+						show: true,
+						message: 'This account has been disabled. Please contact your supervisor.',
+					})
+				}
+			} else {
+				this.errors.push({
+					show: true,
+					message: 'User not found. Please contact your supervisor.',
+				})
 			}
+
 			if (this.errors.length == 0) {
 				this.submit()
 			}

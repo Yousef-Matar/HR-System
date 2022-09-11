@@ -21,11 +21,6 @@
 			class="w-full self-center"
 		/>
 		<teleport to="body">
-			<!--<v-alert
-				:text="error.message"
-				:show="error.show"
-				:variant="'error'"
-			/>-->
 			<v-modal
 				v-if="isModalOpen"
 				:variant="'primary'"
@@ -35,83 +30,74 @@
 				<template v-else-if="mode === 'profile'" #ModalHeader> Account Details </template>
 				<template v-else-if="mode === 'update'" #ModalHeader> Update User </template>
 				<template #ModalBody>
-					<form autocomplete="off" @submit.prevent="submit">
-						<div class="flex gap-8 flex-wrap">
-							<v-input
-								:input-i-d="'username'"
-								:type="'text'"
-								:input-label="'Username'"
-								:input-value="form.username"
-								@usernameChange="(inputContent) => (form.username = inputContent)"
-							/>
+					<div v-if="errors.length" class="mb-8">
+						<form-errors
+							v-for="error in errors"
+							:key="error.message"
+							:error="error"
+						/>
+					</div>
+					<form class="formContainer" @submit.prevent="validateForm">
+						<v-input
+							:input-i-d="'username'"
+							:type="'text'"
+							:input-label="'Username'"
+							:input-value="form.username"
+							@usernameChange="(inputContent) => (form.username = inputContent)"
+						/>
 
-							<v-input
-								:input-i-d="'password'"
-								:type="mode === 'update' ? 'password' : 'text'"
-								:input-label="'Password'"
-								:input-value="form.password"
-								:disabled="mode === 'update' ? true : false"
-								@passwordChange="(inputContent) => (form.password = inputContent)"
-							/>
-						</div>
-						<div class="flex gap-8 flex-wrap">
-							<v-input
-								:input-i-d="'firstName'"
-								:type="'text'"
-								:input-label="'First Name'"
-								:input-value="form.firstName"
-								:disabled="mode === 'update' ? true : false"
-								@firstNameChange="(inputContent) => (form.firstName = inputContent)"
-							/>
-							<v-input
-								:input-i-d="'lastName'"
-								:type="'text'"
-								:input-label="'Last Name'"
-								:input-value="form.lastName"
-								:disabled="mode === 'update' ? true : false"
-								@lastNameChange="(inputContent) => (form.lastName = inputContent)"
-							/>
-						</div>
+						<v-input
+							:input-i-d="'password'"
+							:type="mode === 'update' ? 'password' : 'text'"
+							:input-label="'Password'"
+							:input-value="form.password"
+							:disabled="mode === 'update' ? true : false"
+							@passwordChange="(inputContent) => (form.password = inputContent)"
+						/>
 
-						<div class="flex gap-8 flex-wrap">
-							<v-select
-								:select-i-d="'role'"
-								:disabled="mode !== 'profile' ? false : true"
-								:select-value="form.role"
-								:items="roles"
-								:select-label="'Account Role'"
-								@roleChange="(selectContent) => (form.role = selectContent)"
-							/>
-							<v-select
-								:select-i-d="'accountStatus'"
-								:disabled="mode !== 'profile' ? false : true"
-								:select-value="form.status"
-								:items="accountStatus"
-								:select-label="'Account Status'"
-								@accountStatusChange="(selectContent) => (form.status = selectContent)"
-							/>
-						</div>
-						<v-button
-							v-if="mode === 'create'"
-							:disabled="error.show"
-							:type="'submit'"
-							:text="'Add User'"
-							class="w-full self-center"
+						<v-input
+							:input-i-d="'firstName'"
+							:type="'text'"
+							:input-label="'First Name'"
+							:input-value="form.firstName"
+							:disabled="mode === 'update' ? true : false"
+							@firstNameChange="(inputContent) => (form.firstName = inputContent)"
+						/>
+						<v-input
+							:input-i-d="'lastName'"
+							:type="'text'"
+							:input-label="'Last Name'"
+							:input-value="form.lastName"
+							:disabled="mode === 'update' ? true : false"
+							@lastNameChange="(inputContent) => (form.lastName = inputContent)"
+						/>
+						<v-select
+							:select-i-d="'role'"
+							:disabled="mode !== 'profile' ? false : true"
+							:select-value="form.role"
+							:items="roles"
+							:select-label="'Account Role'"
+							@roleChange="(selectContent) => (form.role = selectContent)"
+						/>
+						<v-select
+							:select-i-d="'accountStatus'"
+							:disabled="mode !== 'profile' ? false : true"
+							:select-value="form.status"
+							:items="accountStatus"
+							:select-label="'Account Status'"
+							@accountStatusChange="(selectContent) => (form.status = selectContent)"
 						/>
 						<v-button
-							v-else-if="mode === 'update' || mode === 'profile'"
-							:disabled="error.show"
 							:type="'submit'"
-							:text="'Update'"
-							class="w-full self-center"
+							:text="mode == 'create' ? 'Add User' : 'Update'"
+							class="w-full"
 						/>
 						<v-button
-							:disabled="error.show"
 							:type="'button'"
 							:text="'Cancel'"
 							:variant="'danger'"
 							:method="resetForm"
-							class="w-full self-center"
+							class="w-full"
 						/>
 					</form>
 				</template>
@@ -120,6 +106,7 @@
 	</span>
 </template>
 <script>
+import FormValidation from '@/util/FormValidation'
 import SelectOptions from '@/util/SelectOptions'
 import UsersManager from '@/util/UsersManager'
 
@@ -139,10 +126,7 @@ export default {
 		return {
 			activeUser: UsersManager.getActiveUser(),
 			isModalOpen: false,
-			error: {
-				show: false,
-				message: 'Username is already in use.',
-			},
+			errors: [],
 			roles: null,
 			form: null,
 			accountStatus: SelectOptions.getAccountStatus(),
@@ -175,31 +159,49 @@ export default {
 			} else if (this.mode === 'profile') {
 				this.form = Object.assign({}, this.user)
 			}
-			this.error.show = false
+			this.errors = []
 			this.isModalOpen = false
 		},
-		submit() {
+		validateForm() {
+			this.errors = []
+			if (FormValidation.noSpace(this.form.username)) {
+				this.errors.push({
+					show: true,
+					message: 'Username field cannot have whitespace.',
+				})
+			}
+			if (FormValidation.noSpace(this.form.firstName)) {
+				this.errors.push({
+					show: true,
+					message: 'First Name field cannot have whitespace.',
+				})
+			}
+			if (FormValidation.noSpace(this.form.lastName)) {
+				this.errors.push({
+					show: true,
+					message: 'Last Name field cannot have whitespace.',
+				})
+			}
+			if (FormValidation.noSpace(this.form.password)) {
+				this.errors.push({
+					show: true,
+					message: 'Password field cannot have whitespace.',
+				})
+			}
 			if (UsersManager.getUserByUsername(this.form.username)) {
 				if (UsersManager.getUserByUsername(this.form.username).username != this.user.username && (this.mode === 'create' || this.mode === 'profile')) {
-					this.error.show = true
-					this.error.message = 'Username is already in use.'
-					setTimeout(() => {
-						this.error.show = false
-					}, 2000)
-				} else {
-					if (this.mode === 'create') {
-						UsersManager.addUser(this.form)
-						this.resetForm()
-					} else if (this.mode === 'update') {
-						UsersManager.replaceUser(this.user.ID, this.form)
-						this.resetForm()
-					} else if (this.mode === 'profile') {
-						UsersManager.setActiveUser(this.form)
-						UsersManager.replaceUser(this.user.ID, this.form)
-						this.resetForm()
-					}
+					this.errors.push({
+						show: true,
+						message: 'Username is already in use.',
+					})
 				}
-			} else if (this.mode === 'create') {
+			}
+			if (this.errors.length == 0) {
+				this.submit()
+			}
+		},
+		submit() {
+			if (this.mode === 'create') {
 				UsersManager.addUser(this.form)
 				this.resetForm()
 			} else if (this.mode === 'update') {
