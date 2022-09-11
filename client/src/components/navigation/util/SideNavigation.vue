@@ -1,5 +1,5 @@
 <template>
-	<div class="sidenav px-3 py-2">
+	<div class="sidenav px-3 py-2" :class="hideNav ? 'hidden' : 'flex'">
 		<template v-for="link in sideNavigationLinks">
 			<n-accordion
 				v-if="link.children"
@@ -10,7 +10,7 @@
 			<v-button
 				v-else
 				:key="'button' + link.title"
-				class="w-full text-left self-center"
+				class="w-full text-left"
 				:text="link.title"
 				:icon="link.icon"
 				:has-border="false"
@@ -27,6 +27,10 @@ export default {
 			type: Object,
 			default: null,
 		},
+		hideNav: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -38,6 +42,7 @@ export default {
 			this.sideNavigationLinks = []
 		} else if (this.user.role == 'admin' || this.user.role === 'SuperAdmin') {
 			this.sideNavigationLinks = [
+				{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 				{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
 				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username } }, icon: 'fa fa-calendar-alt' },
 				{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
@@ -59,6 +64,7 @@ export default {
 			]
 		} else if (this.user.role == 'human resources') {
 			this.sideNavigationLinks = [
+				{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 				{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
 				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username } }, icon: 'fa fa-calendar-alt' },
 				{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
@@ -80,6 +86,7 @@ export default {
 			]
 		} else if (this.user.role == 'employee') {
 			this.sideNavigationLinks = [
+				{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 				{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
 				{ title: 'My Attendance', to: { name: 'Attendance', params: { username: this.user.username } }, icon: 'fa fa-calendar-alt' },
 				{
@@ -103,9 +110,9 @@ export default {
 	overflow-x: hidden;
 	text-align: left;
 	position: fixed;
-	display: flex;
 	height: 100%;
-	width: 250px;
+	max-width: 425px;
+	width: 100vw;
 	z-index: 1;
 	top: 4rem;
 	gap: 4px;

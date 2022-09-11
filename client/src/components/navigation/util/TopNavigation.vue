@@ -1,13 +1,11 @@
 <template>
 	<div class="fixed top-0 w-full h-16 items-center bg-background flex justify-between text-sm px-3 z-[1]">
 		<span class="flex gap-1">
-			<v-button
-				class="w-full self-center"
-				:class="user ? 'text-left min-w-[226px]' : ''"
-				:text="'Home'"
-				:has-border="false"
-				:icon="'fa fa-home'"
-				:method=" () => { $router.push('/') } "
+			<font-awesome-icon
+				icon="fa fa-bars"
+				size="2xl"
+				class="cursor-pointer rounded-3xl p-2 shadow text-primary border-primary hover:shadow-[#adffff]"
+				@click="$emit('toggleSideNav')"
 			/>
 		</span>
 		<span v-if="user" class="flex gap-1">
@@ -17,20 +15,6 @@
 				:text="'Logout'"
 				:icon="'fa fa-sign-out'"
 				:has-border="false"
-			/>
-		</span>
-		<span v-else class="flex gap-1">
-			<v-button
-				:text="'Login'"
-				:has-border="false"
-				:icon="'fa fa-sign-in'"
-				:method=" () => { $router.push('/Login') } "
-			/>
-			<v-button
-				:text="'Register'"
-				:has-border="false"
-				:icon="'fa fa-user-plus'"
-				:method=" () => { $router.push('/Register') } "
 			/>
 		</span>
 	</div>

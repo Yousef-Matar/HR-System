@@ -12,7 +12,7 @@ import store from '@/store/index'
 // import the fontawesome core
 import { library } from '@fortawesome/fontawesome-svg-core'
 // import specific icons
-import { faCalendarAlt, faClock, faExclamationTriangle, faFileArrowDown, faFileArrowUp, faFileContract, faHome, faMinus, faMultiply, faPlus, faSignIn, faSignOut, faSortDown, faSortUp, faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faCalendarAlt, faClock, faExclamationTriangle, faFileArrowDown, faFileArrowUp, faFileContract, faHome, faMinus, faMultiply, faPlus, faSignIn, faSignOut, faSortDown, faSortUp, faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons'
 // import font awesome icon component
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // Sweet Alerts
@@ -36,6 +36,8 @@ import ReusableModal from '@/components/util/ReusableModal'
 
 // add icons to the library
 library.add(
+	// Side Navigation
+	faBars,
 	// Remove File
 	faMultiply,
 	// Uploads

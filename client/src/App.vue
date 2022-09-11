@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<MainNavigation v-if="checkActiveUser()" />
-		<div class="mt-[102px] mb-[38px]" :class="checkActiveUser() ? 'ml-72 mr-[38px]' : ''">
+		<MainNavigation v-if="checkActiveUser()" @toggleSideNav="(hideNav) => (sideNavToggle = hideNav)" />
+		<div class="mt-[102px] mb-[38px]" :class="editClass()">
 			<router-view />
 		</div>
 		<WarningModal :show-modal="showWarning" @closeModal="showWarning = false" />
@@ -21,6 +21,7 @@ export default {
 
 	data() {
 		return {
+			sideNavToggle: false,
 			events: ['click', 'mousemove', 'mousedown', 'scroll', 'keypress', 'load'],
 			warningTimer: null,
 			logoutTimer: null,
@@ -41,6 +42,17 @@ export default {
 		this.resetTimer()
 	},
 	methods: {
+		editClass() {
+			if (this.checkActiveUser()) {
+				if (!this.sideNavToggle) {
+					return 'ml-72 mr-[38px] overflow-x-hidden'
+				} else {
+					return ''
+				}
+			} else {
+				return ''
+			}
+		},
 		resetTimer() {
 			clearTimeout(this.warningTimer)
 			clearTimeout(this.logoutTimer)
@@ -83,9 +95,6 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #18ffff;
-}
-button {
-	max-width: 15rem;
 }
 details,
 button,
