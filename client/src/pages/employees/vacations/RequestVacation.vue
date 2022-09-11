@@ -1,10 +1,10 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
-		<v-alert
+		<!--<v-alert
 			:text="error.show ? error.message : success.message"
 			:show="error.show ? error.show : success.show"
 			:variant="error.show ? 'error' : 'success'"
-		/>
+		/>-->
 		<div class="flex flex-col gap-8">
 			<div class="text-2xl text-left">
 				Remaining Yearly Vacation Days: {{ userRemainingVacations }}

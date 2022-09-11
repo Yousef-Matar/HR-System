@@ -1,10 +1,10 @@
 <template>
 	<div class="fixed top-0 w-full h-16 items-center bg-background flex justify-between text-sm px-3 z-[1]">
-		<v-alert
+		<!--<v-alert
 			:text="success.message"
 			:show="success.show"
 			:variant="'success'"
-		/>
+		/>-->
 		<span class="flex gap-1">
 			<v-button
 				class="w-full self-center"

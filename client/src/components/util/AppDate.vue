@@ -79,7 +79,7 @@ export default {
 	position: absolute;
 	left: 0;
 	top: 0;
-	width: 20rem;
+	width: 15rem;
 	height: 3rem;
 	margin: 0;
 	padding: 0;

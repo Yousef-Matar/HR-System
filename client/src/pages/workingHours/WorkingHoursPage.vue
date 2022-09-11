@@ -1,10 +1,10 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
-		<v-alert
+		<!--<v-alert
 			:text="success.message"
 			:show="success.show"
 			:variant="'success'"
-		/>
+		/>-->
 		<form @submit.prevent="updateHours">
 			<div class="text-left">
 				<h1 class="text-2xl">

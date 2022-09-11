@@ -1,83 +1,78 @@
 <template>
-	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
-		<v-alert
-			:text="error.message"
-			:show="error.show"
-			:variant="'error'"
-		/>
-		<form autocomplete="off" @submit.prevent="submit">
-			<h1 class="text-2xl">
-				Sign Up
-			</h1>
-			<div class="flex gap-8 flex-wrap items-center justify-center">
-				<v-input
-					:input-i-d="'username'"
-					:type="'text'"
-					:input-label="'Username'"
-					:input-value="form.username"
-					@usernameChange="(inputContent) => (form.username = inputContent)"
-				/>
-			</div>
-			<div class="flex gap-8 flex-wrap items-center justify-center">
-				<v-input
-					:input-i-d="'firstName'"
-					:type="'text'"
-					:input-label="'First Name'"
-					:input-value="form.firstName"
-					@firstNameChange="(inputContent) => (form.firstName = inputContent)"
-				/>
-				<v-input
-					:input-i-d="'lastName'"
-					:type="'text'"
-					:input-label="'Last Name'"
-					:input-value="form.lastName"
-					@lastNameChange="(inputContent) => (form.lastName = inputContent)"
-				/>
-			</div>
-			<div class="flex gap-8 flex-wrap items-center justify-center">
-				<v-input
-					:input-i-d="'password'"
-					:type="'password'"
-					:input-label="'Password'"
-					:input-value="form.password"
-					@passwordChange="(inputContent) => (form.password = inputContent)"
-				/>
-				<v-input
-					:input-i-d="'confirmPassword'"
-					:type="'password'"
-					:input-label="'Confirm Password'"
-					:input-value="confirmPassword"
-					@confirmPasswordChange="(inputContent) => (confirmPassword = inputContent)"
-				/>
-			</div>
+	<div class="mx-auto p-8 rounded-3xl bg-background w-fit flex flex-col items-center">
+		<h1 class="text-2xl mb-3">
+			Register
+		</h1>
+		<div v-if="errors.length" class="mb-3">
+			<form-errors
+				v-for="error in errors"
+				:key="error.message"
+				:error="error"
+			/>
+		</div>
+		<div class="formContainer">
+			<v-input
+				:input-i-d="'username'"
+				:type="'text'"
+				:input-label="'Username'"
+				:input-value="form.username"
+				@usernameChange="(inputContent) => (form.username = inputContent)"
+			/>
+
+			<v-input
+				:input-i-d="'firstName'"
+				:type="'text'"
+				:input-label="'First Name'"
+				:input-value="form.firstName"
+				@firstNameChange="(inputContent) => (form.firstName = inputContent)"
+			/>
+			<v-input
+				:input-i-d="'lastName'"
+				:type="'text'"
+				:input-label="'Last Name'"
+				:input-value="form.lastName"
+				@lastNameChange="(inputContent) => (form.lastName = inputContent)"
+			/>
+
+			<v-input
+				:input-i-d="'password'"
+				:type="'password'"
+				:input-label="'Password'"
+				:input-value="form.password"
+				@passwordChange="(inputContent) => (form.password = inputContent)"
+			/>
+			<v-input
+				:input-i-d="'confirmPassword'"
+				:type="'password'"
+				:input-label="'Confirm Password'"
+				:input-value="confirmPassword"
+				@confirmPasswordChange="(inputContent) => (confirmPassword = inputContent)"
+			/>
+
 			<v-button
-				:disabled="error.show"
-				class="w-full self-center"
-				:type="'submit'"
+				class="w-full"
 				:text="'Sign Up'"
+				:method="validateForm"
 			/>
 			<v-button
-				:disabled="error.show"
-				class="w-full self-center"
-				:type="'button'"
+				class="w-full"
 				:text="'Already have an account ?'"
 				:method=" () => { $router.push('/Login') } "
 			/>
-		</form>
+		</div>
 	</div>
 </template>
 
 <script>
 import AttendanceManager from '@/util/AttendanceManager'
+import FormValidation from '@/util/FormValidation'
 import UsersManager from '@/util/UsersManager'
 
 export default {
 	data() {
 		return {
-			error: {
-				show: false,
-				message: 'Invalid username or password.',
-			},
+			errors: [],
+
 			form: {
 				ID: UsersManager.getUserID(),
 				username: '',
@@ -94,32 +89,91 @@ export default {
 		}
 	},
 	methods: {
-		submit() {
-			if (UsersManager.getUserByUsername(this.form.username)) {
-				this.error.show = true
-				this.error.message = 'Username is already in use.'
-				setTimeout(() => {
-					this.error.show = false
-				}, 2000)
-			} else if (this.form.password !== this.confirmPassword) {
-				this.error.show = true
-				this.error.message = 'Passwords do not match.'
-				setTimeout(() => {
-					this.error.show = false
-				}, 2000)
-			} else {
-				var currentUser = this.form
-				currentUser = AttendanceManager.userCheckIn(currentUser)
-				UsersManager.setActiveUser(currentUser)
-				UsersManager.addUser(currentUser)
-				this.error.show = false
-				this.$router.push('/')
+		validateForm() {
+			this.errors = []
+			if (FormValidation.empty(this.form.username)) {
+				this.errors.push({
+					show: true,
+					message: 'Username field is required.',
+				})
+			}
+			if (FormValidation.empty(this.form.firstName)) {
+				this.errors.push({
+					show: true,
+					message: 'First Name field is required.',
+				})
+			}
+			if (FormValidation.empty(this.form.lastName)) {
+				this.errors.push({
+					show: true,
+					message: 'Last Name field is required.',
+				})
+			}
+			if (FormValidation.empty(this.form.password)) {
+				this.errors.push({
+					show: true,
+					message: 'Password field is required.',
+				})
+			}
+			if (FormValidation.empty(this.confirmPassword)) {
+				this.errors.push({
+					show: true,
+					message: 'Confirm Password field is required.',
+				})
+			}
+			if (FormValidation.noSpace(this.form.username)) {
+				this.errors.push({
+					show: true,
+					message: 'Username field cannot have whitespace.',
+				})
+			}
+			if (FormValidation.noSpace(this.form.firstName)) {
+				this.errors.push({
+					show: true,
+					message: 'First Name field cannot have whitespace.',
+				})
+			}
+			if (FormValidation.noSpace(this.form.lastName)) {
+				this.errors.push({
+					show: true,
+					message: 'Last Name field cannot have whitespace.',
+				})
+			}
+			if (FormValidation.noSpace(this.form.password)) {
+				this.errors.push({
+					show: true,
+					message: 'Password field cannot have whitespace.',
+				})
+			}
+			if (FormValidation.noSpace(this.confirmPassword)) {
+				this.errors.push({
+					show: true,
+					message: 'Confirm Password field cannot have whitespace.',
+				})
+			}
+			if (FormValidation.notMatching(this.form.password, this.confirmPassword)) {
+				this.errors.push({
+					show: true,
+					message: 'Passwords do not match.',
+				})
+			}
+			if (FormValidation.usedUsername(this.form.username)) {
+				this.errors.push({
+					show: true,
+					message: 'Username is already in use.',
+				})
+			}
+			if (this.errors.length == 0) {
+				this.submit()
 			}
 		},
-		resetForm() {
-			this.form.username = ''
-			this.form.password = ''
+		submit() {
+			var currentUser = this.form
+			currentUser = AttendanceManager.userCheckIn(currentUser)
+			UsersManager.setActiveUser(currentUser)
+			UsersManager.addUser(currentUser)
 			this.error.show = false
+			this.$router.push('/')
 		},
 	},
 }

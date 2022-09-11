@@ -1,10 +1,10 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
-		<v-alert
+		<!--<v-alert
 			:text="success.message"
 			:show="success.show"
 			:variant="'success'"
-		/>
+		/>-->
 		<div class="flex flex-col gap-8 items-start">
 			<div class="text-2xl text-left">
 				<div v-if="remainingHours >= 0">

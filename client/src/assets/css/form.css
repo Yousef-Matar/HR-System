@@ -1,22 +1,17 @@
-.formContainer {	display: flex;
-	justify-content: center;
-	flex-flow: column;
-	align-items: center;
-	height: 100%;
-}
-form {
+.formContainer {
 	display: flex;
 	flex-direction: column;
 	gap: 32px;
+	align-items: center;
 	width: fit-content;
 	border-radius: 1.5rem;
 }
 textarea {
-	max-width: 20rem;
+	max-width: 15rem;
 }
 .inputGroup {
 	position: relative;
-	width: 20rem;
+	width: 15rem;
 	height: 3rem;
 }
 .inputGroup input {

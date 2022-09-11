@@ -4,7 +4,7 @@
 	"description": "Node js server for HR-System",
 	"main": "main.js",
 	"scripts": {
-		"start": "nodemon src/app.js --exec  \"npm run lint && node\"",
+		"start": "nodemon src/app.js",
 		"lint": "eslint src/**/*.js"
 	},
 	"author": "Yousef Matar",

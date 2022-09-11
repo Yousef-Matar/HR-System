@@ -11,7 +11,7 @@
 
 			<template #ModalBody>
 				<h1 class="text-xl">
-					{{ modalMmessage }}
+					{{ modalMessage }}
 				</h1>
 			</template>
 		</v-modal>
@@ -24,7 +24,7 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		modalMmessage: {
+		modalMessage: {
 			type: String,
 			required: true,
 			default: 'Modal Message',

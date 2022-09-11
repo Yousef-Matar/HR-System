@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<MainNavigation />
-		<div class="mt-[102px] mb-[38px]" :class="checkActiveUser() ? 'ml-72 mr-[38px]' : 'mx-[38px]'">
+		<div class="mt-[102px] mb-[38px]" :class="checkActiveUser() ? 'ml-72 mr-[38px]' : ''">
 			<router-view />
 		</div>
 		<WarningModal :show-modal="showWarning" @closeModal="showWarning = false" />
@@ -86,7 +86,7 @@ body {
 	color: #18ffff;
 }
 button {
-	max-width: 20rem;
+	max-width: 15rem;
 }
 details,
 button,

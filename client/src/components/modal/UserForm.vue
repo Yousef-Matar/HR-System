@@ -21,11 +21,11 @@
 			class="w-full self-center"
 		/>
 		<teleport to="body">
-			<v-alert
+			<!--<v-alert
 				:text="error.message"
 				:show="error.show"
 				:variant="'error'"
-			/>
+			/>-->
 			<v-modal
 				v-if="isModalOpen"
 				:variant="'primary'"
