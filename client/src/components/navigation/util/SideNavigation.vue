@@ -1,5 +1,5 @@
 <template>
-	<div class="sidenav px-3 py-2" :class="hideNav ? 'hidden' : 'flex'">
+	<div class="sidenav px-3 py-2" :class="hideNav ? 'close' : 'active'">
 		<template v-for="link in sideNavigationLinks">
 			<n-accordion
 				v-if="link.children"
@@ -131,9 +131,10 @@ export default {
 	flex-direction: column;
 	overflow-x: hidden;
 	text-align: left;
-	position: fixed;
-	height: 100%;
 	max-width: 250px;
+	position: fixed;
+	display: flex;
+	height: 100%;
 	width: 100vw;
 	z-index: 1;
 	top: 4rem;
@@ -145,5 +146,29 @@ export default {
 }
 .router-link-active {
 	border-width: 1px;
+}
+.sidenav.active {
+	animation: slide-in 1000ms forwards;
+}
+.sidenav.close {
+	animation: slide-out 1000ms forwards;
+}
+
+@keyframes slide-out {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+@keyframes slide-in {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(0%);
+	}
 }
 </style>
