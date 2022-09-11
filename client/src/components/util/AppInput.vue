@@ -5,6 +5,7 @@
 			v-model="inputContent"
 			:type="type"
 			placeholder=" "
+			:required="required"
 			:disabled="disabled"
 			:min="min"
 			:max="max"
@@ -48,6 +49,10 @@ export default {
 			type: String,
 			required: true,
 			default: 'Input Label',
+		},
+		required: {
+			type: Boolean,
+			default: true,
 		},
 		disabled: {
 			type: Boolean,
