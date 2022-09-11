@@ -55,6 +55,7 @@ export default {
 			default: () => [],
 		},
 	},
+	emits: ['closeModal', 'uploadFiles'],
 	data() {
 		return {
 			dataFiles: [],

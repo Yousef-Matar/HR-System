@@ -25,6 +25,7 @@ export default {
 			default: false,
 		},
 	},
+	emits: ['closeModal'],
 }
 </script>
 <style></style>
