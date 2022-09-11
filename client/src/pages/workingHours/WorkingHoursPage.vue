@@ -1,11 +1,6 @@
 <template>
 	<div class="mx-auto p-8 rounded-3xl bg-background w-fit">
-		<!--<v-alert
-			:text="success.message"
-			:show="success.show"
-			:variant="'success'"
-		/>-->
-		<form @submit.prevent="updateHours">
+		<form class="formContainer" @submit.prevent="submit">
 			<div class="text-left">
 				<h1 class="text-2xl">
 					Update Monthly Hours
@@ -24,7 +19,7 @@
 			<v-button
 				:type="'submit'"
 				:text="'Update'"
-				:disabled="success.show"
+				class="w-full"
 			/>
 		</form>
 	</div>
@@ -37,10 +32,6 @@ export default {
 	data() {
 		return {
 			monthlyHours: 0,
-			success: {
-				show: false,
-				message: 'Monthly hours have been successfully updated.',
-			},
 		}
 	},
 	computed: {
@@ -53,10 +44,7 @@ export default {
 	},
 	methods: {
 		updateHours() {
-			this.success.show = true
-			setTimeout(() => {
-				this.success.show = false
-			}, 2000)
+			this.$swal.fire('Successfull', 'Monthly hours have been updated.', 'success')
 			HoursManager.setMonthlyHours(this.monthlyHours)
 		},
 	},
