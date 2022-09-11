@@ -4,7 +4,7 @@
 			<v-button
 				v-for="document in documentTypes"
 				:key="document.title"
-				class="w-full min-h-[3rem]"
+				class="w-full min-h-[3rem] whitespace-nowrap"
 				:text="document.title"
 				:has-border="documentType == document.value ? true : false"
 				:method=" () => { documentType = document.value } "
