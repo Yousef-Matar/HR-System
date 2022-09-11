@@ -1,0 +1,23 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"description": "Node js server for HR-System",
+	"main": "main.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "vue-cli-service lint"
+	},
+	"author": "Yousef Matar",
+	"license": "ISC",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.18.1",
+		"lodash": "^4.17.21",
+		"mongoose": "^6.5.5"
+	},
+	"devDependencies": {
+		"eslint": "^8.23.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-plugin-import": "^2.26.0"
+	}
+}
