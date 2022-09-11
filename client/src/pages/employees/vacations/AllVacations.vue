@@ -66,29 +66,19 @@
 				</div>
 			</template>
 		</v-table>
-		<OperationDenied
-			:show-modal="showModal"
-			:modal-mmessage="errorMessage"
-			@closeModal="showModal = false"
-		/>
 	</div>
 </template>
 
 <script>
 import exportFromJSON from 'export-from-json'
 
-import OperationDenied from '@/components/modal/OperationDenied'
-
 import SelectOptions from '@/util/SelectOptions'
 import UsersManager from '@/util/UsersManager'
 import VacationManager from '@/util/VacationManager'
 
 export default {
-	components: { OperationDenied },
 	data() {
 		return {
-			showModal: false,
-			errorMessage: 'This user has exceeded the maximum number of yearly vacations',
 			activeUser: UsersManager.getActiveUser(),
 			table: {
 				itemsPerPage: 10,
@@ -166,7 +156,7 @@ export default {
 		changeVacationRequestStatus(requestID, status) {
 			var success = VacationManager.changeVacationRequestStatus(requestID, status)
 			if (success == false) {
-				this.showModal = true
+				this.$swal.fire('Error!', 'This user has exceeded the maximum number of yearly vacations', 'error')
 			}
 		},
 	},

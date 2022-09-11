@@ -10,7 +10,7 @@
 			class="levelOneButton w-full text-left text-base rounded-3xl p-2 shadow text-primary border-primary hover:shadow-[#adffff]"
 			:to="child.to"
 		>
-			<font-awesome-icon :icon="child.icon" /> &nbsp;
+			<font-awesome-icon v-if="child.icon" :icon="child.icon" /> &nbsp;
 			{{ child.title }}
 		</router-link>
 	</details>
