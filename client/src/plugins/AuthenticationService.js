@@ -1,7 +1,7 @@
-import Api from '@/plugins/Api'
+import axios from '@/plugins/axios'
 
 export default {
 	register(credentials) {
-		return Api().post('register', credentials)
+		return axios.post('/register', credentials)
 	},
 }

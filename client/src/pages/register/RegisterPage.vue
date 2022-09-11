@@ -65,7 +65,9 @@
 </template>
 
 <script>
-import AttendanceManager from '@/util/AttendanceManager'
+import AuthenticationService from '@/plugins/AuthenticationService'
+
+//import AttendanceManager from '@/util/AttendanceManager'
 import FormValidation from '@/util/FormValidation'
 import UsersManager from '@/util/UsersManager'
 
@@ -138,13 +140,14 @@ export default {
 				this.submit()
 			}
 		},
-		submit() {
-			var currentUser = this.form
-			currentUser = AttendanceManager.userCheckIn(currentUser)
-			UsersManager.setActiveUser(currentUser)
-			UsersManager.addUser(currentUser)
-			this.error.show = false
-			this.$router.push('/')
+		async submit() {
+			await AuthenticationService.register(this.form)
+			//var currentUser = this.form
+			//currentUser = AttendanceManager.userCheckIn(currentUser)
+			//UsersManager.setActiveUser(currentUser)
+			//UsersManager.addUser(currentUser)
+			//this.error.show = false
+			//this.$router.push('/')
 		},
 	},
 }
