@@ -13,7 +13,7 @@ import store from '@/store/index'
 // import the fontawesome core
 import { library } from '@fortawesome/fontawesome-svg-core'
 // import specific icons
-import { faBars, faCalendarAlt, faClock, faExclamationTriangle, faFileArrowDown, faFileArrowUp, faFileContract, faHome, faMinus, faMultiply, faPlus, faSignIn, faSignOut, faSortDown, faSortUp, faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faBell, faCalendarAlt, faClock, faExclamationCircle, faExclamationTriangle, faFileArrowDown, faFileArrowUp, faFileContract, faHome, faMinus, faMultiply, faPlus, faSignIn, faSignOut, faSortDown, faSortUp, faUser, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons'
 // import font awesome icon component
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // Sweet Alerts
@@ -29,6 +29,7 @@ import AppDropzone from '@/components/util/AppDropzone'
 import AppFileDescription from '@/components/util/AppFileDescription'
 import AppFileStatus from '@/components/util/AppFileStatus'
 import AppInput from '@/components/util/AppInput'
+import AppNotification from '@/components/util/AppNotification'
 import AppSelect from '@/components/util/AppSelect'
 import AppTable from '@/components/util/AppTable'
 import AppTextarea from '@/components/util/AppTextarea'
@@ -37,6 +38,9 @@ import ReusableModal from '@/components/util/ReusableModal'
 
 // add icons to the library
 library.add(
+	// Notification
+	faExclamationCircle,
+	faBell,
 	// Side Navigation
 	faBars,
 	// Remove File
@@ -97,6 +101,7 @@ app.component('FormErrors', FormErrors)
 app.component('VTextarea', AppTextarea)
 app.component('VDropzone', AppDropzone)
 app.component('VFileDescription', AppFileDescription)
+app.component('VNotification', AppNotification)
 app.component('VFileStatus', AppFileStatus)
 
 app.mount('#app')

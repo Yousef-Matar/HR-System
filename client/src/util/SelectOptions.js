@@ -1,4 +1,17 @@
 var SelectOptions = {
+	getNotificationTypes() {
+		const notificationTypes = [
+			{
+				title: 'New Notifications',
+				value: 'unread',
+			},
+			{
+				title: 'Old Notifications',
+				value: 'read',
+			},
+		]
+		return notificationTypes
+	},
 	getDocumentStatus() {
 		const documentsStatus = [
 			{

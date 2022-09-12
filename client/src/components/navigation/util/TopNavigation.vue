@@ -10,6 +10,7 @@
 		</span>
 		<span v-if="user" class="flex gap-1">
 			<UserForm :mode="'profile'" :user="user" />
+			<NotificationModal />
 			<v-button
 				:method="logout"
 				:text="'Logout'"
@@ -21,13 +22,14 @@
 </template>
 
 <script>
+import NotificationModal from '@/components/modal/NotificationModal'
 import UserForm from '@/components/modal/UserForm'
 
 import AttendanceManager from '@/util/AttendanceManager'
 import UsersManager from '@/util/UsersManager'
 
 export default {
-	components: { UserForm },
+	components: { UserForm, NotificationModal },
 	props: {
 		user: {
 			type: Object,
