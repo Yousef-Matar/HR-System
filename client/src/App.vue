@@ -46,9 +46,9 @@ export default {
 		editClass() {
 			if (this.checkActiveUser()) {
 				if (!this.sideNavToggle) {
-					return 'ml-72 mr-[38px] hidden sm:block'
+					return 'active mr-[38px] hidden sm:block'
 				} else {
-					return 'mx-[38px]'
+					return 'mr-[38px] close'
 				}
 			} else {
 				return 'mx-auto'
@@ -85,24 +85,29 @@ export default {
 }
 </script>
 
-<style>
-html {
-	min-height: 100vh;
-	background: linear-gradient(to bottom right, #38a2d7, #561139);
+<style scoped>
+.active {
+	animation: slide-in 1000ms forwards;
 }
-body {
-	font-family: 'Roboto', sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #18ffff;
+.close {
+	animation: slide-out 1000ms forwards;
 }
-details,
-button,
-label {
-	user-select: none;
+
+@keyframes slide-out {
+	0% {
+		margin-left: 18rem;
+	}
+	100% {
+		margin-left: 38px;
+	}
 }
-label {
-	white-space: nowrap;
+
+@keyframes slide-in {
+	0% {
+		margin-left: 0rem;
+	}
+	100% {
+		margin-left: 18rem;
+	}
 }
 </style>

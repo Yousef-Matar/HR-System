@@ -2,6 +2,7 @@
 import App from '@/App'
 // Styles
 import '@/assets/css/form.css'
+import '@/assets/css/general.css'
 import '@/assets/css/scrollbar.css'
 import '@/assets/css/sweetAlert.css'
 import '@/assets/css/tailwind.css'
