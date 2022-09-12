@@ -45,7 +45,7 @@ export default {
 	props: {
 		user: {
 			type: Object,
-			required: true,
+			default: () => {},
 		},
 	},
 	data() {
@@ -58,9 +58,11 @@ export default {
 	},
 	computed: {
 		getYearsFilter() {
+			if (this.user == null) return
 			return AttendanceManager.getUserYears(this.user.hireDate)
 		},
 		getMonthFilter() {
+			if (this.user == null) return
 			return AttendanceManager.getUserMonths(this.user.hireDate, this.table.yearFilter)
 		},
 		getDaysInMonth() {
@@ -85,6 +87,7 @@ export default {
 			return fields
 		},
 		tableData() {
+			if (this.user == null) return
 			var data = [
 				{
 					Username: this.user.username,

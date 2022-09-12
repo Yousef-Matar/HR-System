@@ -131,8 +131,8 @@ export default {
 		},
 		tableData() {
 			var initialData = this.filteredData
-			if (initialData == null) return
 			var data = []
+			if (initialData == null) return data
 			initialData.forEach((element) =>
 				data.push({
 					'Request ID': element.ID,

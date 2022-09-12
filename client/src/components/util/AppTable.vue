@@ -129,7 +129,7 @@ export default {
 		},
 		tableData: {
 			type: Array,
-			required: true,
+			default: () => [],
 		},
 		tableComponents: {
 			type: Boolean,

@@ -46,7 +46,7 @@ export default {
 		},
 		items: {
 			type: Array,
-			required: true,
+			default: () => [],
 		},
 	},
 	data() {
