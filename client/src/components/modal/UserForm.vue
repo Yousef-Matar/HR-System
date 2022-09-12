@@ -30,76 +30,78 @@
 				<template v-else-if="mode === 'profile'" #ModalHeader> Account Details </template>
 				<template v-else-if="mode === 'update'" #ModalHeader> Update User </template>
 				<template #ModalBody>
-					<form class="formContainer" @submit.prevent="validateForm">
-						<div v-if="errors.length">
-							<form-errors
-								v-for="error in errors"
-								:key="error.message"
-								:error="error"
+					<div class="w-full flex justify-center">
+						<form class="formContainer" @submit.prevent="validateForm">
+							<div v-if="errors.length">
+								<form-errors
+									v-for="error in errors"
+									:key="error.message"
+									:error="error"
+								/>
+							</div>
+							<v-input
+								:input-i-d="'username'"
+								:type="'text'"
+								:input-label="'Username'"
+								:input-value="form.username"
+								@usernameChange="(inputContent) => (form.username = inputContent)"
 							/>
-						</div>
-						<v-input
-							:input-i-d="'username'"
-							:type="'text'"
-							:input-label="'Username'"
-							:input-value="form.username"
-							@usernameChange="(inputContent) => (form.username = inputContent)"
-						/>
 
-						<v-input
-							:input-i-d="'password'"
-							:type="mode === 'update' ? 'password' : 'text'"
-							:input-label="'Password'"
-							:input-value="form.password"
-							:disabled="mode === 'update' ? true : false"
-							@passwordChange="(inputContent) => (form.password = inputContent)"
-						/>
+							<v-input
+								:input-i-d="'password'"
+								:type="mode === 'update' ? 'password' : 'text'"
+								:input-label="'Password'"
+								:input-value="form.password"
+								:disabled="mode === 'update' ? true : false"
+								@passwordChange="(inputContent) => (form.password = inputContent)"
+							/>
 
-						<v-input
-							:input-i-d="'firstName'"
-							:type="'text'"
-							:input-label="'First Name'"
-							:input-value="form.firstName"
-							:disabled="mode === 'update' ? true : false"
-							@firstNameChange="(inputContent) => (form.firstName = inputContent)"
-						/>
-						<v-input
-							:input-i-d="'lastName'"
-							:type="'text'"
-							:input-label="'Last Name'"
-							:input-value="form.lastName"
-							:disabled="mode === 'update' ? true : false"
-							@lastNameChange="(inputContent) => (form.lastName = inputContent)"
-						/>
-						<v-select
-							:select-i-d="'role'"
-							:disabled="mode !== 'profile' ? false : true"
-							:select-value="form.role"
-							:items="roles"
-							:select-label="'Account Role'"
-							@roleChange="(selectContent) => (form.role = selectContent)"
-						/>
-						<v-select
-							:select-i-d="'accountStatus'"
-							:disabled="mode !== 'profile' ? false : true"
-							:select-value="form.status"
-							:items="accountStatus"
-							:select-label="'Account Status'"
-							@accountStatusChange="(selectContent) => (form.status = selectContent)"
-						/>
-						<v-button
-							:type="'submit'"
-							:text="mode == 'create' ? 'Add User' : 'Update'"
-							class="w-full"
-						/>
-						<v-button
-							:type="'button'"
-							:text="'Cancel'"
-							:variant="'danger'"
-							:method="resetForm"
-							class="w-full"
-						/>
-					</form>
+							<v-input
+								:input-i-d="'firstName'"
+								:type="'text'"
+								:input-label="'First Name'"
+								:input-value="form.firstName"
+								:disabled="mode === 'update' ? true : false"
+								@firstNameChange="(inputContent) => (form.firstName = inputContent)"
+							/>
+							<v-input
+								:input-i-d="'lastName'"
+								:type="'text'"
+								:input-label="'Last Name'"
+								:input-value="form.lastName"
+								:disabled="mode === 'update' ? true : false"
+								@lastNameChange="(inputContent) => (form.lastName = inputContent)"
+							/>
+							<v-select
+								:select-i-d="'role'"
+								:disabled="mode !== 'profile' ? false : true"
+								:select-value="form.role"
+								:items="roles"
+								:select-label="'Account Role'"
+								@roleChange="(selectContent) => (form.role = selectContent)"
+							/>
+							<v-select
+								:select-i-d="'accountStatus'"
+								:disabled="mode !== 'profile' ? false : true"
+								:select-value="form.status"
+								:items="accountStatus"
+								:select-label="'Account Status'"
+								@accountStatusChange="(selectContent) => (form.status = selectContent)"
+							/>
+							<v-button
+								:type="'submit'"
+								:text="mode == 'create' ? 'Add User' : 'Update'"
+								class="w-full"
+							/>
+							<v-button
+								:type="'button'"
+								:text="'Cancel'"
+								:variant="'danger'"
+								:method="resetForm"
+								class="w-full"
+							/>
+						</form>
+					</div>
 				</template>
 			</v-modal>
 		</teleport>

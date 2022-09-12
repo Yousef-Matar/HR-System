@@ -10,7 +10,7 @@
 			</template>
 
 			<template #ModalBody>
-				<div class="flex flex-col gap-8 max-w-xs min-w-[15rem]">
+				<div class="flex flex-col gap-8 min-w-[15rem]">
 					<v-dropzone :dropzone-i-d="'documentDropzone'" @uploaded="addFile" />
 					<div class="flex flex-col gap-1 overflow-y-auto max-h-40">
 						<v-file-description
