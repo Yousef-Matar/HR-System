@@ -26,12 +26,12 @@ const routes = [
 	{
 		path: '/Login',
 		component: LoginPage,
-		meta: { middleware: 'noUser' },
+		meta: { middleware: 'guest' },
 	},
 	{
 		path: '/Register',
 		component: RegisterPage,
-		meta: { middleware: 'noUser' },
+		meta: { middleware: 'guest' },
 	},
 	{
 		path: '/Hours',
@@ -54,7 +54,7 @@ const routes = [
 		meta: { middleware: 'extraAuthentication' },
 	},
 	{
-		path: '/Attendance/:username',
+		path: '/Attendance/:user',
 		name: 'Attendance',
 		component: AttendancePage,
 		meta: { middleware: 'attendanceAuthentication' },

@@ -46,7 +46,7 @@ export default {
 					this.sideNavigationLinks = [
 						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-						{ title: 'My Attendance', to: { name: 'Attendance', params: { username: newUser.username } }, icon: 'fa fa-calendar-alt' },
+						{ title: 'My Attendance', to: { name: 'Attendance', params: { user: newUser.ID } }, icon: 'fa fa-calendar-alt' },
 						{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
 						{
 							title: 'Employees',
@@ -68,7 +68,7 @@ export default {
 					this.sideNavigationLinks = [
 						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-						{ title: 'My Attendance', to: { name: 'Attendance', params: { username: newUser.username } }, icon: 'fa fa-calendar-alt' },
+						{ title: 'My Attendance', to: { name: 'Attendance', params: { user: newUser.ID } }, icon: 'fa fa-calendar-alt' },
 						{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
 						{
 							title: 'Employees',
@@ -90,7 +90,7 @@ export default {
 					this.sideNavigationLinks = [
 						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-						{ title: 'My Attendance', to: { name: 'Attendance', params: { username: newUser.username } }, icon: 'fa fa-calendar-alt' },
+						{ title: 'My Attendance', to: { name: 'Attendance', params: { user: newUser.ID } }, icon: 'fa fa-calendar-alt' },
 						{
 							title: 'Vacations',
 							children: [
