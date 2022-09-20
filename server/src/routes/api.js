@@ -2,6 +2,7 @@ const express = require('express')
 const { login } = require('../controllers/authController')
 const { allEmployees, updateEmployee, employeeBYID, employeeCreation } = require('../controllers/employeesController')
 const { allNotifications, notificationCreation, readNotification } = require('../controllers/notificationsController')
+const { allHours, updateMonthlyHours, getCurrentMonthHours } = require('../controllers/monthlyHoursController')
 
 // Router
 const router = express.Router()
@@ -21,5 +22,11 @@ router.get('/notifications/:id', allNotifications)
 router.post('/notifications', notificationCreation)
 // Read Notification
 router.patch('/notifications/:id', readNotification)
+// Get All Monthly Hours
+router.get('/allhours', allHours)
+// Get Current Monthly Hours
+router.get('/hours', getCurrentMonthHours)
+// Update Monthly Hours
+router.patch('/hours/:id', updateMonthlyHours)
 
 module.exports = router

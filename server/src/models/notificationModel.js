@@ -18,7 +18,7 @@ const notificationSchema = new Schema(
 	},
 	{ timestamps: true }
 )
-notificationSchema.plugin(require('mongoose-bcrypt'))
+
 const Notification = mongoose.model('Notification', notificationSchema)
 
 module.exports = Notification
