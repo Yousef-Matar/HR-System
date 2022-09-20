@@ -3,6 +3,9 @@ const vacation = require('../models/vacationModel')
 exports.allVacations = async (req, res) => {
 	vacation.find().then((result) => res.status(200).send(result))
 }
+exports.employeeVacations = async (req, res) => {
+	vacation.find({ requestedBy: req.params.id }).then((result) => res.status(200).send(result))
+}
 exports.updateVacation = async (req, res) => {
 	vacation
 		.findOneAndUpdate(

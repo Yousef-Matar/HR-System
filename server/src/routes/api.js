@@ -3,7 +3,7 @@ const { login } = require('../controllers/authController')
 const { allEmployees, updateEmployee, employeeBYID, employeeCreation } = require('../controllers/employeesController')
 const { allNotifications, notificationCreation, readNotification } = require('../controllers/notificationsController')
 const { allHours, updateMonthlyHours, getCurrentMonthHours } = require('../controllers/monthlyHoursController')
-const { allVacations, updateVacation, requestVacation, cancelVacation } = require('../controllers/vacationsController')
+const { allVacations, updateVacation, requestVacation, cancelVacation, employeeVacations } = require('../controllers/vacationsController')
 
 // Router
 const router = express.Router()
@@ -31,6 +31,8 @@ router.get('/hours', getCurrentMonthHours)
 router.patch('/hours/:id', updateMonthlyHours)
 // Get All Vacation Requests
 router.get('/vacations', allVacations)
+// Get Employee Vacation Requests
+router.get('/myvacations/:id', employeeVacations)
 // Update Vacation Request
 router.patch('/vacations/:id', updateVacation)
 // Request Vacation
