@@ -1,0 +1,1 @@
+{ "importOrder": ["^@/components/(.*)$", "^@/util/(.*)$"], "importOrderSeparation": true, "importOrderSortSpecifiers": true, "tabWidth": 3, "useTabs": true, "endOfLine": "cr", "singleQuote": true, "semi": false, "printWidth": 1000 }
