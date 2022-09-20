@@ -3,6 +3,7 @@ const { login } = require('../controllers/authController')
 const { allEmployees, updateEmployee, employeeBYID, employeeCreation } = require('../controllers/employeesController')
 const { allNotifications, notificationCreation, readNotification } = require('../controllers/notificationsController')
 const { allHours, updateMonthlyHours, getCurrentMonthHours } = require('../controllers/monthlyHoursController')
+const { allVacations, updateVacation, requestVacation, cancelVacation } = require('../controllers/vacationsController')
 
 // Router
 const router = express.Router()
@@ -28,5 +29,13 @@ router.get('/allhours', allHours)
 router.get('/hours', getCurrentMonthHours)
 // Update Monthly Hours
 router.patch('/hours/:id', updateMonthlyHours)
+// Get All Vacation Requests
+router.get('/vacations', allVacations)
+// Update Vacation Request
+router.patch('/vacations/:id', updateVacation)
+// Request Vacation
+router.post('/vacations', requestVacation)
+// Cancel Vacation Request
+router.delete('/vacations/:id', cancelVacation)
 
 module.exports = router
