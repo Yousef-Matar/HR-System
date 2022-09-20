@@ -29,7 +29,7 @@ router.delete('/:id', async (req, res) => {
 	res.status(200).send()
 })
 async function loadEmployeesCollection() {
-	const client = await mongodb.MongoClient.connect('mongodb+srv://admin:admin@hr-system.1wfvawk.mongodb.net/HR-System?retryWrites=true&w=majority', { useNewUrlParser: true })
+	const client = await mongodb.MongoClient.connect('#', { useNewUrlParser: true })
 	return client.db('HR-System').collection('employees')
 }
 module.exports = router
