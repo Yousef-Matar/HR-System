@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const app = express()
+// MongoDB URL
+const { MongoDBURL } = require('./config/index')
 // Scheduler
 const schedule = require('node-schedule')
 const employee = require('./models/employeeModel')
@@ -30,9 +32,8 @@ app.use(cors())
 // eslint-disable-next-line no-undef
 const port = process.env.PORT || 5000
 // MongoDB Connection
-const dbURL = 'mongodb+srv://admin:admin@hr-system.1wfvawk.mongodb.net/HR-System?retryWrites=true&w=majority'
 mongoose
-	.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(MongoDBURL, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
 		// Start the server
 		app.listen(port, () => console.log(`Server is running on port ${port}`))
