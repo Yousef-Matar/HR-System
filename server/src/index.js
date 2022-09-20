@@ -1,4 +1,5 @@
 const express = require('express')
+const { yearlyVacationReset } = require('./util/scheduler')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -14,6 +15,7 @@ const dbURL = 'mongodb+srv://admin:admin@hr-system.1wfvawk.mongodb.net/HR-System
 mongoose
 	.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
+		yearlyVacationReset.start()
 		// Start the server
 		app.listen(port, () => console.log(`Server is running on port ${port}`))
 	})

@@ -11,7 +11,11 @@ const employeeSchema = new Schema(
 		password: {
 			type: String,
 			required: true,
-			bcrypt: true
+			bcrypt: true,
+		},
+		yearlyVacation: {
+			type: Number,
+			required: true,
 		},
 	},
 	{ timestamps: true }
