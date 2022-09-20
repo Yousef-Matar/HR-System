@@ -1,35 +1,46 @@
 const express = require('express')
-const mongodb = require('mongodb')
+const employee = require('../../models/employee')
 // Router
 const router = express.Router()
 
 // Get Employees
 router.get('/', async (req, res) => {
-	const employees = await loadEmployeesCollection()
-	res.send(await employees.find({}).toArray())
+	employee
+		.find()
+		.then((result) => res.send(result))
+		.catch((err) => console.error(err))
+})
+// Get One Employee
+router.get('/:id', async (req, res) => {
+	employee
+		.findById(req.params.id)
+		.then((result) => res.send(result))
+		.catch((err) => console.error(err))
 })
 // Add Employee
 router.post('/', async (req, res) => {
-	const employees = await loadEmployeesCollection()
-	await employees.insertOne({
-		text: 'Employ',
-		createdAt: new Date(),
-	})
+	const Employee = new employee(req.body)
+	Employee.save()
+		.then((result) => res.send(result))
+		.catch((err) => console.error(err))
 	res.status(201).send()
 })
 
 // Edit Employee
-
-// Delete Employee
-router.delete('/:id', async (req, res) => {
-	const employees = await loadEmployeesCollection()
-	await employees.deleteOne({
-		_id: new mongodb.ObjectId(req.params.id),
-	})
-	res.status(200).send()
+router.patch('/:id', async (req, res) => {
+	employee
+		.findOneAndUpdate(req.params.id, {
+			username: req.body.username,
+			password: req.body.password,
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			role: req.body.role,
+			status: req.body.status,
+			yearlyVacation: req.body.yearlyVacation,
+			attendance: req.body.attendance,
+		},{new: true})
+		.then((result) => res.send(result))
+		.catch((err) => console.error(err))
 })
-async function loadEmployeesCollection() {
-	const client = await mongodb.MongoClient.connect('#', { useNewUrlParser: true })
-	return client.db('HR-System').collection('employees')
-}
+
 module.exports = router
