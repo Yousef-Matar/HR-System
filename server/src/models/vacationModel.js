@@ -10,6 +10,7 @@ const vacationSchema = new Schema(
 		handledBy: {
 			type: String,
 			nullable: true,
+			default: null,
 		},
 		from: {
 			type: String,
@@ -26,6 +27,7 @@ const vacationSchema = new Schema(
 		status: {
 			type: String,
 			required: true,
+			default: 'Pending',
 		},
 	},
 	{ timestamps: true }

@@ -24,14 +24,17 @@ const employeeSchema = new Schema(
 		role: {
 			type: String,
 			required: true,
+			default: 'Employee',
 		},
 		status: {
 			type: String,
 			required: true,
+			default: 'Active',
 		},
 		yearlyVacation: {
 			type: Number,
 			required: true,
+			default: 21,
 		},
 	},
 	{ timestamps: true }

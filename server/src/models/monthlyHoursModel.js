@@ -6,6 +6,7 @@ const monthlyHoursSchema = new Schema(
 		hours: {
 			type: Number,
 			required: true,
+			default: 40,
 		},
 	},
 	{ timestamps: true }
