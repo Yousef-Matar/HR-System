@@ -6,38 +6,17 @@ const employeeSchema = new Schema(
 		username: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		password: {
 			type: String,
 			required: true,
-		},
-		firstName: {
-			type: String,
-			required: true,
-		},
-		lastName: {
-			type: String,
-			required: true,
-		},
-		role: {
-			type: String,
-			required: true,
-		},
-		status: {
-			type: String,
-			required: true,
-		},
-		yearlyVacation: {
-			type: Number,
-			required: true,
-		},
-		attendance: {
-			type: Array,
-			required: true,
+			bcrypt: true
 		},
 	},
 	{ timestamps: true }
 )
+employeeSchema.plugin(require('mongoose-bcrypt'))
 const Employee = mongoose.model('Employee', employeeSchema)
 
 module.exports = Employee

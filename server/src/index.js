@@ -19,5 +19,5 @@ mongoose
 	})
 	.catch((err) => console.error(err))
 // API Routes
-const employees = require('./routes/api/employees')
-app.use('/api/employees', employees)
+const api = require('./routes/api')
+app.use('/api/', api)
