@@ -19,12 +19,3 @@ exports.login = async (req, res) => {
 			console.log(err)
 		})
 }
-exports.employeeCreation = async (req, res) => {
-	const Employee = new employee(req.body)
-	const checkEmployee = await employee.findOne({ username: Employee.username })
-	if (!checkEmployee) {
-		Employee.save().then((result) => res.status(200).send(result))
-	} else {
-		return res.status(404).send({ message: 'Username already exist.' })
-	}
-}
