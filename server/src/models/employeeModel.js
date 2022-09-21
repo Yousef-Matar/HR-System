@@ -36,6 +36,11 @@ const employeeSchema = new Schema(
 			required: true,
 			default: 21,
 		},
+		attendance: {
+			type: Array,
+			required: true,
+			default: [],
+		},
 	},
 	{ timestamps: true }
 )

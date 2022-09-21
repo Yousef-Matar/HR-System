@@ -12,6 +12,17 @@ exports.login = async (req, res) => {
 	Employee.verifyPassword(req.body.password)
 		.then((valid) => {
 			if (valid) {
+				// Employee Check In
+				if (Employee.attendance.length == 0 || !Employee.attendance[Employee.attendance.length - 1].currentDay == new Date().toLocaleDateString()) {
+					Employee.attendance = Employee.attendance.concat([
+						{
+							currentDay: new Date().toLocaleDateString(),
+							checkInTime: new Date().toLocaleTimeString(),
+							checkOutTime: null,
+						},
+					])
+					Employee.save()
+				}
 				// Employee Found Correct
 				return res.status(200).send({ employeeID: Employee.id })
 			} else {
@@ -21,5 +32,19 @@ exports.login = async (req, res) => {
 		})
 		.catch((err) => {
 			console.log(err)
+		})
+}
+exports.checkout = async (req, res) => {
+	employee
+		.findOneAndUpdate(
+			{
+				_id: req.params.id,
+				attendance: { $elemMatch: { currentDay: new Date().toLocaleDateString() } },
+			},
+			{ $set: { 'attendance.$.checkOutTime': new Date().toLocaleTimeString() } },
+			{ new: true }
+		)
+		.then((result) => {
+			res.status(200).send(result)
 		})
 }

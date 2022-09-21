@@ -1,9 +1,12 @@
+import EmployeesService from '@/plugins/services/employeesService'
 import { createStore } from 'vuex'
 
 const store = createStore({
 	state() {
 		return {
-			allFiles:
+			activeEmployeeID: localStorage.getItem('Active Employee ID') === null ? '' : JSON.parse(localStorage.getItem('Active Employee ID')),
+			allEmployees: [],
+			/*allFiles:
 				localStorage.getItem('All Files') === null
 					? {
 							uploadedFiles: [],
@@ -29,57 +32,22 @@ const store = createStore({
 							},
 							// eslint-disable-next-line no-mixed-spaces-and-tabs
 					  ]
-					: JSON.parse(localStorage.getItem('All Hours')),
-			allEmployees:
-				localStorage.getItem('Employees') === null
-					? [
-							{
-								ID: 1,
-								username: 'SuperAdmin',
-								password: 'SuperAdmin',
-								firstName: 'SuperAdmin First Name',
-								lastName: 'SuperAdmin Last Name',
-								role: 'SuperAdmin',
-								status: 'active',
-								yearlyVacation: 21,
-								hireDate: new Date().toLocaleDateString(),
-								attendance: [],
-							},
-							// eslint-disable-next-line no-mixed-spaces-and-tabs
-					  ]
-					: JSON.parse(localStorage.getItem('Employees')),
+					: JSON.parse(localStorage.getItem('All Hours')),*/
 		}
 	},
 
 	mutations: {
 		init(state) {
-			localStorage.setItem('Active User', JSON.stringify(state.activeUser))
-			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
-			localStorage.setItem('Monthly Hours', JSON.stringify(state.monthlyHours))
-			localStorage.setItem('Vacation Requests', JSON.stringify(state.vacationRequests))
-			localStorage.setItem('All Files', JSON.stringify(state.allFiles))
-			if (new Date().getDate() == 1 && new Date().getMonth() == 1 && new Date().getFullYear() >= new Date().getFullYear()) {
-				state.allEmployees.forEach((employee) => {
-					employee.yearlyVacation = 21
-				})
-			}
-			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
-			if (state.allHours.find((element) => element.month == new Date().getMonth() && element.year == new Date().getFullYear())) {
-				localStorage.setItem('All Hours', JSON.stringify(state.allHours))
-			} else {
-				state.allHours.push({
-					year: new Date().getFullYear(),
-					month: new Date().getMonth(),
-					hours: state.monthlyHours,
-				})
-				localStorage.setItem('All Hours', JSON.stringify(state.allHours))
-			}
+			localStorage.setItem('Active Employee ID', JSON.stringify(state.activeEmployeeID))
+			EmployeesService.getAll()
 		},
 		setAllEmployees(state, payload) {
 			state.allEmployees = payload
-			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
 		},
-		setAllFiles(state, payload) {
+		setActiveEmployeeID(state, payload) {
+			state.activeUser = payload
+		},
+		/*setAllFiles(state, payload) {
 			state.allFiles[payload.fileType].push(payload.file)
 			localStorage.setItem('All Files', JSON.stringify(state.allFiles))
 		},
@@ -145,7 +113,7 @@ const store = createStore({
 		replaceUser(state, payload) {
 			state.allEmployees = state.allEmployees.map((user) => (user.ID === payload.userID ? payload.updatedUser : user))
 			localStorage.setItem('Employees', JSON.stringify(state.allEmployees))
-		},
+		},*/
 	},
 })
 export default store

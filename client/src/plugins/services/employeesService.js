@@ -1,8 +1,12 @@
 import axios from '@/plugins/axios'
+import store from '@/store/index'
 
 export default {
 	getAll() {
-		return axios.get('employees')
+		axios.get('employees').then((response) => {
+			store.commit('setAllEmployees', response.data)
+			
+		})
 	},
 	getEmployeeByID(employeeID) {
 		return axios.get(`employees/${employeeID}`)

@@ -86,9 +86,9 @@ export default {
 					//UsersManager.setActiveUser(result.data.employeeID)
 					var currentUser = UsersManager.getUserByUsername(this.form.username)
 					currentUser = AttendanceManager.userCheckIn(currentUser)
-					UsersManager.setActiveUser(currentUser)
+					//UsersManager.setActiveUser(currentUser)
 					UsersManager.setAllUsers()
-					this.$router.push('/')
+					//this.$router.push('/')
 				})
 				.catch((error) =>
 					this.errors.push({
@@ -96,6 +96,16 @@ export default {
 						message: error.response.data.message,
 					})
 				)
+
+
+
+
+				authService.login(this.form).catch((error) =>
+				this.errors.push({
+					show: true,
+					message: error.response.data.message,
+				})
+			)
 		},
 	},
 }
