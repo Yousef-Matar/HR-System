@@ -42,7 +42,6 @@ export default {
 .modal {
 	max-height: calc(100% - 20px);
 	max-width: calc(100% - 20px);
-	margin: 10px;
 	overflow-y: auto;
 	position: fixed;
 	left: 50%;
