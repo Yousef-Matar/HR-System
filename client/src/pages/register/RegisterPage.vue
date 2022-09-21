@@ -143,7 +143,6 @@ export default {
 			currentUser = AttendanceManager.userCheckIn(currentUser)
 			UsersManager.setActiveUser(currentUser)
 			UsersManager.addUser(currentUser)
-			this.error.show = false
 			this.$router.push('/')
 		},
 	},
