@@ -42,6 +42,8 @@
 </template>
 
 <script>
+//import authService from '@/plugins/services/authService'
+
 import AttendanceManager from '@/util/AttendanceManager'
 import FormValidation from '@/util/FormValidation'
 import UsersManager from '@/util/UsersManager'
@@ -71,32 +73,24 @@ export default {
 					message: 'Password field cannot have whitespace.',
 				})
 			}
-			var currentUser = UsersManager.getUserByUsername(this.form.username)
-			if (currentUser) {
-				if (currentUser.password != this.form.password) {
-					this.errors.push({
-						show: true,
-						message: 'Invalid username or password.',
-					})
-				}
-				if (currentUser.status == 'disabled') {
-					this.errors.push({
-						show: true,
-						message: 'This account has been disabled. Please contact your supervisor.',
-					})
-				}
-			} else {
-				this.errors.push({
-					show: true,
-					message: 'User not found. Please contact your supervisor.',
-				})
-			}
 
 			if (this.errors.length == 0) {
 				this.submit()
 			}
 		},
 		submit() {
+			//authService
+			//	.login(this.form)
+			//	.then((result) => {
+			//		//UsersManager.setActiveUser(result.data.employeeID)
+			//		this.$router.push('/')
+			//	})
+			//	.catch((error) =>
+			//		this.errors.push({
+			//			show: true,
+			//			message: error.response.data.message,
+			//		})
+			//	)
 			var currentUser = UsersManager.getUserByUsername(this.form.username)
 			currentUser = AttendanceManager.userCheckIn(currentUser)
 			UsersManager.setActiveUser(currentUser)
