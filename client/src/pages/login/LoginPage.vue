@@ -42,7 +42,7 @@
 </template>
 
 <script>
-//import authService from '@/plugins/services/authService'
+import authService from '@/plugins/services/authService'
 
 import AttendanceManager from '@/util/AttendanceManager'
 import FormValidation from '@/util/FormValidation'
@@ -79,27 +79,26 @@ export default {
 			}
 		},
 		submit() {
-			//authService
-			//	.login(this.form)
-			//	.then((result) => {
-			//		//UsersManager.setActiveUser(result.data.employeeID)
-			//		this.$router.push('/')
-			//	})
-			//	.catch((error) =>
-			//		this.errors.push({
-			//			show: true,
-			//			message: error.response.data.message,
-			//		})
-			//	)
-			var currentUser = UsersManager.getUserByUsername(this.form.username)
-			currentUser = AttendanceManager.userCheckIn(currentUser)
-			UsersManager.setActiveUser(currentUser)
-			UsersManager.setAllUsers()
-			this.$router.push('/')
+			authService
+				.login(this.form)
+				.then((result) => {
+					console.log(result)
+					//UsersManager.setActiveUser(result.data.employeeID)
+					var currentUser = UsersManager.getUserByUsername(this.form.username)
+					currentUser = AttendanceManager.userCheckIn(currentUser)
+					UsersManager.setActiveUser(currentUser)
+					UsersManager.setAllUsers()
+					this.$router.push('/')
+				})
+				.catch((error) =>
+					this.errors.push({
+						show: true,
+						message: error.response.data.message,
+					})
+				)
 		},
 	},
 }
 </script>
 
-<style>
-</style>
+<style></style>
