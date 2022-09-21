@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import employeesService from '@/plugins/services/employeesService'
+
 import AttendanceManager from '@/util/AttendanceManager'
 import FormValidation from '@/util/FormValidation'
 import UsersManager from '@/util/UsersManager'
@@ -128,22 +130,29 @@ export default {
 					message: 'Passwords do not match.',
 				})
 			}
-			if (FormValidation.usedUsername(this.form.username)) {
-				this.errors.push({
-					show: true,
-					message: 'Username is already in use.',
-				})
-			}
 			if (this.errors.length == 0) {
 				this.submit()
 			}
 		},
 		submit() {
-			var currentUser = this.form
-			currentUser = AttendanceManager.userCheckIn(currentUser)
-			UsersManager.setActiveUser(currentUser)
-			UsersManager.addUser(currentUser)
-			this.$router.push('/')
+			employeesService
+				.createEmployee(this.form)
+				.then((result) => {
+					console.log(result)
+					//UsersManager.setActiveUser(result.data.employeeID)
+					//UsersManager.addUser(result.data)
+					var currentUser = this.form
+					currentUser = AttendanceManager.userCheckIn(currentUser)
+					UsersManager.setActiveUser(currentUser)
+					UsersManager.addUser(currentUser)
+					this.$router.push('/')
+				})
+				.catch((error) =>
+					this.errors.push({
+						show: true,
+						message: error.response.data.message,
+					})
+				)
 		},
 	},
 }
