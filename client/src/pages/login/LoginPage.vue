@@ -101,9 +101,5 @@ export default {
 }
 </script>
 
-<style scoped>
-.break {
-	flex-basis: 100%;
-	height: 0;
-}
+<style>
 </style>
