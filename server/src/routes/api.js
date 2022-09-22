@@ -1,5 +1,5 @@
 const express = require('express')
-const { login, checkout } = require('../controllers/authController')
+const { login, checkout, logout } = require('../controllers/authController')
 const { allEmployees, updateEmployee, employeeBYID, employeeCreation } = require('../controllers/employeesController')
 const { allNotifications, notificationCreation, readNotification } = require('../controllers/notificationsController')
 const { allHours, updateMonthlyHours, getCurrentMonthHours } = require('../controllers/monthlyHoursController')
@@ -9,6 +9,8 @@ const { allVacations, updateVacation, requestVacation, cancelVacation, employeeV
 const router = express.Router()
 // Login
 router.post('/login', login)
+// Logout
+router.patch('/logout/:id', logout)
 // Check out
 router.patch('/checkout/:id', checkout)
 // Add Employee
