@@ -2,7 +2,7 @@ import employeesService from '@/plugins/services/employeesService'
 import monthlyHoursService from '@/plugins/services/monthlyHoursService'
 import notificationService from '@/plugins/services/notificationService'
 import { createStore } from 'vuex'
-
+import createPersistedState from 'vuex-persistedstate'
 const store = createStore({
 	state() {
 		return {
@@ -16,12 +16,15 @@ const store = createStore({
 	mutations: {
 		init(state) {
 			localStorage.setItem('Active Employee ID', JSON.stringify(state.activeEmployeeID))
+			// Getting All Employees
 			employeesService.getAll().then((response) => {
 				state.allEmployees = response.data
 			})
+			// Getting Current Month Hours
 			monthlyHoursService.getCurrentMonthHours().then((response) => {
 				state.currentMonthlyHours = response.data
 			})
+			// Getting Employee Notifications
 			if (state.activeEmployeeID != null)
 				notificationService.getEmployeeNotifications(state.activeEmployeeID).then((response) => {
 					state.acitveEmployeeNotifications = response.data
@@ -46,6 +49,7 @@ const store = createStore({
 		},
 		setActiveEmployeeID(state, employeeID) {
 			state.activeEmployeeID = employeeID
+			localStorage.setItem('Active Employee ID', JSON.stringify(state.activeEmployeeID))
 		},
 		updateMonthlyHours(state, newMonthlyHours) {
 			monthlyHoursService.updateCurrentMonthHours(state.currentMonthlyHours._id, newMonthlyHours).then((response) => {
@@ -53,5 +57,6 @@ const store = createStore({
 			})
 		},
 	},
+	plugins: [createPersistedState()]
 })
 export default store
