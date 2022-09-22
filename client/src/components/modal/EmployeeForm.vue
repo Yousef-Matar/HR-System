@@ -113,10 +113,6 @@ export default {
 			type: String,
 			required: true,
 		},
-		user: {
-			type: Object,
-			default: null,
-		},
 		openModal: {
 			type: Boolean,
 			required: true,
