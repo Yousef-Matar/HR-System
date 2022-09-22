@@ -23,92 +23,83 @@
 <script>
 export default {
 	props: {
-		user: {
-			type: Object,
-			default: null,
-		},
 		hideNav: {
 			type: Boolean,
 			default: false,
 		},
 	},
-	data() {
-		return {
-			sideNavigationLinks: [],
-		}
-	},
-	watch: {
-		user: {
-			handler(newUser) {
-				if (newUser == null) {
-					this.sideNavigationLinks = []
-				} else if (newUser.role == 'admin' || newUser.role == 'SuperAdmin') {
-					this.sideNavigationLinks = [
-						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
-						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-						{ title: 'My Attendance', to: { name: 'Attendance', params: { user: newUser.ID } }, icon: 'fa fa-calendar-alt' },
-						{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
-						{
-							title: 'Employees',
-							children: [
-								{ title: 'View All', to: '/Employees', icon: 'fa fa-users' },
-								{ title: 'Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
-							],
-						},
-						{
-							title: 'Vacations',
-							children: [
-								{ title: 'Request Vacation', to: '/Vacations' },
-								{ title: 'My Requests', to: '/VacationRequests' },
-								{ title: 'View All', to: '/VacationApproval' },
-							],
-						},
-					]
-				} else if (newUser.role == 'human resources') {
-					this.sideNavigationLinks = [
-						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
-						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-						{ title: 'My Attendance', to: { name: 'Attendance', params: { user: newUser.ID } }, icon: 'fa fa-calendar-alt' },
-						{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
-						{
-							title: 'Employees',
-							children: [
-								{ title: 'View All', to: '/Employees', icon: 'fa fa-users' },
-								{ title: 'Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
-							],
-						},
-						{
-							title: 'Vacations',
-							children: [
-								{ title: 'Request Vacation', to: '/Vacations' },
-								{ title: 'My Requests', to: '/VacationRequests' },
-								{ title: 'View All', to: '/VacationApproval' },
-							],
-						},
-					]
-				} else if (newUser.role == 'employee') {
-					this.sideNavigationLinks = [
-						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
-						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-						{ title: 'My Attendance', to: { name: 'Attendance', params: { user: newUser.ID } }, icon: 'fa fa-calendar-alt' },
-						{
-							title: 'Vacations',
-							children: [
-								{ title: 'Request Vacation', to: '/Vacations' },
-								{ title: 'My Requests', to: '/VacationRequests' },
-							],
-						},
-					]
-				}
-			},
-			// force eager callback execution
-			immediate: true,
+
+	computed: {
+		activeEmployee() {
+			return this.$store.state.allEmployees.find((employee) => employee._id == this.$store.state.activeEmployeeID)
+		},
+		sideNavigationLinks() {
+			var navigationLinks = []
+			if (this.activeEmployee.role == 'admin' || this.activeEmployee.role == 'SuperAdmin') {
+				navigationLinks = [
+					{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
+					{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
+					{ title: 'My Attendance', to: { name: 'Attendance', params: { ID: this.activeEmployee._id } }, icon: 'fa fa-calendar-alt' },
+					{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
+					{
+						title: 'Employees',
+						children: [
+							{ title: 'View All', to: '/Employees', icon: 'fa fa-users' },
+							{ title: 'Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
+						],
+					},
+					{
+						title: 'Vacations',
+						children: [
+							{ title: 'Request Vacation', to: '/Vacations' },
+							{ title: 'My Requests', to: '/VacationRequests' },
+							{ title: 'View All', to: '/VacationApproval' },
+						],
+					},
+				]
+			} else if (this.activeEmployee.role == 'human resources') {
+				navigationLinks = [
+					{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
+					{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
+					{ title: 'My Attendance', to: { name: 'Attendance', params: { ID: this.activeEmployee._id } }, icon: 'fa fa-calendar-alt' },
+					{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
+					{
+						title: 'Employees',
+						children: [
+							{ title: 'View All', to: '/Employees', icon: 'fa fa-users' },
+							{ title: 'Attendance', to: '/Attendance', icon: 'fa fa-calendar-alt' },
+						],
+					},
+					{
+						title: 'Vacations',
+						children: [
+							{ title: 'Request Vacation', to: '/Vacations' },
+							{ title: 'My Requests', to: '/VacationRequests' },
+							{ title: 'View All', to: '/VacationApproval' },
+						],
+					},
+				]
+			} else if (this.activeEmployee.role == 'employee') {
+				navigationLinks = [
+					{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
+					{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
+					{ title: 'My Attendance', to: { name: 'Attendance', params: { ID: this.activeEmployee._id } }, icon: 'fa fa-calendar-alt' },
+					{
+						title: 'Vacations',
+						children: [
+							{ title: 'Request Vacation', to: '/Vacations' },
+							{ title: 'My Requests', to: '/VacationRequests' },
+						],
+					},
+				]
+			}
+			return navigationLinks
 		},
 	},
+
 	mounted() {
 		// Fetch all the details element.
 		const details = document.querySelectorAll('details')
-
 		// Add the onclick listeners.
 		details.forEach((targetDetail) => {
 			targetDetail.addEventListener('click', () => {

@@ -54,7 +54,7 @@ const routes = [
 		meta: { middleware: 'extraAuthentication' },
 	},
 	{
-		path: '/Attendance/:user',
+		path: '/Attendance/:ID',
 		name: 'Attendance',
 		component: AttendancePage,
 		meta: { middleware: 'attendanceAuthentication' },
