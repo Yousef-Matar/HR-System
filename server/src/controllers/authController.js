@@ -1,4 +1,5 @@
 const employee = require('../models/employeeModel')
+const attendance = require('../models/attendanceModel')
 exports.login = async (req, res) => {
 	const Employee = await employee.findOne({ username: req.body.username })
 	if (!Employee) {
@@ -13,16 +14,9 @@ exports.login = async (req, res) => {
 		.then((valid) => {
 			if (valid) {
 				// Employee Check In
-				if (Employee.attendance.length == 0 || !Employee.attendance[Employee.attendance.length - 1].currentDay == new Date().toLocaleDateString()) {
-					Employee.attendance = Employee.attendance.concat([
-						{
-							currentDay: new Date().toLocaleDateString(),
-							checkInTime: new Date().toLocaleTimeString(),
-							checkOutTime: null,
-						},
-					])
-					Employee.save()
-				}
+				const Attendance = new attendance({ employeeID: Employee.id })
+				Attendance.save()
+
 				// Employee Found Correct
 				return res.status(200).send({ employeeID: Employee.id })
 			} else {
@@ -35,13 +29,29 @@ exports.login = async (req, res) => {
 		})
 }
 exports.checkout = async (req, res) => {
-	employee
+	attendance
 		.findOneAndUpdate(
 			{
-				_id: req.params.id,
-				attendance: { $elemMatch: { currentDay: new Date().toLocaleDateString() } },
+				employeeID: req.params.id,
+				checkout: false,
 			},
-			{ $set: { 'attendance.$.checkOutTime': new Date().toLocaleTimeString() } },
+			{ checkout: true },
+			{ new: true }
+		)
+		.then((result) => {
+			const Attendance = new attendance({ employeeID: req.params.id })
+			Attendance.save()
+			res.status(200).send(result)
+		})
+}
+exports.logout = async (req, res) => {
+	attendance
+		.findOneAndUpdate(
+			{
+				employeeID: req.params.id,
+				checkout: false,
+			},
+			{ checkout: true },
 			{ new: true }
 		)
 		.then((result) => {
