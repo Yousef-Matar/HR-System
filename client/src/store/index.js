@@ -17,6 +17,13 @@ const store = createStore({
 			employeesService.getAll().then((response) => {
 				state.allEmployees = response.data
 			})
+			if (state.activeEmployeeID != null)
+				notificationService.getEmployeeNotifications(state.activeEmployeeID).then((response) => {
+					state.acitveEmployeeNotifications = response.data
+				})
+			else {
+				state.acitveEmployeeNotifications = []
+			}
 		},
 		setAllEmployees(state) {
 			employeesService.getAll().then((response) => {
@@ -24,10 +31,13 @@ const store = createStore({
 			})
 		},
 		setActiveEmployeeNotifications(state) {
-			if (state.acitveEmployeeNotifications != null)
+			if (state.activeEmployeeID != null)
 				notificationService.getEmployeeNotifications(state.activeEmployeeID).then((response) => {
 					state.acitveEmployeeNotifications = response.data
 				})
+			else {
+				state.acitveEmployeeNotifications = []
+			}
 		},
 		setActiveEmployeeID(state, employeeID) {
 			state.activeEmployeeID = employeeID

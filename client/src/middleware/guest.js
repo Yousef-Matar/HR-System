@@ -1,5 +1,5 @@
 export default function (next, store) {
-	if (!store.state.activeUser) {
+	if (!store.state.activeEmployeeID) {
 		next()
 	} else {
 		next('/')

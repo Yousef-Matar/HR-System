@@ -1,8 +1,8 @@
 export default function (next, store, to) {
-	if (!store.state.activeUser) {
+	if (!store.state.activeEmployeeID) {
 		next('/403')
 	} else {
-		if (store.state.activeUser.ID != to.params.user) {
+		if (store.state.activeEmployeeID != to.params.user) {
 			next('/403')
 		} else {
 			next()

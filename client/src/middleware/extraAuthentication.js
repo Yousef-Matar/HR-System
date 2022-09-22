@@ -1,8 +1,8 @@
 export default function (next, store) {
-	if (!store.state.activeUser) {
+	if (!store.state.activeEmployeeID) {
 		next('/403')
 	} else {
-		if (store.state.activeUser.role == 'employee') {
+		if (store.state.allEmployees.find((employee) => employee._id == store.state.activeEmployeeID).role == 'employee') {
 			next('/403')
 		} else {
 			next()
