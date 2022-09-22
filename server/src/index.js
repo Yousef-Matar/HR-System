@@ -35,6 +35,8 @@ const port = process.env.PORT || 5000
 mongoose
 	.connect(MongoDBURL, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
+		// Default Seed
+		require('./database/defaultSeed')
 		// Start the server
 		app.listen(port, () => console.log(`Server is running on port ${port}`))
 	})

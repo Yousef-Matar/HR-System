@@ -6,7 +6,7 @@
 					Update Monthly Hours
 				</h1>
 				<h1 class="text-xl">
-					Current Monthly Hours : {{ getMonthlyHours }}
+					Current Monthly Hours : {{ getMonthlyHours.hours }}
 				</h1>
 			</div>
 			<v-input
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import HoursManager from '@/util/HoursManager'
+
 
 export default {
 	data() {
@@ -36,16 +36,16 @@ export default {
 	},
 	computed: {
 		getMonthlyHours() {
-			return HoursManager.getMonthlyHours()
+			return this.$store.state.currentMonthlyHours
 		},
 	},
 	beforeMount() {
-		this.monthlyHours = this.getMonthlyHours
+		this.monthlyHours = this.getMonthlyHours.hours
 	},
 	methods: {
-		updateHours() {
+		submit() {
 			this.$swal.fire('Successfull', 'Monthly hours have been updated.', 'success')
-			HoursManager.setMonthlyHours(this.monthlyHours)
+			this.$store.commit('updateMonthlyHours',this.monthlyHours)
 		},
 	},
 }

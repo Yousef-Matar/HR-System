@@ -1,4 +1,5 @@
 import employeesService from '@/plugins/services/employeesService'
+import monthlyHoursService from '@/plugins/services/monthlyHoursService'
 import notificationService from '@/plugins/services/notificationService'
 import { createStore } from 'vuex'
 
@@ -8,6 +9,7 @@ const store = createStore({
 			activeEmployeeID: localStorage.getItem('Active Employee ID') == null ? null : JSON.parse(localStorage.getItem('Active Employee ID')),
 			allEmployees: [],
 			acitveEmployeeNotifications: [],
+			currentMonthlyHours: 0,
 		}
 	},
 
@@ -16,6 +18,9 @@ const store = createStore({
 			localStorage.setItem('Active Employee ID', JSON.stringify(state.activeEmployeeID))
 			employeesService.getAll().then((response) => {
 				state.allEmployees = response.data
+			})
+			monthlyHoursService.getCurrentMonthHours().then((response) => {
+				state.currentMonthlyHours = response.data
 			})
 			if (state.activeEmployeeID != null)
 				notificationService.getEmployeeNotifications(state.activeEmployeeID).then((response) => {
@@ -41,6 +46,11 @@ const store = createStore({
 		},
 		setActiveEmployeeID(state, employeeID) {
 			state.activeEmployeeID = employeeID
+		},
+		updateMonthlyHours(state, newMonthlyHours) {
+			monthlyHoursService.updateCurrentMonthHours(state.currentMonthlyHours._id, newMonthlyHours).then((response) => {
+				state.currentMonthlyHours = response.data
+			})
 		},
 	},
 })
