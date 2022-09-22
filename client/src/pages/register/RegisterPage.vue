@@ -65,11 +65,9 @@
 </template>
 
 <script>
-import employeesService from '@/plugins/services/employeesService'
+import authService from '@/plugins/services/authService'
 
-import AttendanceManager from '@/util/AttendanceManager'
 import FormValidation from '@/util/FormValidation'
-import UsersManager from '@/util/UsersManager'
 
 export default {
 	data() {
@@ -77,7 +75,6 @@ export default {
 			errors: [],
 
 			form: {
-				ID: UsersManager.getUserID(),
 				username: '',
 				password: '',
 				firstName: '',
@@ -85,7 +82,6 @@ export default {
 				yearlyVacation: 21,
 				role: 'employee',
 				status: 'active',
-				hireDate: new Date().toLocaleDateString(),
 				attendance: [],
 			},
 			confirmPassword: '',
@@ -135,17 +131,15 @@ export default {
 			}
 		},
 		submit() {
-			employeesService
-				.createEmployee(this.form)
-				.then((result) => {
-					console.log(result)
-					//UsersManager.setActiveUser(result.data.employeeID)
-					//UsersManager.addUser(result.data)
-					var currentUser = this.form
-					currentUser = AttendanceManager.userCheckIn(currentUser)
-					UsersManager.setActiveUser(currentUser)
-					UsersManager.addUser(currentUser)
-					this.$router.push('/')
+			authService
+				.register(this.form)
+				.then(() => {
+					this.$store.commit('setAllEmployees')
+					authService.login(this.form).then((response) => {
+						this.$store.commit('setActiveEmployeeID', response.data.employeeID)
+						this.$store.commit('setActiveEmployeeNotifications')
+						this.$router.push('/')
+					})
 				})
 				.catch((error) =>
 					this.errors.push({

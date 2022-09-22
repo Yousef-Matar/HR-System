@@ -8,51 +8,69 @@
 				@click="$emit('toggleSideNav')"
 			/>
 		</span>
-		<span v-if="user" class="flex gap-1">
-			<UserForm :mode="'profile'" :user="user" />
-			<NotificationModal />
+		<span class="flex gap-1">
+			<span class="flex items-center mx-2">
+				<div class="relative cursor-pointer rounded-3xl p-2 shadow text-primary hover:shadow-[#adffff]" @click="openNotificationModal = true">
+					<font-awesome-icon icon="fa fa-bell" size="xl" />
+					<span v-if="unreadNotificationsCount" class="badge">{{ unreadNotificationsCount }}</span>
+				</div>
+			</span>
 			<v-button
 				:method="logout"
 				:text="'Logout'"
 				:icon="'fa fa-sign-out'"
 				:has-border="false"
 			/>
+			<NotificationModal
+				:open-modal="openNotificationModal"
+				@closeModal="openNotificationModal = false"
+			/>
 		</span>
 	</div>
 </template>
 
 <script>
-import NotificationModal from '@/components/modal/NotificationModal'
-import UserForm from '@/components/modal/UserForm'
+import authService from '@/plugins/services/authService'
 
-import AttendanceManager from '@/util/AttendanceManager'
-import UsersManager from '@/util/UsersManager'
+import NotificationModal from '@/components/modal/NotificationModal'
 
 export default {
-	components: { UserForm, NotificationModal },
-	props: {
-		user: {
-			type: Object,
-			default: null,
-		},
+	components: {
+		NotificationModal,
 	},
 	data() {
 		return {
-			success: {
-				show: false,
-				message: 'You have successfully checked out at ',
-			},
+			openNotificationModal: false,
 		}
+	},
+	computed: {
+		activeEmployee() {
+			return this.$store.state.allEmployees.find((employee) => employee._id == this.$store.state.activeEmployeeID)
+		},
+		unreadNotificationsCount() {
+			return this.$store.state.acitveEmployeeNotifications.filter((activeEmployeeNotification) => activeEmployeeNotification.status == 'unread').length
+		},
 	},
 	methods: {
 		logout() {
-			AttendanceManager.userCheckOut(this.user)
-			UsersManager.logout()
-			this.$router.push('/Login')
-			this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
+			authService.logout().then(() => {
+				this.$store.commit('setActiveEmployeeID', null)
+				this.$router.push('/Login')
+				this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
+			})
 		},
 	},
 }
 </script>
 
-<style></style>
+<style scoped>
+.badge {
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	padding: 5px 10px;
+	border-radius: 50%;
+	background-color: #ef4444;
+	color: #18ffff;
+}
+</style>

@@ -11,13 +11,13 @@ var UsersManager = {
 		return store.state.activeUser
 	},
 	getUserByUsername(userUsername) {
-		return this.getAllUsers().find((user) => user.username === userUsername)
+		return this.getAllUsers().find((user) => user.username == userUsername)
 	},
 	getUserByID(userID) {
-		return this.getAllUsers().find((user) => user.ID === userID)
+		return this.getAllUsers().find((user) => user.ID == userID)
 	},
 	getSuperAdmin() {
-		return this.getAllUsers().find((user) => user.role === 'SuperAdmin')
+		return this.getAllUsers().find((user) => user.role == 'SuperAdmin')
 	},
 	getUsersBasedOnPermissions(userRole) {
 		if (userRole == 'SuperAdmin') {

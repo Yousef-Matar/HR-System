@@ -9,7 +9,7 @@ exports.notificationCreation = async (req, res) => {
 }
 exports.readNotification = async (req, res) => {
 	notification
-		.findOneAndUpdate(
+		.findByIdAndUpdate(
 			req.params.id,
 			{
 				status: 'read',

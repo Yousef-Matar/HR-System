@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<MainNavigation v-if="checkActiveUser()" @toggleSideNav="(hideNav) => (sideNavToggle = hideNav)" />
+		<MainNavigation v-if="getActiveEmployeeID" @toggleSideNav="(hideNav) => (sideNavToggle = hideNav)" />
 		<div class="mt-[102px] mb-[38px]" :class="editClass()">
 			<router-view />
 		</div>
@@ -9,11 +9,10 @@
 </template>
 
 <script>
+import authService from '@/plugins/services/authService'
+
 import WarningModal from '@/components/modal/WarningModal'
 import MainNavigation from '@/components/navigation/MainNavigation'
-
-import AttendanceManager from '@/util/AttendanceManager'
-import UsersManager from '@/util/UsersManager'
 
 export default {
 	name: 'App',
@@ -27,6 +26,11 @@ export default {
 			logoutTimer: null,
 			showWarning: false,
 		}
+	},
+	computed: {
+		getActiveEmployeeID() {
+			return this.$store.state.activeEmployeeID
+		},
 	},
 
 	mounted() {
@@ -44,7 +48,7 @@ export default {
 	},
 	methods: {
 		editClass() {
-			if (this.checkActiveUser()) {
+			if (this.getActiveEmployeeID) {
 				if (!this.sideNavToggle) {
 					return 'active mr-[38px] hidden sm:block'
 				} else {
@@ -60,7 +64,7 @@ export default {
 			this.setTimers()
 		},
 		setTimers() {
-			if (UsersManager.getActiveUser() !== null) {
+			if (this.getActiveEmployeeID) {
 				this.warningTimer = setTimeout(this.warningMessage, 14 * 60 * 1000)
 				this.logoutTimer = setTimeout(this.logout, 15 * 60 * 1000)
 			}
@@ -68,18 +72,13 @@ export default {
 		warningMessage() {
 			this.showWarning = true
 		},
-		checkActiveUser() {
-			if (UsersManager.getActiveUser()) {
-				return true
-			} else {
-				return false
-			}
-		},
 		logout() {
 			this.showWarning = false
-			AttendanceManager.userCheckOut(UsersManager.getActiveUser())
-			UsersManager.logout()
-			this.$router.push('/Login')
+			authService.logout().then(() => {
+				this.$store.commit('setActiveEmployeeID', null)
+				this.$router.push('/Login')
+				this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
+			})
 		},
 	},
 }

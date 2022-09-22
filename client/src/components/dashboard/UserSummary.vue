@@ -26,7 +26,7 @@
 
 <script>
 import AttendanceManager from '@/util/AttendanceManager'
-import HoursManager from '@/util/HoursManager'
+//import HoursManager from '@/util/HoursManager'
 import UsersManager from '@/util/UsersManager'
 
 export default {
@@ -49,7 +49,7 @@ export default {
 				this.currentDate = new Date().toDateString()
 			}, 1000)
 		}
-		this.remainingHours = this.getRemainingHours()
+		//this.remainingHours = this.getRemainingHours()
 	},
 	methods: {
 		checkOut() {
@@ -57,9 +57,9 @@ export default {
 			this.remainingHours = this.getRemainingHours()
 			this.$swal.fire('Successfully Checked Out', 'Checked out at ' + this.currentTime + ' on ' + this.currentDate, 'success')
 		},
-		getRemainingHours() {
-			return (HoursManager.getMonthlyHours() - HoursManager.calculateCurrentMonthWorkedHours(UsersManager.getActiveUser().attendance)).toFixed(2)
-		},
+		//getRemainingHours() {
+		//	return (HoursManager.getMonthlyHours() - HoursManager.calculateCurrentMonthWorkedHours(UsersManager.getActiveUser().attendance)).toFixed(2)
+		//},
 	},
 }
 </script>

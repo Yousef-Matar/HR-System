@@ -3,10 +3,10 @@ var TimeConverter = {
 		const [time, modifier] = varTime.split(' ')
 		let [hours, minutes] = time.split(':')
 		minutes = parseInt(minutes)
-		if (hours === '12') {
+		if (hours == '12') {
 			hours = '00'
 		}
-		if (modifier === 'PM') {
+		if (modifier == 'PM') {
 			hours = parseInt(hours, 10) + 12
 		}
 		minutes += parseInt(hours) * 60

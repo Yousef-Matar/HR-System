@@ -35,7 +35,7 @@ var AttendanceManager = {
 		UsersManager.replaceUser(user.ID, user)
 	},
 	userCheckIn(user) {
-		if (!user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString())) {
+		if (!user.attendance.find((day) => day.currentDay == new Date().toLocaleDateString())) {
 			user.attendance.push({
 				currentDay: new Date().toLocaleDateString(),
 				time: [
@@ -45,9 +45,9 @@ var AttendanceManager = {
 					},
 				],
 			})
-		} else if (user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString())) {
+		} else if (user.attendance.find((day) => day.currentDay == new Date().toLocaleDateString())) {
 			user.attendance
-				.find((day) => day.currentDay === new Date().toLocaleDateString())
+				.find((day) => day.currentDay == new Date().toLocaleDateString())
 				.time.push({
 					checkInTime: new Date().toLocaleTimeString(),
 					checkOutTime: null,
@@ -56,7 +56,7 @@ var AttendanceManager = {
 		return user
 	},
 	userCheckOut(user) {
-		if (!user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString())) {
+		if (!user.attendance.find((day) => day.currentDay == new Date().toLocaleDateString())) {
 			user.attendance.push({
 				currentDay: new Date().toLocaleDateString(),
 				time: [
@@ -66,10 +66,10 @@ var AttendanceManager = {
 					},
 				],
 			})
-		} else if (user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString()).time.find((time) => time.checkOutTime === null)) {
-			user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString()).time.find((time) => time.checkOutTime === null).checkOutTime = new Date().toLocaleTimeString()
+		} else if (user.attendance.find((day) => day.currentDay == new Date().toLocaleDateString()).time.find((time) => time.checkOutTime == null)) {
+			user.attendance.find((day) => day.currentDay == new Date().toLocaleDateString()).time.find((time) => time.checkOutTime == null).checkOutTime = new Date().toLocaleTimeString()
 		} else {
-			user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString()).time[user.attendance.find((day) => day.currentDay === new Date().toLocaleDateString()).time.length - 1].checkOutTime = new Date().toLocaleTimeString()
+			user.attendance.find((day) => day.currentDay == new Date().toLocaleDateString()).time[user.attendance.find((day) => day.currentDay == new Date().toLocaleDateString()).time.length - 1].checkOutTime = new Date().toLocaleTimeString()
 		}
 		UsersManager.replaceUser(user.ID, user)
 		return user

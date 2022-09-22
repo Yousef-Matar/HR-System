@@ -53,14 +53,14 @@
 			:page-size="table.itemsPerPage"
 		>
 			<template #tableHeaderComponents>
-				<UserForm
+				<EmployeeForm
 					class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
 					:mode="'create'"
 					@tableRefresh="refreshData"
 				/>
 			</template>
 			<template #tableBodyComponents="slotProps">
-				<UserForm
+				<EmployeeForm
 					class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
 					:mode="'update'"
 					:user="slotProps.row.user"
@@ -74,14 +74,14 @@
 <script>
 import exportFromJSON from 'export-from-json'
 
-import UserForm from '@/components/modal/UserForm'
+import EmployeeForm from '@/components/modal/EmployeeForm'
 
 import HoursManager from '@/util/HoursManager'
 import SelectOptions from '@/util/SelectOptions'
 import UsersManager from '@/util/UsersManager'
 
 export default {
-	components: { UserForm },
+	components: { EmployeeForm },
 	data() {
 		return {
 			activeUser: UsersManager.getActiveUser(),

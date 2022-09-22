@@ -18,8 +18,8 @@
 								>
 									{{ header.value }}
 									<div class="flex flex-col">
-										<font-awesome-icon icon="fa-solid fa-sort-up" :class="header.value === sortingAttribute && sortingType === 'ascendingly' ? 'text-primary' : ''" />
-										<font-awesome-icon icon="fa-solid fa-sort-down" :class="header.value === sortingAttribute && sortingType === 'descendingly' ? 'text-primary' : ''" />
+										<font-awesome-icon icon="fa-solid fa-sort-up" :class="header.value == sortingAttribute && sortingType == 'ascendingly' ? 'text-primary' : ''" />
+										<font-awesome-icon icon="fa-solid fa-sort-down" :class="header.value == sortingAttribute && sortingType == 'descendingly' ? 'text-primary' : ''" />
 									</div>
 								</div>
 								<div
@@ -177,8 +177,8 @@ export default {
 			}
 		},
 		sort(tableHeader) {
-			if (tableHeader === this.sortingAttribute) {
-				this.sortingType = this.sortingType === 'ascendingly' ? 'descendingly' : 'ascendingly'
+			if (tableHeader == this.sortingAttribute) {
+				this.sortingType = this.sortingType == 'ascendingly' ? 'descendingly' : 'ascendingly'
 			}
 			this.sortingAttribute = tableHeader
 		},
@@ -190,7 +190,7 @@ export default {
 			return this.sortedTableData
 				.sort((a, b) => {
 					let modifier = 1
-					if (this.sortingType === 'descendingly') modifier = -1
+					if (this.sortingType == 'descendingly') modifier = -1
 					if (a[this.sortingAttribute] < b[this.sortingAttribute]) return -1 * modifier
 					if (a[this.sortingAttribute] > b[this.sortingAttribute]) return 1 * modifier
 					return 0

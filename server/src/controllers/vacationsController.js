@@ -8,7 +8,7 @@ exports.employeeVacations = async (req, res) => {
 }
 exports.updateVacation = async (req, res) => {
 	vacation
-		.findOneAndUpdate(
+		.findByIdAndUpdate(
 			req.params.id,
 			{
 				handledBy: req.body.handledBy,

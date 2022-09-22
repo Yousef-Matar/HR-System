@@ -42,7 +42,7 @@ export default {
 			handler(newUser) {
 				if (newUser == null) {
 					this.sideNavigationLinks = []
-				} else if (newUser.role == 'admin' || newUser.role === 'SuperAdmin') {
+				} else if (newUser.role == 'admin' || newUser.role == 'SuperAdmin') {
 					this.sideNavigationLinks = [
 						{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 						{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },

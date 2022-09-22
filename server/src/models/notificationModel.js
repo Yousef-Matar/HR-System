@@ -10,7 +10,7 @@ const notificationSchema = new Schema(
 		status: {
 			type: String,
 			required: true,
-			default: 'Unread',
+			default: 'unread',
 		},
 		reciverID: {
 			type: String,
