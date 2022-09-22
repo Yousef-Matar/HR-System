@@ -1,6 +1,6 @@
 const express = require('express')
 const { login, checkout, logout } = require('../controllers/authController')
-const { allEmployees, updateEmployee, employeeBYID, employeeCreation } = require('../controllers/employeesController')
+const { allEmployees, updateEmployee, employeeCreation } = require('../controllers/employeesController')
 const { allNotifications, notificationCreation, readNotification } = require('../controllers/notificationsController')
 const { allHours, updateMonthlyHours, getCurrentMonthHours } = require('../controllers/monthlyHoursController')
 const { allVacations, updateVacation, requestVacation, cancelVacation, employeeVacations } = require('../controllers/vacationsController')
@@ -17,8 +17,6 @@ router.patch('/checkout/:id', checkout)
 router.post('/employees', employeeCreation)
 // Get Employees
 router.get('/employees', allEmployees)
-// Get Employee By ID
-router.get('/employees/:id', employeeBYID)
 // Edit Employee
 router.patch('/employees/:id', updateEmployee)
 // Get All Notifiacations

@@ -9,6 +9,12 @@
 			/>
 		</span>
 		<span class="flex gap-1">
+			<v-button
+				:method="openProfileModalAction"
+				:text="activeEmployee.username"
+				:icon="'fa fa-user'"
+				:has-border="false"
+			/>
 			<span class="flex items-center mx-2">
 				<div class="relative cursor-pointer rounded-3xl p-2 shadow text-primary hover:shadow-[#adffff]" @click="openNotificationModal = true">
 					<font-awesome-icon icon="fa fa-bell" size="xl" />
@@ -21,15 +27,20 @@
 				:icon="'fa fa-sign-out'"
 				:has-border="false"
 			/>
-			<NotificationModal
-				:open-modal="openNotificationModal"
-				@closeModal="openNotificationModal = false"
+			<NotificationModal :open-modal="openNotificationModal" @closeModal="openNotificationModal = false" />
+			<EmployeeForm
+				:mode="'profile'"
+				:active-employee="activeEmployee"
+				:inital-employee="activeEmployee"
+				:open-modal="openProfileModal"
+				@closeModal="openProfileModal = false"
 			/>
 		</span>
 	</div>
 </template>
 
 <script>
+import EmployeeForm from '../../modal/EmployeeForm.vue'
 import authService from '@/plugins/services/authService'
 
 import NotificationModal from '@/components/modal/NotificationModal'
@@ -37,10 +48,12 @@ import NotificationModal from '@/components/modal/NotificationModal'
 export default {
 	components: {
 		NotificationModal,
+		EmployeeForm,
 	},
 	data() {
 		return {
 			openNotificationModal: false,
+			openProfileModal: false,
 		}
 	},
 	computed: {
@@ -52,6 +65,9 @@ export default {
 		},
 	},
 	methods: {
+		openProfileModalAction() {
+			this.openProfileModal = true
+		},
 		logout() {
 			authService.logout().then(() => {
 				this.$store.commit('setActiveEmployeeID', null)

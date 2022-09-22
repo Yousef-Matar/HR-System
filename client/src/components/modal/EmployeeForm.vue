@@ -1,44 +1,30 @@
 <template>
-	<span class="flex items-center">
-		<v-button
-			v-if="mode === 'create'"
-			:method="openModal"
-			:text="'Add User'"
-			class="w-full self-center"
-		/>
-		<v-button
-			v-else-if="mode === 'update'"
-			:method="openModal"
-			:text="'Update User'"
-			class="w-full self-center"
-		/>
-		<v-button
-			v-else-if="mode === 'profile'"
-			:method="openModal"
-			:text="user.username.toUpperCase()"
-			:icon="'fa fa-user'"
-			:has-border="false"
-			class="w-full self-center"
-		/>
-		<teleport to="body">
-			<v-modal
-				v-if="isModalOpen"
-				:variant="'primary'"
-				@closeModal="resetForm()"
-			>
-				<template v-if="mode === 'create'" #ModalHeader> Add New User </template>
-				<template v-else-if="mode === 'profile'" #ModalHeader> Account Details </template>
-				<template v-else-if="mode === 'update'" #ModalHeader> Update User </template>
-				<template #ModalBody>
-					<div class="w-full flex justify-center">
-						<form class="formContainer" @submit.prevent="validateForm">
-							<div v-if="errors.length">
-								<form-errors
-									v-for="error in errors"
-									:key="error.message"
-									:error="error"
-								/>
-							</div>
+	<teleport to="body">
+		<v-modal
+			v-if="openModal"
+			:variant="'primary'"
+			@closeModal="$emit('closeModal')"
+		>
+			<template v-if="mode == 'create'" #ModalHeader>
+				Add New User
+			</template>
+			<template v-else-if="mode == 'profile'" #ModalHeader>
+				Account Details
+			</template>
+			<template v-else-if="mode == 'update'" #ModalHeader>
+				Update User
+			</template>
+			<template #ModalBody>
+				<div class="w-full flex justify-center">
+					<form class="formContainer" @submit.prevent="validateForm">
+						<div v-if="errors.length">
+							<form-errors
+								v-for="error in errors"
+								:key="error.message"
+								:error="error"
+							/>
+						</div>
+						<div class="flex flex-wrap gap-8 justify-center">
 							<v-input
 								:input-i-d="'username'"
 								:type="'text'"
@@ -49,19 +35,22 @@
 
 							<v-input
 								:input-i-d="'password'"
-								:type="mode === 'update' ? 'password' : 'text'"
+								:type="text"
 								:input-label="'Password'"
-								:input-value="form.password"
-								:disabled="mode === 'update' ? true : false"
-								@passwordChange="(inputContent) => (form.password = inputContent)"
+								:input-value="dummyPassword"
+								:transparent="mode == 'create' ? false : true"
+								:disabled="mode == 'update' ? true : false"
+								:required="mode == 'create' ? true : false"
+								@passwordChange="(inputContent) => (dummyPassword = inputContent)"
 							/>
-
+						</div>
+						<div class="flex flex-wrap gap-8 justify-center">
 							<v-input
 								:input-i-d="'firstName'"
 								:type="'text'"
 								:input-label="'First Name'"
 								:input-value="form.firstName"
-								:disabled="mode === 'update' ? true : false"
+								:disabled="mode == 'update' ? true : false"
 								@firstNameChange="(inputContent) => (form.firstName = inputContent)"
 							/>
 							<v-input
@@ -69,12 +58,14 @@
 								:type="'text'"
 								:input-label="'Last Name'"
 								:input-value="form.lastName"
-								:disabled="mode === 'update' ? true : false"
+								:disabled="mode == 'update' ? true : false"
 								@lastNameChange="(inputContent) => (form.lastName = inputContent)"
 							/>
+						</div>
+						<div class="flex flex-wrap gap-8 justify-center">
 							<v-select
 								:select-i-d="'role'"
-								:disabled="mode !== 'profile' ? false : true"
+								:disabled="mode != 'profile' ? false : true"
 								:select-value="form.role"
 								:items="roles"
 								:select-label="'Account Role'"
@@ -82,14 +73,17 @@
 							/>
 							<v-select
 								:select-i-d="'accountStatus'"
-								:disabled="mode !== 'profile' ? false : true"
+								:disabled="mode != 'profile' ? false : true"
 								:select-value="form.status"
 								:items="accountStatus"
 								:select-label="'Account Status'"
 								@accountStatusChange="(selectContent) => (form.status = selectContent)"
 							/>
+						</div>
+						<div class="flex flex-wrap gap-8 justify-center">
 							<v-button
 								:type="'submit'"
+								:disabled="disableUpdateButton"
 								:text="mode == 'create' ? 'Add User' : 'Update'"
 								class="w-full"
 							/>
@@ -97,55 +91,45 @@
 								:type="'button'"
 								:text="'Cancel'"
 								:variant="'danger'"
-								:method="resetForm"
+								:method="() => $emit('closeModal')"
 								class="w-full"
 							/>
-						</form>
-					</div>
-				</template>
-			</v-modal>
-		</teleport>
-	</span>
+						</div>
+					</form>
+				</div>
+			</template>
+		</v-modal>
+	</teleport>
 </template>
 <script>
+import employeesService from '@/plugins/services/employeesService'
+
 import FormValidation from '@/util/FormValidation'
 import SelectOptions from '@/util/SelectOptions'
-import UsersManager from '@/util/UsersManager'
 
 export default {
 	props: {
 		mode: {
 			type: String,
-			default: 'create',
 			required: true,
 		},
 		user: {
 			type: Object,
 			default: null,
 		},
-	},
-	data() {
-		return {
-			activeUser: UsersManager.getActiveUser(),
-			isModalOpen: false,
-			errors: [],
-			roles: null,
-			form: null,
-			accountStatus: SelectOptions.getAccountStatus(),
-		}
-	},
-	mounted() {
-		this.setRoles()
-	},
-	methods: {
-		openModal() {
-			this.resetForm()
-			this.isModalOpen = true
+		openModal: {
+			type: Boolean,
+			required: true,
 		},
-		resetForm() {
-			if (this.mode === 'create') {
-				this.form = {
-					ID: UsersManager.getUserID(),
+		activeEmployee: {
+			type: Object,
+			required: true,
+		},
+		initalEmployee: {
+			type: Object,
+			required: true,
+			default: () => {
+				return {
 					username: '',
 					password: '',
 					role: '',
@@ -153,16 +137,42 @@ export default {
 					lastName: '',
 					yearlyVacation: 21,
 					status: 'active',
-					hireDate: new Date().toLocaleDateString(),
-					attendance: [],
 				}
-			} else if (this.mode === 'update') {
-				this.form = Object.assign({}, this.user)
-			} else if (this.mode === 'profile') {
-				this.form = Object.assign({}, this.user)
-			}
+			},
+		},
+	},
+	data() {
+		return {
+			errors: [],
+			roles: null,
+			form: null,
+			dummyPassword: '',
+			accountStatus: SelectOptions.getAccountStatus(),
+		}
+	},
+	computed: {
+		disableUpdateButton() {
+			if (this.initalEmployee.username == this.form.username && this.dummyPassword == '' && this.initalEmployee.role == this.form.role && this.initalEmployee.firstName == this.form.firstName && this.initalEmployee.lastName == this.form.lastName && this.initalEmployee.status == this.form.status) return true
+			return false
+		},
+	},
+	watch: {
+		openModal: {
+			handler(newData) {
+				if (newData) this.resetForm()
+			},
+			immediate: true,
+		},
+	},
+	mounted() {
+		this.setRoles()
+	},
+	methods: {
+		resetForm() {
+			this.form = Object.assign({}, this.initalEmployee)
+			delete this.form.password
+			this.dummyPassword = ''
 			this.errors = []
-			this.isModalOpen = false
 		},
 		validateForm() {
 			this.errors = []
@@ -184,14 +194,15 @@ export default {
 					message: 'Last Name field cannot have whitespace.',
 				})
 			}
-			if (FormValidation.noSpace(this.form.password)) {
+			if (FormValidation.noSpace(this.dummyPassword)) {
 				this.errors.push({
 					show: true,
 					message: 'Password field cannot have whitespace.',
 				})
 			}
-			if (UsersManager.getUserByUsername(this.form.username)) {
-				if (UsersManager.getUserByUsername(this.form.username).username != this.user.username && (this.mode === 'create' || this.mode === 'profile')) {
+			var employeeWithSameUsername = this.$store.state.allEmployees.find((employee) => employee.username == this.form.username)
+			if (employeeWithSameUsername) {
+				if (employeeWithSameUsername.username != this.activeEmployee.username) {
 					this.errors.push({
 						show: true,
 						message: 'Username is already in use.',
@@ -203,24 +214,60 @@ export default {
 			}
 		},
 		submit() {
-			if (this.mode === 'create') {
-				UsersManager.addUser(this.form)
-				this.resetForm()
-			} else if (this.mode === 'update') {
-				UsersManager.replaceUser(this.user.ID, this.form)
-				this.resetForm()
-			} else if (this.mode === 'profile') {
-				UsersManager.setActiveUser(this.form)
-				UsersManager.replaceUser(this.user.ID, this.form)
-				this.resetForm()
+			if (this.mode == 'create') {
+				this.form.password = this.dummyPassword
+				employeesService
+					.createEmployee(this.form)
+					.then(() => {
+						this.$store.commit('setAllEmployees')
+						this.$emit('closeModal')
+					})
+					.catch((error) =>
+						this.errors.push({
+							show: true,
+							message: error.response.data.message,
+						})
+					)
+			} else if (this.mode == 'update') {
+				if (this.dummyPassword != '') {
+					this.form.password = this.dummyPassword
+				}
+				employeesService
+					.updateEmployee(this.initalEmployee._id, this.form)
+					.then(() => {
+						this.$store.commit('setAllEmployees')
+						this.$emit('closeModal')
+					})
+					.catch((error) =>
+						this.errors.push({
+							show: true,
+							message: error.response.data.message,
+						})
+					)
+			} else if (this.mode == 'profile') {
+				if (this.dummyPassword != '') {
+					this.form.password = this.dummyPassword
+				}
+
+				employeesService
+					.updateEmployee(this.initalEmployee._id, this.form)
+					.then(() => {
+						this.$store.commit('setAllEmployees')
+						this.$emit('closeModal')
+					})
+					.catch((error) =>
+						this.errors.push({
+							show: true,
+							message: error.response.data.message,
+						})
+					)
 			}
-			this.$emit('tableRefresh')
 		},
 
 		setRoles() {
-			if (this.activeUser.role === 'admin') {
+			if (this.activeEmployee.role == 'admin') {
 				this.roles = SelectOptions.getAdminRoles()
-			} else if (this.activeUser.role === 'SuperAdmin') {
+			} else if (this.activeEmployee.role == 'SuperAdmin') {
 				this.roles = SelectOptions.getSuperAdminRoles()
 			} else {
 				this.roles = SelectOptions.getHRRoles()

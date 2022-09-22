@@ -3,6 +3,7 @@
 		<input
 			:id="inputID"
 			v-model="inputContent"
+			:class="transparent ? 'transparentContent' : ''"
 			:type="type"
 			placeholder=" "
 			:required="required"
@@ -74,6 +75,10 @@ export default {
 			type: String,
 			default: 'off',
 		},
+		transparent: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -103,3 +108,4 @@ export default {
 	},
 }
 </script>
+<style></style>

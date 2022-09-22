@@ -15,14 +15,10 @@ exports.updateEmployee = async (req, res) => {
 				role: req.body.role,
 				status: req.body.status,
 				yearlyVacation: req.body.yearlyVacation,
-				attendance: req.body.attendance,
 			},
 			{ new: true }
 		)
 		.then((result) => res.status(200).send(result))
-}
-exports.employeeBYID = async (req, res) => {
-	employee.findById(req.params.id).then((result) => res.status(200).send(result))
 }
 exports.employeeCreation = async (req, res) => {
 	const Employee = new employee(req.body)

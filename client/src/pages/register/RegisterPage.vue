@@ -82,7 +82,6 @@ export default {
 				yearlyVacation: 21,
 				role: 'employee',
 				status: 'active',
-				attendance: [],
 			},
 			confirmPassword: '',
 		}

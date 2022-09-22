@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-html {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');html {
 	min-height: 100vh;
 	background: linear-gradient(to bottom right, #38a2d7, #561139);
 }
@@ -17,4 +16,9 @@ label {
 }
 label {
 	white-space: nowrap;
+}
+.transparentContent {
+	color: transparent !important;
+	font-size: 1px !important;
+
 }
