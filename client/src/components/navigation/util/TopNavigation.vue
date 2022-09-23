@@ -50,6 +50,7 @@ export default {
 		NotificationModal,
 		EmployeeForm,
 	},
+	emits: ['toggleSideNav'],
 	data() {
 		return {
 			openNotificationModal: false,

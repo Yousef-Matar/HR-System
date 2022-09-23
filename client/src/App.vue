@@ -32,9 +32,10 @@ export default {
 			return this.$store.state.activeEmployeeID
 		},
 	},
-
-	mounted() {
+	beforeCreate() {
 		this.$store.commit('init')
+	},
+	mounted() {
 		this.events.forEach((event) => {
 			window.addEventListener(event, this.resetTimer)
 		})

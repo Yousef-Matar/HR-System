@@ -11,6 +11,7 @@ import TopNavigation from '@/components/navigation/util/TopNavigation'
 
 export default {
 	components: { TopNavigation, SideNavigation },
+	emits: ['toggleSideNav'],
 	data() {
 		return {
 			hideNav: false,

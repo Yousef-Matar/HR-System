@@ -35,7 +35,7 @@
 
 							<v-input
 								:input-i-d="'password'"
-								:type="text"
+								:type="'text'"
 								:input-label="'Password'"
 								:input-value="dummyPassword"
 								:transparent="mode == 'create' ? false : true"
@@ -137,6 +137,7 @@ export default {
 			},
 		},
 	},
+	emits: ['closeModal'],
 	data() {
 		return {
 			errors: [],

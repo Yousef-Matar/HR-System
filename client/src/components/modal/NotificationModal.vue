@@ -58,6 +58,7 @@ export default {
 			required: true,
 		},
 	},
+	emits: ['closeModal'],
 	data() {
 		return {
 			notificationType: SelectOptions.getNotificationTypes()[0].value,
