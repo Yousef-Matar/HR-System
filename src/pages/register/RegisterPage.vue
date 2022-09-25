@@ -81,6 +81,7 @@ export default {
 				hireDate: new Date().toLocaleDateString(),
 				role: 'employee',
 				status: 'active',
+				attendance: [],
 			},
 			confirmPassword: '',
 		}

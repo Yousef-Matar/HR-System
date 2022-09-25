@@ -53,21 +53,35 @@
 			:page-size="table.itemsPerPage"
 		>
 			<template #tableHeaderComponents>
+				<v-button
+					:method="openCreateEmployeeModalAction"
+					:text="'Add User'"
+					class="w-full flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
+				/>
 				<EmployeeForm
-					class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
 					:mode="'create'"
+					:open-modal="openCreateEmployeeModal"
+					:active-employee="activeUser"
+					@closeModal="openCreateEmployeeModal = false"
 					@tableRefresh="refreshData"
 				/>
 			</template>
 			<template #tableBodyComponents="slotProps">
-				<EmployeeForm
-					class="flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
-					:mode="'update'"
-					:user="slotProps.row.user"
-					@tableRefresh="refreshData"
+				<v-button
+					:text="'Update User'"
+					class="w-full flex whitespace-nowrap items-center min-h-[25px] min-w-[25px] text-center justify-center"
+					@click="openEditEmployeeModalAction(slotProps.row.user.ID)"
 				/>
 			</template>
 		</v-table>
+		<EmployeeForm
+			:mode="'update'"
+			:open-modal="openEditEmployeeModal"
+			:active-employee="activeUser"
+			:inital-employee="initialEmployee"
+			@closeModal="openEditEmployeeModal = false"
+			@tableRefresh="refreshData"
+		/>
 	</div>
 </template>
 
@@ -84,6 +98,9 @@ export default {
 	components: { EmployeeForm },
 	data() {
 		return {
+			initialEmployee: {},
+			openEditEmployeeModal: false,
+			openCreateEmployeeModal: false,
 			activeUser: UsersManager.getActiveUser(),
 			itemsPerPageData: SelectOptions.getItemsPerPage(),
 			getAccountStatus: SelectOptions.getAccountStatusFilter(),
@@ -146,6 +163,13 @@ export default {
 		},
 	},
 	methods: {
+		openCreateEmployeeModalAction() {
+			this.openCreateEmployeeModal = true
+		},
+		openEditEmployeeModalAction(employeeID) {
+			this.initialEmployee = Object.assign({}, this.tableData.find((row) => row.user.ID == employeeID).user)
+			this.openEditEmployeeModal = true
+		},
 		downloadFile() {
 			var data = this.tableData
 			if (data.length == 0) {

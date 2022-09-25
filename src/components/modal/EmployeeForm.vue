@@ -16,9 +16,13 @@
 			</template>
 			<template #ModalBody>
 				<div class="w-full flex justify-center">
-					<form class="formContainer" @submit.prevent="submit">
-						<div v-if="error != ''">
-							<form-errors :error="error" />
+					<form class="formContainer" @submit.prevent="validateForm">
+						<div v-if="errors.length">
+							<form-errors
+								v-for="error in errors"
+								:key="error.message"
+								:error="error"
+							/>
 						</div>
 						<div class="flex flex-wrap gap-8 justify-center">
 							<v-input
@@ -98,9 +102,8 @@
 	</teleport>
 </template>
 <script>
-import { mapState } from 'vuex'
-
 import SelectOptions from '@/util/SelectOptions'
+import UsersManager from '@/util/UsersManager'
 
 export default {
 	props: {
@@ -121,28 +124,31 @@ export default {
 			required: true,
 			default: () => {
 				return {
+					ID: UsersManager.getUserID(),
 					username: '',
 					password: '',
-					role: '',
 					firstName: '',
 					lastName: '',
 					yearlyVacation: 21,
+					hireDate: new Date().toLocaleDateString(),
+					role: '',
 					status: 'active',
+					attendance: [],
 				}
 			},
 		},
 	},
-	emits: ['closeModal'],
+	emits: ['closeModal', 'tableRefresh'],
 	data() {
 		return {
 			roles: null,
 			form: null,
 			dummyPassword: '',
+			errors: [],
 			accountStatus: SelectOptions.getAccountStatus(),
 		}
 	},
 	computed: {
-		...mapState(['error']),
 		disableUpdateButton() {
 			if (this.initalEmployee.username == this.form.username && this.dummyPassword == '' && this.initalEmployee.role == this.form.role && this.initalEmployee.firstName == this.form.firstName && this.initalEmployee.lastName == this.form.lastName && this.initalEmployee.status == this.form.status) return true
 			return false
@@ -164,29 +170,46 @@ export default {
 			this.form = Object.assign({}, this.initalEmployee)
 			delete this.form.password
 			this.dummyPassword = ''
-			this.$store.dispatch('hideError')
+			this.errors = []
+		},
+		validateForm() {
+			this.errors = []
+			if (UsersManager.getUserByUsername(this.form.username)) {
+				if (UsersManager.getUserByUsername(this.form.username).username != this.initalEmployee.username) {
+					this.errors.push({
+						show: true,
+						message: 'Username is already in use.',
+					})
+				}
+			}
+			if (this.errors.length == 0) {
+				this.submit()
+			}
 		},
 		submit() {
 			if (this.mode == 'create') {
 				this.form.password = this.dummyPassword
-				this.$store.dispatch('createEmployee', this.form).then(() => {
-					if (this.error == '') this.$emit('closeModal')
-				})
+
+				UsersManager.addUser(this.form)
+				this.resetForm()
+				this.$emit('closeModal')
 			} else if (this.mode == 'update') {
 				if (this.dummyPassword != '') {
 					this.form.password = this.dummyPassword
 				}
-				this.$store.dispatch('updateEmployee', this.form).then(() => {
-					if (this.error == '') this.$emit('closeModal')
-				})
+				UsersManager.replaceUser(this.initalEmployee.ID, this.form)
+				this.resetForm()
+				this.$emit('closeModal')
 			} else if (this.mode == 'profile') {
 				if (this.dummyPassword != '') {
 					this.form.password = this.dummyPassword
 				}
-				this.$store.dispatch('updateActiveEmployee', this.form).then(() => {
-					if (this.error == '') this.$emit('closeModal')
-				})
+				UsersManager.setActiveUser(this.form)
+				UsersManager.replaceUser(this.initalEmployee.ID, this.form)
+				this.resetForm()
+				this.$emit('closeModal')
 			}
+			this.$emit('tableRefresh')
 		},
 
 		setRoles() {

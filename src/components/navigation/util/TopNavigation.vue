@@ -18,7 +18,7 @@
 			<span class="flex items-center mx-2">
 				<div class="relative cursor-pointer rounded-3xl p-2 shadow text-primary hover:shadow-[#adffff]" @click="openNotificationModal = true">
 					<font-awesome-icon icon="fa fa-bell" size="xl" />
-					<span v-if="unreadNotificationsCount" class="badge">{{ unreadNotificationsCount }}</span>
+					<span class="badge">count</span>
 				</div>
 			</span>
 			<v-button
