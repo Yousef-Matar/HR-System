@@ -93,7 +93,9 @@ export default {
 			}
 		},
 		submit() {
-			this.$store.dispatch('register', this.form)
+			this.$store.dispatch('register', this.form).then(() => {
+				this.$router.push('/')
+			})
 		},
 	},
 }

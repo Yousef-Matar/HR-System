@@ -70,7 +70,9 @@ export default {
 		},
 		logout() {
 			this.showWarning = false
-			this.$store.dispatch('logout')
+			this.$store.dispatch('logout').then(() => {
+				this.$router.push('/Login')
+			})
 		},
 	},
 }

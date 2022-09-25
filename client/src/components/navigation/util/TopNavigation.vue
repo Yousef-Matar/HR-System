@@ -66,6 +66,7 @@ export default {
 		},
 		logout() {
 			this.$store.dispatch('logout').then(() => {
+				this.$router.push('/Login')
 				this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
 			})
 		},

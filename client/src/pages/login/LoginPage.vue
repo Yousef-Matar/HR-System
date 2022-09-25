@@ -54,7 +54,9 @@ export default {
 	},
 	methods: {
 		submit() {
-			this.$store.dispatch('login', this.form)
+			this.$store.dispatch('login', this.form).then(() => {
+				this.$router.push('/')
+			})
 		},
 	},
 }

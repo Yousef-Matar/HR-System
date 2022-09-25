@@ -16,13 +16,9 @@
 			</template>
 			<template #ModalBody>
 				<div class="w-full flex justify-center">
-					<form class="formContainer" @submit.prevent="validateForm">
-						<div v-if="errors.length">
-							<form-errors
-								v-for="error in errors"
-								:key="error.message"
-								:error="error"
-							/>
+					<form class="formContainer" @submit.prevent="submit">
+						<div v-if="error != ''">
+							<form-errors :error="error" />
 						</div>
 						<div class="flex flex-wrap gap-8 justify-center">
 							<v-input
@@ -102,9 +98,8 @@
 	</teleport>
 </template>
 <script>
-import employeesService from '@/plugins/services/employeesService'
+import { mapState } from 'vuex'
 
-import FormValidation from '@/util/FormValidation'
 import SelectOptions from '@/util/SelectOptions'
 
 export default {
@@ -140,7 +135,6 @@ export default {
 	emits: ['closeModal'],
 	data() {
 		return {
-			errors: [],
 			roles: null,
 			form: null,
 			dummyPassword: '',
@@ -148,6 +142,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapState(['error']),
 		disableUpdateButton() {
 			if (this.initalEmployee.username == this.form.username && this.dummyPassword == '' && this.initalEmployee.role == this.form.role && this.initalEmployee.firstName == this.form.firstName && this.initalEmployee.lastName == this.form.lastName && this.initalEmployee.status == this.form.status) return true
 			return false
@@ -169,95 +164,28 @@ export default {
 			this.form = Object.assign({}, this.initalEmployee)
 			delete this.form.password
 			this.dummyPassword = ''
-			this.errors = []
-		},
-		validateForm() {
-			this.errors = []
-			if (FormValidation.noSpace(this.form.username)) {
-				this.errors.push({
-					show: true,
-					message: 'Username field cannot have whitespace.',
-				})
-			}
-			if (FormValidation.noSpace(this.form.firstName)) {
-				this.errors.push({
-					show: true,
-					message: 'First Name field cannot have whitespace.',
-				})
-			}
-			if (FormValidation.noSpace(this.form.lastName)) {
-				this.errors.push({
-					show: true,
-					message: 'Last Name field cannot have whitespace.',
-				})
-			}
-			if (FormValidation.noSpace(this.dummyPassword)) {
-				this.errors.push({
-					show: true,
-					message: 'Password field cannot have whitespace.',
-				})
-			}
-			var employeeWithSameUsername = this.$store.state.allEmployees.find((employee) => employee.username == this.form.username)
-			if (employeeWithSameUsername) {
-				if (employeeWithSameUsername.username != this.activeEmployee.username) {
-					this.errors.push({
-						show: true,
-						message: 'Username is already in use.',
-					})
-				}
-			}
-			if (this.errors.length == 0) {
-				this.submit()
-			}
+			this.$store.dispatch('hideError')
 		},
 		submit() {
 			if (this.mode == 'create') {
 				this.form.password = this.dummyPassword
-				employeesService
-					.createEmployee(this.form)
-					.then(() => {
-						this.$store.commit('setAllEmployees')
-						this.$emit('closeModal')
-					})
-					.catch((error) =>
-						this.errors.push({
-							show: true,
-							message: error.response.data.message,
-						})
-					)
+				this.$store.dispatch('createEmployee', this.form).then(() => {
+					if (this.error == '') this.$emit('closeModal')
+				})
 			} else if (this.mode == 'update') {
 				if (this.dummyPassword != '') {
 					this.form.password = this.dummyPassword
 				}
-				employeesService
-					.updateEmployee(this.initalEmployee._id, this.form)
-					.then(() => {
-						this.$store.commit('setAllEmployees')
-						this.$emit('closeModal')
-					})
-					.catch((error) =>
-						this.errors.push({
-							show: true,
-							message: error.response.data.message,
-						})
-					)
+				this.$store.dispatch('updateEmployee', this.form).then(() => {
+					if (this.error == '') this.$emit('closeModal')
+				})
 			} else if (this.mode == 'profile') {
 				if (this.dummyPassword != '') {
 					this.form.password = this.dummyPassword
 				}
-
-				employeesService
-					.updateEmployee(this.initalEmployee._id, this.form)
-					.then(() => {
-						this.$store.commit('setAllEmployees')
-						this.$emit('closeModal')
-					})
-					.catch((error) =>
-						this.errors.push({
-							show: true,
-							message: error.response.data.message,
-						})
-					)
+				this.$store.dispatch('updateActiveEmployee', this.form).then(() => {
+					if (this.error == '') this.$emit('closeModal')
+				})
 			}
 		},
 
