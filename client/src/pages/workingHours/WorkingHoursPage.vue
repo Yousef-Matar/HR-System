@@ -6,7 +6,7 @@
 					Update Monthly Hours
 				</h1>
 				<h1 class="text-xl">
-					Current Monthly Hours : {{ getMonthlyHours.hours }}
+					Current Monthly Hours : {{ currentMonthlyHours }}
 				</h1>
 			</div>
 			<v-input
@@ -17,6 +17,7 @@
 				@hoursChange="(inputContent) => (monthlyHours = inputContent)"
 			/>
 			<v-button
+				:disabled="currentMonthlyHours == monthlyHours ? true : false"
 				:type="'submit'"
 				:text="'Update'"
 				class="w-full"
@@ -26,7 +27,7 @@
 </template>
 
 <script>
-
+import { mapState } from 'vuex'
 
 export default {
 	data() {
@@ -35,17 +36,26 @@ export default {
 		}
 	},
 	computed: {
-		getMonthlyHours() {
-			return this.$store.state.currentMonthlyHours
-		},
+		...mapState({
+			currentMonthlyHoursID: (state) => state.currentMonthlyHours._id,
+			currentMonthlyHours: (state) => state.currentMonthlyHours.hours,
+		}),
 	},
+
 	beforeMount() {
-		this.monthlyHours = this.getMonthlyHours.hours
+		this.$store.dispatch('getCurrentMonthlyHours').then(() => {
+			this.monthlyHours = this.currentMonthlyHours
+		})
 	},
 	methods: {
 		submit() {
-			this.$swal.fire('Successfull', 'Monthly hours have been updated.', 'success')
-			this.$store.commit('updateMonthlyHours',this.monthlyHours)
+			var monthlyHours = {
+				oldID: this.currentMonthlyHoursID,
+				newHours: this.monthlyHours,
+			}
+			this.$store.dispatch('updateCurrentMonthlyHours', monthlyHours).then(() => {
+				this.$swal.fire('Successfull', 'Monthly hours have been updated.', 'success')
+			})
 		},
 	},
 }

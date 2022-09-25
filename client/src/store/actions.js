@@ -1,5 +1,6 @@
 import authService from '@/plugins/services/authService'
 import employeesService from '@/plugins/services/employeesService'
+import monthlyHoursService from '@/plugins/services/monthlyHoursService'
 import notificationService from '@/plugins/services/notificationService'
 
 // Authentication
@@ -82,8 +83,19 @@ export const readNotification = ({ commit }, notificationID) => {
 	})
 }
 // Monthly Hours
-export const setMonthlyHours = ({ commit }, monthlyHours) => {
-	commit('SET_MONTHLY_HOURS', monthlyHours)
+//export const setAllMonthlyHours = ({ commit }, allMonthlyHours) => {
+//	commit('SET_ALL_MONTHLY_HOURS', allMonthlyHours)
+//}
+export const getCurrentMonthlyHours = ({ commit }) => {
+	return monthlyHoursService.getCurrentMonthHours().then((response) => {
+		commit('SET_CURRENT_MONTHLY_HOURS', response.data)
+	})
+}
+export const updateCurrentMonthlyHours = ({ commit }, monthlyHours) => {
+
+	return monthlyHoursService.updateCurrentMonthHours(monthlyHours.oldID, monthlyHours.newHours).then((response) => {
+		commit('SET_CURRENT_MONTHLY_HOURS', response.data)
+	})
 }
 // Errors
 export const hideError = ({ commit }) => {

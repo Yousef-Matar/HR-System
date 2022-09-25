@@ -10,8 +10,8 @@ export const SET_ACTIVE_EMPLOYEE_NOTIFICATIONS = (state, notifications) => {
 export const READ_NOTIFICATION = (state, notification) => {
 	state.employeeNotifications = notification
 }
-export const SET_MONTHLY_HOURS = (state, monthlyHours) => {
-	state.monthlyHours = monthlyHours
+export const SET_CURRENT_MONTHLY_HOURS = (state, currentMonthlyHours) => {
+	state.currentMonthlyHours = currentMonthlyHours
 }
 export const SET_ERROR = (state, error) => {
 	state.error = error

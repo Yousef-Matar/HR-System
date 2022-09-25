@@ -12,7 +12,7 @@ exports.getCurrentMonthHours = async (req, res) => {
 }
 exports.updateMonthlyHours = async (req, res) => {
 	monthlyHours
-		.findOneAndUpdate(
+		.findByIdAndUpdate(
 			req.params.id,
 			{
 				hours: req.body.hours,
