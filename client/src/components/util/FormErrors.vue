@@ -1,8 +1,8 @@
 <template>
-	<div v-if="error.show" class="rounded m-1 p-2 w-full border text-left border-red-500 text-red-500 flex items-center justify-between">
+	<div class="rounded m-1 p-2 w-full border text-left border-red-500 text-red-500 flex items-center justify-between">
 		<div>
 			<font-awesome-icon icon="fa fa-exclamation-triangle" />&nbsp;
-			{{ error.message }}
+			{{ error }}
 		</div>
 		<font-awesome-icon
 			icon="fa fa-multiply"
@@ -16,27 +16,13 @@
 export default {
 	props: {
 		error: {
-			type: Object,
+			type: String,
 			required: true,
-		},
-	},
-	data() {
-		return {
-			initialError: {},
-		}
-	},
-	watch: {
-		error: {
-			handler(newError) {
-				this.initialError = newError
-			},
-			// force eager callback execution
-			immediate: true,
 		},
 	},
 	methods: {
 		hideError() {
-			this.initialError.show = false
+			this.$store.dispatch('hideError')
 		},
 	},
 }

@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
 	props: {
 		hideNav: {
@@ -30,9 +32,8 @@ export default {
 	},
 
 	computed: {
-		activeEmployee() {
-			return this.$store.state.allEmployees.find((employee) => employee._id == this.$store.state.activeEmployeeID)
-		},
+		...mapState(['activeEmployee']),
+
 		sideNavigationLinks() {
 			var navigationLinks = []
 			if (this.activeEmployee.role == 'admin' || this.activeEmployee.role == 'SuperAdmin') {

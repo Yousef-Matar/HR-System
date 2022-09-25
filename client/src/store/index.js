@@ -1,62 +1,12 @@
-import employeesService from '@/plugins/services/employeesService'
-import monthlyHoursService from '@/plugins/services/monthlyHoursService'
-import notificationService from '@/plugins/services/notificationService'
-import { createStore } from 'vuex'
+import * as actions from '@/store/actions'
+import * as mutations from '@/store/mutations'
+import state from '@/store/state'
+import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-const store = createStore({
-	state() {
-		return {
-			activeEmployeeID: localStorage.getItem('Active Employee ID') == null ? null : JSON.parse(localStorage.getItem('Active Employee ID')),
-			allEmployees: [],
-			acitveEmployeeNotifications: [],
-			currentMonthlyHours: 0,
-		}
-	},
 
-	mutations: {
-		init(state) {
-			localStorage.setItem('Active Employee ID', JSON.stringify(state.activeEmployeeID))
-			// Getting All Employees
-			employeesService.getAll().then((response) => {
-				state.allEmployees = response.data
-			})
-			// Getting Current Month Hours
-			monthlyHoursService.getCurrentMonthHours().then((response) => {
-				state.currentMonthlyHours = response.data
-			})
-			// Getting Employee Notifications
-			if (state.activeEmployeeID != null)
-				notificationService.getEmployeeNotifications(state.activeEmployeeID).then((response) => {
-					state.acitveEmployeeNotifications = response.data
-				})
-			else {
-				state.acitveEmployeeNotifications = []
-			}
-		},
-		setAllEmployees(state) {
-			employeesService.getAll().then((response) => {
-				state.allEmployees = response.data
-			})
-		},
-		setActiveEmployeeNotifications(state) {
-			if (state.activeEmployeeID != null)
-				notificationService.getEmployeeNotifications(state.activeEmployeeID).then((response) => {
-					state.acitveEmployeeNotifications = response.data
-				})
-			else {
-				state.acitveEmployeeNotifications = []
-			}
-		},
-		setActiveEmployeeID(state, employeeID) {
-			state.activeEmployeeID = employeeID
-			localStorage.setItem('Active Employee ID', JSON.stringify(state.activeEmployeeID))
-		},
-		updateMonthlyHours(state, newMonthlyHours) {
-			monthlyHoursService.updateCurrentMonthHours(state.currentMonthlyHours._id, newMonthlyHours).then((response) => {
-				state.currentMonthlyHours = response.data
-			})
-		},
-	},
-	plugins: [createPersistedState()]
+export default new Vuex.Store({
+	state,
+	mutations,
+	actions,
+	plugins: [createPersistedState()],
 })
-export default store

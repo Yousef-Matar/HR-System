@@ -3,12 +3,8 @@
 		<h1 class="text-2xl mb-3">
 			Login
 		</h1>
-		<div v-if="errors.length" class="mb-8">
-			<form-errors
-				v-for="error in errors"
-				:key="error.message"
-				:error="error"
-			/>
+		<div v-if="error != ''" class="mb-8">
+			<form-errors :error="error" />
 		</div>
 		<form class="formContainer" @submit.prevent="submit">
 			<v-input
@@ -42,34 +38,23 @@
 </template>
 
 <script>
-import authService from '@/plugins/services/authService'
+import { mapState } from 'vuex'
 
 export default {
 	data() {
 		return {
-			errors: [],
 			form: {
 				username: '',
 				password: '',
 			},
 		}
 	},
+	computed: {
+		...mapState(['error']),
+	},
 	methods: {
 		submit() {
-			this.errors = []
-			authService
-				.login(this.form)
-				.then((response) => {
-					this.$store.commit('setActiveEmployeeID', response.data.employeeID)
-					this.$store.commit('setActiveEmployeeNotifications')
-					this.$router.push('/')
-				})
-				.catch((error) =>
-					this.errors.push({
-						show: true,
-						message: error.response.data.message,
-					})
-				)
+			this.$store.dispatch('login', this.form)
 		},
 	},
 }

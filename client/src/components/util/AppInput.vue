@@ -12,6 +12,7 @@
 			:max="max"
 			:step="step"
 			:autocomplete="autocomplete"
+			:onkeypress="disableWhiteSpace ? 'return event.charCode != 32' : 'return'"
 			@input="(event) => $emit(inputID + 'Change', inputContent)"
 		>
 		<div v-if="type == 'number'" class="flex justify-between items-center h-full">
@@ -78,6 +79,10 @@ export default {
 		transparent: {
 			type: Boolean,
 			default: false,
+		},
+		disableWhiteSpace: {
+			type: Boolean,
+			default: true,
 		},
 	},
 	data() {

@@ -3,12 +3,8 @@
 		<h1 class="text-2xl mb-3">
 			Register
 		</h1>
-		<div v-if="errors.length" class="mb-8">
-			<form-errors
-				v-for="error in errors"
-				:key="error.message"
-				:error="error"
-			/>
+		<div v-if="error != ''" class="mb-8">
+			<form-errors :error="error" />
 		</div>
 		<form class="formContainer" @submit.prevent="validateForm">
 			<v-input
@@ -18,7 +14,6 @@
 				:input-value="form.username"
 				@usernameChange="(inputContent) => (form.username = inputContent)"
 			/>
-
 			<v-input
 				:input-i-d="'firstName'"
 				:type="'text'"
@@ -48,7 +43,6 @@
 				:input-value="confirmPassword"
 				@confirmPasswordChange="(inputContent) => (confirmPassword = inputContent)"
 			/>
-
 			<v-button
 				class="w-full"
 				:text="'Sign Up'"
@@ -65,15 +59,13 @@
 </template>
 
 <script>
-import authService from '@/plugins/services/authService'
+import { mapState } from 'vuex'
 
 import FormValidation from '@/util/FormValidation'
 
 export default {
 	data() {
 		return {
-			errors: [],
-
 			form: {
 				username: '',
 				password: '',
@@ -86,66 +78,22 @@ export default {
 			confirmPassword: '',
 		}
 	},
+	computed: {
+		...mapState(['error']),
+	},
 	methods: {
 		validateForm() {
-			this.errors = []
-			if (FormValidation.noSpace(this.form.username)) {
-				this.errors.push({
-					show: true,
-					message: 'Username field cannot have whitespace.',
-				})
-			}
-			if (FormValidation.noSpace(this.form.firstName)) {
-				this.errors.push({
-					show: true,
-					message: 'First Name field cannot have whitespace.',
-				})
-			}
-			if (FormValidation.noSpace(this.form.lastName)) {
-				this.errors.push({
-					show: true,
-					message: 'Last Name field cannot have whitespace.',
-				})
-			}
-			if (FormValidation.noSpace(this.form.password)) {
-				this.errors.push({
-					show: true,
-					message: 'Password field cannot have whitespace.',
-				})
-			}
-			if (FormValidation.noSpace(this.confirmPassword)) {
-				this.errors.push({
-					show: true,
-					message: 'Confirm Password field cannot have whitespace.',
-				})
-			}
 			if (FormValidation.notMatching(this.form.password, this.confirmPassword)) {
-				this.errors.push({
-					show: true,
-					message: 'Passwords do not match.',
-				})
+				this.$store.dispatch('setError', 'Passwords do not match.')
+			} else {
+				this.$store.dispatch('hideError')
 			}
-			if (this.errors.length == 0) {
+			if (this.error == '') {
 				this.submit()
 			}
 		},
 		submit() {
-			authService
-				.register(this.form)
-				.then(() => {
-					this.$store.commit('setAllEmployees')
-					authService.login(this.form).then((response) => {
-						this.$store.commit('setActiveEmployeeID', response.data.employeeID)
-						this.$store.commit('setActiveEmployeeNotifications')
-						this.$router.push('/')
-					})
-				})
-				.catch((error) =>
-					this.errors.push({
-						show: true,
-						message: error.response.data.message,
-					})
-				)
+			this.$store.dispatch('register', this.form)
 		},
 	},
 }

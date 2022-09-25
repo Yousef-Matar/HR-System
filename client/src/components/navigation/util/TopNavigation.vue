@@ -41,7 +41,7 @@
 
 <script>
 import EmployeeForm from '../../modal/EmployeeForm.vue'
-import authService from '@/plugins/services/authService'
+import { mapState } from 'vuex'
 
 import NotificationModal from '@/components/modal/NotificationModal'
 
@@ -58,21 +58,14 @@ export default {
 		}
 	},
 	computed: {
-		activeEmployee() {
-			return this.$store.state.allEmployees.find((employee) => employee._id == this.$store.state.activeEmployeeID)
-		},
-		unreadNotificationsCount() {
-			return this.$store.state.acitveEmployeeNotifications.filter((activeEmployeeNotification) => activeEmployeeNotification.status == 'unread').length
-		},
+		...mapState(['activeEmployee']),
 	},
 	methods: {
 		openProfileModalAction() {
 			this.openProfileModal = true
 		},
 		logout() {
-			authService.logout().then(() => {
-				this.$store.commit('setActiveEmployeeID', null)
-				this.$router.push('/Login')
+			this.$store.dispatch('logout').then(() => {
 				this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
 			})
 		},

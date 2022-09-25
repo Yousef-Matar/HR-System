@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<MainNavigation v-if="getActiveEmployeeID" @toggleSideNav="(hideNav) => (sideNavToggle = hideNav)" />
+		<MainNavigation v-if="activeEmployee" @toggleSideNav="(hideNav) => (sideNavToggle = hideNav)" />
 		<div class="mt-[102px] mb-[38px]" :class="editClass()">
 			<router-view />
 		</div>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import authService from '@/plugins/services/authService'
+import { mapState } from 'vuex'
 
 import WarningModal from '@/components/modal/WarningModal'
 import MainNavigation from '@/components/navigation/MainNavigation'
@@ -28,12 +28,7 @@ export default {
 		}
 	},
 	computed: {
-		getActiveEmployeeID() {
-			return this.$store.state.activeEmployeeID
-		},
-	},
-	beforeCreate() {
-		this.$store.commit('init')
+		...mapState(['activeEmployee']),
 	},
 	mounted() {
 		this.events.forEach((event) => {
@@ -49,7 +44,7 @@ export default {
 	},
 	methods: {
 		editClass() {
-			if (this.getActiveEmployeeID) {
+			if (this.activeEmployee) {
 				if (!this.sideNavToggle) {
 					return 'active mr-[38px] hidden sm:block'
 				} else {
@@ -65,7 +60,7 @@ export default {
 			this.setTimers()
 		},
 		setTimers() {
-			if (this.getActiveEmployeeID) {
+			if (this.activeEmployee) {
 				this.warningTimer = setTimeout(this.warningMessage, 14 * 60 * 1000)
 				this.logoutTimer = setTimeout(this.logout, 15 * 60 * 1000)
 			}
@@ -75,11 +70,7 @@ export default {
 		},
 		logout() {
 			this.showWarning = false
-			authService.logout().then(() => {
-				this.$store.commit('setActiveEmployeeID', null)
-				this.$router.push('/Login')
-				this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
-			})
+			this.$store.dispatch('logout')
 		},
 	},
 }

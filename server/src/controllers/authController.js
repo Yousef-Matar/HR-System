@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
 				Attendance.save()
 
 				// Employee Found Correct
-				return res.status(200).send({ employeeID: Employee.id })
+				return res.status(200).send(Employee)
 			} else {
 				// Incorrect Password
 				return res.status(400).send({ message: 'Incorrect Username or Password.' })
