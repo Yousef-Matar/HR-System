@@ -7,6 +7,9 @@ export const SET_ACTIVE_EMPLOYEE = (state, activeEmployee) => {
 export const SET_ACTIVE_EMPLOYEE_NOTIFICATIONS = (state, notifications) => {
 	state.employeeNotifications = notifications
 }
+export const READ_NOTIFICATION = (state, notification) => {
+	state.employeeNotifications = notification
+}
 export const SET_MONTHLY_HOURS = (state, monthlyHours) => {
 	state.monthlyHours = monthlyHours
 }

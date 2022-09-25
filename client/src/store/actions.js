@@ -1,5 +1,6 @@
 import authService from '@/plugins/services/authService'
 import employeesService from '@/plugins/services/employeesService'
+import notificationService from '@/plugins/services/notificationService'
 
 // Authentication
 
@@ -70,8 +71,15 @@ export const updateEmployee = ({ commit }, updatedEmployee) => {
 		})
 }
 // Notifications
-export const setActiveEmployeeNotifications = ({ commit }, notifications) => {
-	commit('SET_ACTIVE_EMPLOYEE_NOTIFICATIONS', notifications)
+export const setActiveEmployeeNotifications = ({ commit }, employeeID) => {
+	notificationService.getEmployeeNotifications(employeeID).then((response) => {
+		commit('SET_ACTIVE_EMPLOYEE_NOTIFICATIONS', response.data)
+	})
+}
+export const readNotification = ({ commit }, notificationID) => {
+	notificationService.readNotification(notificationID).then((response) => {
+		commit('READ_NOTIFICATION', response.data)
+	})
 }
 // Monthly Hours
 export const setMonthlyHours = ({ commit }, monthlyHours) => {

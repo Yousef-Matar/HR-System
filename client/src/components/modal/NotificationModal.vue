@@ -47,7 +47,7 @@
 	</teleport>
 </template>
 <script>
-import notificationService from '@/plugins/services/notificationService'
+import { mapState } from 'vuex'
 
 import SelectOptions from '@/util/SelectOptions'
 
@@ -66,19 +66,18 @@ export default {
 		}
 	},
 	computed: {
-		readNotifications() {
-			return this.$store.state.acitveEmployeeNotifications.filter((activeEmployeeNotification) => activeEmployeeNotification.status == 'read')
-		},
-		unreadNotifications() {
-			return this.$store.state.acitveEmployeeNotifications.filter((activeEmployeeNotification) => activeEmployeeNotification.status == 'unread')
-		},
+		...mapState({
+			employeeID: (state) => state.activeEmployee._id,
+			readNotifications: (state) => state.employeeNotifications.filter((activeEmployeeNotification) => activeEmployeeNotification.status == 'read'),
+			unreadNotifications: (state) => state.employeeNotifications.filter((activeEmployeeNotification) => activeEmployeeNotification.status == 'unread'),
+		}),
+	},
+	created() {
+		this.$store.dispatch('setActiveEmployeeNotifications', this.employeeID)
 	},
 	methods: {
 		readNotification(notificationID) {
-			console.log(notificationID)
-			notificationService.readNotification(notificationID).then(() => {
-				this.$store.commit('setActiveEmployeeNotifications')
-			})
+			this.$store.dispatch('readNotification', notificationID)
 		},
 	},
 }
