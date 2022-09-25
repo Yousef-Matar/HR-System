@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<MainNavigation v-if="activeEmployee" @toggleSideNav="(hideNav) => (sideNavToggle = hideNav)" />
+		<MainNavigation v-if="checkActiveUser()" @toggleSideNav="(hideNav) => (sideNavToggle = hideNav)" />
 		<div class="mt-[102px] mb-[38px]" :class="editClass()">
 			<router-view />
 		</div>
@@ -9,10 +9,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 import WarningModal from '@/components/modal/WarningModal'
 import MainNavigation from '@/components/navigation/MainNavigation'
+
+import AttendanceManager from '@/util/AttendanceManager'
+import UsersManager from '@/util/UsersManager'
 
 export default {
 	name: 'App',
@@ -27,10 +28,9 @@ export default {
 			showWarning: false,
 		}
 	},
-	computed: {
-		...mapState(['activeEmployee']),
-	},
+
 	mounted() {
+		this.$store.commit('init')
 		this.events.forEach((event) => {
 			window.addEventListener(event, this.resetTimer)
 		})
@@ -44,7 +44,7 @@ export default {
 	},
 	methods: {
 		editClass() {
-			if (this.activeEmployee) {
+			if (this.checkActiveUser()) {
 				if (!this.sideNavToggle) {
 					return 'active mr-[38px] hidden sm:block'
 				} else {
@@ -60,9 +60,16 @@ export default {
 			this.setTimers()
 		},
 		setTimers() {
-			if (this.activeEmployee) {
+			if (UsersManager.getActiveUser() !== null) {
 				this.warningTimer = setTimeout(this.warningMessage, 14 * 60 * 1000)
 				this.logoutTimer = setTimeout(this.logout, 15 * 60 * 1000)
+			}
+		},
+		checkActiveUser() {
+			if (UsersManager.getActiveUser()) {
+				return true
+			} else {
+				return false
 			}
 		},
 		warningMessage() {
@@ -70,9 +77,9 @@ export default {
 		},
 		logout() {
 			this.showWarning = false
-			this.$store.dispatch('logout').then(() => {
-				this.$router.push('/Login')
-			})
+			AttendanceManager.userCheckOut(UsersManager.getActiveUser())
+			UsersManager.logout()
+			this.$router.push('/Login')
 		},
 	},
 }

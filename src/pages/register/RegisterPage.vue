@@ -3,8 +3,12 @@
 		<h1 class="text-2xl mb-3">
 			Register
 		</h1>
-		<div v-if="error != ''" class="mb-8">
-			<form-errors :error="error" />
+		<div v-if="errors.length" class="mb-8">
+			<form-errors
+				v-for="error in errors"
+				:key="error.message"
+				:error="error"
+			/>
 		</div>
 		<form class="formContainer" @submit.prevent="validateForm">
 			<v-input
@@ -59,43 +63,49 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
+import AttendanceManager from '@/util/AttendanceManager'
 import FormValidation from '@/util/FormValidation'
+import UsersManager from '@/util/UsersManager'
 
 export default {
 	data() {
 		return {
+			errors: [],
 			form: {
+				ID: UsersManager.getUserID(),
 				username: '',
 				password: '',
 				firstName: '',
 				lastName: '',
 				yearlyVacation: 21,
+				hireDate: new Date().toLocaleDateString(),
 				role: 'employee',
 				status: 'active',
 			},
 			confirmPassword: '',
 		}
 	},
-	computed: {
-		...mapState(['error']),
-	},
+
 	methods: {
 		validateForm() {
+			this.errors = []
 			if (FormValidation.notMatching(this.form.password, this.confirmPassword)) {
-				this.$store.dispatch('setError', 'Passwords do not match.')
-			} else {
-				this.$store.dispatch('hideError')
+				this.errors.push({
+					show: true,
+					message: 'Passwords do not match.',
+				})
 			}
-			if (this.error == '') {
+			if (this.errors.length == 0) {
 				this.submit()
 			}
 		},
 		submit() {
-			this.$store.dispatch('register', this.form).then(() => {
-				this.$router.push('/')
-			})
+			var currentUser = this.form
+			currentUser = AttendanceManager.userCheckIn(currentUser)
+			UsersManager.setActiveUser(currentUser)
+			UsersManager.addUser(currentUser)
+			this.error.show = false
+			this.$router.push('/')
 		},
 	},
 }

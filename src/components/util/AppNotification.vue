@@ -25,7 +25,7 @@ export default {
 	},
 	methods: {
 		read() {
-			this.$emit('readNotification', this.notification._id)
+			this.$emit('readNotification', this.notification.ID)
 		},
 	},
 }

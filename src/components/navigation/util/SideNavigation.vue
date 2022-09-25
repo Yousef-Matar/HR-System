@@ -32,15 +32,15 @@ export default {
 	},
 
 	computed: {
-		...mapState(['activeEmployee']),
+		...mapState(['activeUser']),
 
 		sideNavigationLinks() {
 			var navigationLinks = []
-			if (this.activeEmployee.role == 'admin' || this.activeEmployee.role == 'SuperAdmin') {
+			if (this.activeUser.role == 'admin' || this.activeUser.role == 'SuperAdmin') {
 				navigationLinks = [
 					{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 					{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-					{ title: 'My Attendance', to: { name: 'Attendance', params: { ID: this.activeEmployee._id } }, icon: 'fa fa-calendar-alt' },
+					{ title: 'My Attendance', to: { name: 'Attendance', params: { ID: this.activeUser.ID } }, icon: 'fa fa-calendar-alt' },
 					{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
 					{
 						title: 'Employees',
@@ -58,11 +58,11 @@ export default {
 						],
 					},
 				]
-			} else if (this.activeEmployee.role == 'human resources') {
+			} else if (this.activeUser.role == 'human resources') {
 				navigationLinks = [
 					{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 					{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-					{ title: 'My Attendance', to: { name: 'Attendance', params: { ID: this.activeEmployee._id } }, icon: 'fa fa-calendar-alt' },
+					{ title: 'My Attendance', to: { name: 'Attendance', params: { ID: this.activeUser.ID } }, icon: 'fa fa-calendar-alt' },
 					{ title: 'Set Monthly Hours', to: '/Hours', icon: 'fa fa-clock' },
 					{
 						title: 'Employees',
@@ -80,11 +80,11 @@ export default {
 						],
 					},
 				]
-			} else if (this.activeEmployee.role == 'employee') {
+			} else if (this.activeUser.role == 'employee') {
 				navigationLinks = [
 					{ title: 'Dashboard', to: '/', icon: 'fa fa-home' },
 					{ title: 'Documents', to: '/Documents', icon: 'fa fa-file-contract' },
-					{ title: 'My Attendance', to: { name: 'Attendance', params: { ID: this.activeEmployee._id } }, icon: 'fa fa-calendar-alt' },
+					{ title: 'My Attendance', to: { name: 'Attendance', params: { ID: this.activeUser.ID } }, icon: 'fa fa-calendar-alt' },
 					{
 						title: 'Vacations',
 						children: [

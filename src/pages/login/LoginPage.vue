@@ -3,10 +3,14 @@
 		<h1 class="text-2xl mb-3">
 			Login
 		</h1>
-		<div v-if="error != ''" class="mb-8">
-			<form-errors :error="error" />
+		<div v-if="errors.length" class="mb-8">
+			<form-errors
+				v-for="error in errors"
+				:key="error.message"
+				:error="error"
+			/>
 		</div>
-		<form class="formContainer" @submit.prevent="submit">
+		<form class="formContainer" @submit.prevent="validateForm">
 			<v-input
 				:input-i-d="'username'"
 				:type="'text'"
@@ -38,25 +42,52 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import AttendanceManager from '@/util/AttendanceManager'
+import UsersManager from '@/util/UsersManager'
 
 export default {
 	data() {
 		return {
+			errors: [],
 			form: {
 				username: '',
 				password: '',
 			},
 		}
 	},
-	computed: {
-		...mapState(['error']),
-	},
 	methods: {
+		validateForm() {
+			this.errors = []
+			var currentUser = UsersManager.getUserByUsername(this.form.username)
+			if (currentUser) {
+				if (currentUser.password != this.form.password) {
+					this.errors.push({
+						show: true,
+						message: 'Invalid username or password.',
+					})
+				}
+				if (currentUser.status == 'disabled') {
+					this.errors.push({
+						show: true,
+						message: 'This account has been disabled. Please contact your supervisor.',
+					})
+				}
+			} else {
+				this.errors.push({
+					show: true,
+					message: 'User not found. Please contact your supervisor.',
+				})
+			}
+			if (this.errors.length == 0) {
+				this.submit()
+			}
+		},
 		submit() {
-			this.$store.dispatch('login', this.form).then(() => {
-				this.$router.push('/')
-			})
+			var currentUser = UsersManager.getUserByUsername(this.form.username)
+			currentUser = AttendanceManager.userCheckIn(currentUser)
+			UsersManager.setActiveUser(currentUser)
+			UsersManager.setAllUsers()
+			this.$router.push('/')
 		},
 	},
 }

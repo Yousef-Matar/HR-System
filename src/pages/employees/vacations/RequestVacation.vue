@@ -72,7 +72,7 @@ export default {
 					status: 'pending',
 				}
 				VacationManager.addVacationRequest(vacationRequest)
-				this.$swal.fire('Successfull', 'Your request has been successfully sent.', 'success')
+				this.$swal.fire('Successful', 'Your request has been successfully sent.', 'success')
 			}
 		},
 	},

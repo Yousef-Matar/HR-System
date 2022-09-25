@@ -67,7 +67,7 @@ export default {
 	},
 	computed: {
 		...mapState({
-			employeeID: (state) => state.activeEmployee._id,
+			employeeID: (state) => state.activeUser.ID,
 			readNotifications: (state) => state.employeeNotifications.filter((activeEmployeeNotification) => activeEmployeeNotification.status == 'read'),
 			unreadNotifications: (state) => state.employeeNotifications.filter((activeEmployeeNotification) => activeEmployeeNotification.status == 'unread'),
 		}),

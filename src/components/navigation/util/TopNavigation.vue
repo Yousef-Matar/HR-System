@@ -11,7 +11,7 @@
 		<span class="flex gap-1">
 			<v-button
 				:method="openProfileModalAction"
-				:text="activeEmployee.username"
+				:text="activeUser.username"
 				:icon="'fa fa-user'"
 				:has-border="false"
 			/>
@@ -30,8 +30,8 @@
 			<NotificationModal :open-modal="openNotificationModal" @closeModal="openNotificationModal = false" />
 			<EmployeeForm
 				:mode="'profile'"
-				:active-employee="activeEmployee"
-				:inital-employee="activeEmployee"
+				:active-employee="activeUser"
+				:inital-employee="activeUser"
 				:open-modal="openProfileModal"
 				@closeModal="openProfileModal = false"
 			/>
@@ -45,6 +45,9 @@ import { mapState } from 'vuex'
 
 import NotificationModal from '@/components/modal/NotificationModal'
 
+import AttendanceManager from '@/util/AttendanceManager'
+import UsersManager from '@/util/UsersManager'
+
 export default {
 	components: {
 		NotificationModal,
@@ -55,20 +58,24 @@ export default {
 		return {
 			openNotificationModal: false,
 			openProfileModal: false,
+			success: {
+				show: false,
+				message: 'You have successfully checked out at ',
+			},
 		}
 	},
 	computed: {
-		...mapState(['activeEmployee']),
+		...mapState(['activeUser']),
 	},
 	methods: {
 		openProfileModalAction() {
 			this.openProfileModal = true
 		},
 		logout() {
-			this.$store.dispatch('logout').then(() => {
-				this.$router.push('/Login')
-				this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
-			})
+			AttendanceManager.userCheckOut(this.activeUser)
+			UsersManager.logout()
+			this.$router.push('/Login')
+			this.$swal.fire('Successfully Checked Out', 'Checked out at ' + new Date().toLocaleTimeString() + ' on ' + new Date().toDateString(), 'success')
 		},
 	},
 }
