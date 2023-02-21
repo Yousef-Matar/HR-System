@@ -1,4 +1,10 @@
-# Client Side
+# HR-System
+
+SPA HR-System frontend implementation
+
+
+## Technologies
+- Vue 3
 
 ## Project setup
 ```
@@ -29,3 +35,7 @@ To run this project, you will need to edit the following environment variables i
 ### Default Admin Account 
 - Username: SuperAdmin
 - Password: SuperAdmin
+
+## Authors
+
+- [@Yousef Matar](https://www.github.com/Yousef-Matar)
