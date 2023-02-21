@@ -1,10 +1,11 @@
 # HR-System
 
-SPA HR-System frontend implementation
+SPA HR-System frontend implementation, works using local storage as a database.
 
 
 ## Technologies
 - Vue 3
+- Tailwind
 
 ## Project setup
 ```
